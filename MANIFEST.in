@@ -2,5 +2,4 @@ include settings.ini
 include LICENSE
 include CONTRIBUTING.md
 include README.md
-include RuleSet3.pkl
 recursive-exclude * __pycache__
