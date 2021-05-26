@@ -1,7 +1,10 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
-import setuptools,re,sys
-assert parse_version(setuptools.__version__)>=parse_version('36.2')
+import setuptools
+import re
+import sys
+
+assert parse_version(setuptools.__version__) >= parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
 config = ConfigParser(delimiters=['='])
@@ -10,10 +13,11 @@ cfg = config['DEFAULT']
 
 cfg_keys = 'version description keywords author author_email'.split()
 expected = cfg_keys + "lib_name user branch license status min_python audience language".split()
-for o in expected: assert o in cfg, "missing expected setting: {}".format(o)
-setup_cfg = {o:cfg[o] for o in cfg_keys}
+for o in expected:
+    assert o in cfg, "missing expected setting: {}".format(o)
+setup_cfg = {o: cfg[o] for o in cfg_keys}
 
-if len(sys.argv)>1 and sys.argv[1]=='version':
+if len(sys.argv) > 1 and sys.argv[1] == 'version':
     print(setup_cfg['version'])
     exit()
 
@@ -25,15 +29,17 @@ licenses = {
     'bsd3': ('BSD License', 'OSI Approved :: BSD License'),
 }
 statuses = [ '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
-    '4 - Beta', '5 - Production/Stable', '6 - Mature', '7 - Inactive' ]
+             '4 - Beta', '5 - Production/Stable', '6 - Mature', '7 - Inactive' ]
 py_versions = '2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8'.split()
 
 lic = licenses.get(cfg['license'].lower(), (cfg['license'], None))
 min_python = cfg['min_python']
 
 requirements = ['pip', 'packaging']
-if cfg.get('requirements'): requirements += cfg.get('requirements','').split()
-if cfg.get('pip_requirements'): requirements += cfg.get('pip_requirements','').split()
+if cfg.get('requirements'):
+    requirements += cfg.get('requirements', '').split()
+if cfg.get('pip_requirements'):
+    requirements += cfg.get('pip_requirements', '').split()
 dev_requirements = (cfg.get('dev_requirements') or '').split()
 
 long_description = open('README.md').read()
