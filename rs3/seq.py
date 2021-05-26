@@ -6,11 +6,13 @@ __all__ = ['load_seq_model', 'featurize_context', 'predict_seq']
 import joblib
 import sglearn
 import pandas as pd
+import os
 
 # Cell
 def load_seq_model():
     """Load rule set 3 sequence model"""
-    model = joblib.load('RuleSet3.pkl')
+    model = joblib.load(os.path.join(os.path.dirname(__file__), 'RuleSet3.pkl'))
+    #model = joblib.load('RuleSet3.pkl')
     return model
 
 # Cell
