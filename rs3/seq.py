@@ -15,26 +15,36 @@ def load_seq_model(dev_nb=False):
     return model
 
 # Cell
-def featurize_context(context_sequences):
+def featurize_context(context_sequences, sequence_tracr='Hsu2013', ref_tracrs=None):
     """Featurize context sequences
 
     :param context_sequences: list-like
+    :param sequence_tracr: list-like or str
     :return: DataFrame, feature matrix
     """
+    if ref_tracrs is None:
+        ref_tracrs = ['Hsu2013', 'Chen2013']
     context_series = pd.Series(context_sequences)
     if not (context_series.str.len() == 30).all():
         raise  ValueError('All context sequences must be 30 nucleotides')
     featurized_sgrnas = sglearn.featurize_guides(context_sequences)
+    for tracr in ref_tracrs:
+        if type(sequence_tracr) is str:
+            featurized_sgrnas[tracr + ' tracr'] = int(sequence_tracr == tracr)
+        else: # list-like
+            featurized_sgrnas[tracr + ' tracr'] = ((pd.Series(sequence_tracr) == tracr)
+                                                   .astype(int)
+                                                   .to_list())
     return featurized_sgrnas
 
 # Cell
-def predict_seq(context_sequences):
+def predict_seq(context_sequences, sequence_tracr='Hsu2013', ref_tracrs=None):
     """Predict the activity of context sequence for SpCas9 Knockout using sequence information only
 
     :param context_sequences: list of str
     :return: list of float, predictions
     """
     model = load_seq_model()
-    featurized_sgrnas = featurize_context(context_sequences)
+    featurized_sgrnas = featurize_context(context_sequences, sequence_tracr=sequence_tracr, ref_tracrs=ref_tracrs)
     seq_predictions = model.predict(featurized_sgrnas)
     return seq_predictions

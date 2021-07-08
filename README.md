@@ -20,10 +20,13 @@ Create a list of context sequences you want to predict
 context_seqs = ['GACGAAAGCGACAACGCGTTCATCCGGGCA', 'AGAAAACACTAGCATCCCCACCCGCGGACT']
 ```
 
-Predict on sequences using the `predict_seq` function
+You can predict on-target scores for sequences using the `predict_seq` function, specifying either
+[Hsu2013](https://www.nature.com/articles/nbt.2647) or
+[Chen2013](https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub)
+as the tracrRNA to score with
 
 ```
-predict_seq(context_seqs)
+predict_seq(context_seqs, sequence_tracr='Hsu2013')
 ```
 
 
