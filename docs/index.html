@@ -98,7 +98,10 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Predict on sequences using the <a href="/rs3/seq.html#predict_seq"><code>predict_seq</code></a> function</p>
+<p>You can predict on-target scores for sequences using the <a href="/rs3/seq.html#predict_seq"><code>predict_seq</code></a> function, specifying either
+<a href="https://www.nature.com/articles/nbt.2647">Hsu2013</a> or
+<a href="https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub">Chen2013</a>
+as the tracrRNA to score with</p>
 
 </div>
 </div>
@@ -110,7 +113,7 @@ nb_path: "index.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predict_seq</span><span class="p">(</span><span class="n">context_seqs</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predict_seq</span><span class="p">(</span><span class="n">context_seqs</span><span class="p">,</span> <span class="n">sequence_tracr</span><span class="o">=</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
