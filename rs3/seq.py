@@ -9,7 +9,7 @@ import pandas as pd
 import os
 
 # Cell
-def load_seq_model(dev_nb=False):
+def load_seq_model():
     """Load rule set 3 sequence model"""
     model = joblib.load(os.path.join(os.path.dirname(__file__), 'RuleSet3.pkl'))
     return model
