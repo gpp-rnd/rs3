@@ -26,12 +26,16 @@ index = {"load_seq_model": "00_seq.ipynb",
          "get_protein_domain_features": "02_targetfeat.ipynb",
          "build_target_feature_df": "02_targetfeat.ipynb",
          "load_target_model": "03_predicttarg.ipynb",
-         "predict_target": "03_predicttarg.ipynb"}
+         "predict_target": "03_predicttarg.ipynb",
+         "predict_seq_tracr": "04_predict.ipynb",
+         "combine_target_seq_scores": "04_predict.ipynb",
+         "predict": "04_predict.ipynb"}
 
 modules = ["seq.py",
            "targetdata.py",
            "targetfeat.py",
-           "predicttarg.py"]
+           "predicttarg.py",
+           "predict.py"]
 
 doc_url = "https://gpp-rnd.github.io/rs3/"
 

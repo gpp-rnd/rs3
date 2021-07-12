@@ -1,6 +1,10 @@
 {
   "rs3": {
     "Overview": "/",
-    "seq": "seq.html"
+    "seq": "seq.html",
+    "targetdata": "targetdata.html",
+    "targetfeat": "targetfeat.html",
+    "predicttarg": "predicttarg.html",
+    "Title": "predict.html"
   }
 }

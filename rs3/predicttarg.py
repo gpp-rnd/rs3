@@ -16,6 +16,14 @@ def load_target_model():
 # Cell
 def predict_target(design_df, aa_seq_df, protein_domain_df,
                    id_cols=None):
+    """Make predictions using the Rule Set 3 target model
+
+    :param design_df: DataFrame
+    :param aa_seq_df: DataFrame
+    :param protein_domain_df: DatFrame
+    :param id_cols: list or str
+    :return: list
+    """
     model = load_target_model()
     if id_cols is None:
         id_cols = ['sgRNA Context Sequence', 'Target Cut Length', 'Target Transcript', 'Orientation']
