@@ -4,9 +4,38 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"load_seq_model": "00_seq.ipynb",
          "featurize_context": "00_seq.ipynb",
-         "predict_seq": "00_seq.ipynb"}
+         "predict_seq": "00_seq.ipynb",
+         "ensembl_post": "01_targetdata.ipynb",
+         "chunks": "01_targetdata.ipynb",
+         "post_transcript_sequence_chunk": "01_targetdata.ipynb",
+         "post_transcript_sequence": "01_targetdata.ipynb",
+         "build_transcript_aa_seq_df": "01_targetdata.ipynb",
+         "ensembl_get": "01_targetdata.ipynb",
+         "get_translation_overlap": "01_targetdata.ipynb",
+         "build_translation_overlap_df": "01_targetdata.ipynb",
+         "write_transcript_data": "01_targetdata.ipynb",
+         "add_target_columns": "02_targetfeat.ipynb",
+         "get_position_features": "02_targetfeat.ipynb",
+         "get_one_aa_frac": "02_targetfeat.ipynb",
+         "get_aa_aromaticity": "02_targetfeat.ipynb",
+         "get_aa_hydrophobicity": "02_targetfeat.ipynb",
+         "get_aa_ip": "02_targetfeat.ipynb",
+         "get_aa_secondary_structure": "02_targetfeat.ipynb",
+         "featurize_aa_seqs": "02_targetfeat.ipynb",
+         "get_amino_acid_features": "02_targetfeat.ipynb",
+         "get_protein_domain_features": "02_targetfeat.ipynb",
+         "build_target_feature_df": "02_targetfeat.ipynb",
+         "load_target_model": "03_predicttarg.ipynb",
+         "predict_target": "03_predicttarg.ipynb",
+         "predict_seq_tracr": "04_predict.ipynb",
+         "combine_target_seq_scores": "04_predict.ipynb",
+         "predict": "04_predict.ipynb"}
 
-modules = ["seq.py"]
+modules = ["seq.py",
+           "targetdata.py",
+           "targetfeat.py",
+           "predicttarg.py",
+           "predict.py"]
 
 doc_url = "https://gpp-rnd.github.io/rs3/"
 

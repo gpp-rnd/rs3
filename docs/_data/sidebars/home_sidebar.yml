@@ -12,6 +12,18 @@ entries:
     - output: web,pdf
       title: seq
       url: seq.html
+    - output: web,pdf
+      title: targetdata
+      url: targetdata.html
+    - output: web,pdf
+      title: targetfeat
+      url: targetfeat.html
+    - output: web,pdf
+      title: predicttarg
+      url: predicttarg.html
+    - output: web,pdf
+      title: Title
+      url: predict.html
     output: web
     title: rs3
   output: web
