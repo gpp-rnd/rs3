@@ -172,7 +172,7 @@ nb_path: "04_predict.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scored_designs</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">tracr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">,</span> <span class="s1">&#39;Chen2013&#39;</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                         <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -231,7 +231,7 @@ nb_path: "04_predict.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                       <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;./data/target_data/&#39;</span><span class="p">,</span>
                       <span class="n">aa_seq_name</span><span class="o">=</span><span class="s1">&#39;aa_seqs.pq&#39;</span><span class="p">,</span>
                       <span class="n">protein_domain_name</span><span class="o">=</span><span class="s1">&#39;protein_domains.pq&#39;</span><span class="p">)</span>
@@ -290,7 +290,7 @@ nb_path: "04_predict.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scored_designs_stored</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">tracr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">,</span> <span class="s1">&#39;Chen2013&#39;</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                 <span class="n">aa_seq_file</span><span class="o">=</span><span class="s1">&#39;./data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span>
                                 <span class="n">domain_file</span><span class="o">=</span><span class="s1">&#39;./data/target_data/protein_domains.pq&#39;</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_frame_equal</span><span class="p">(</span><span class="n">scored_designs</span><span class="p">,</span> <span class="n">scored_designs_stored</span><span class="p">)</span>

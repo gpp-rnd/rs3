@@ -471,7 +471,7 @@ nb_path: "02_targetfeat.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_seq_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_seq_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">get_rev_comp</span><span class="p">(</span><span class="n">sgrna</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get reverse compliment of a guide&quot;&quot;&quot;</span>
@@ -606,7 +606,7 @@ nb_path: "02_targetfeat.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">protein_domain_feature_df</span> <span class="o">=</span> <span class="n">get_protein_domain_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">domain_df</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                                         <span class="n">id_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span>
                                                                  <span class="s1">&#39;AA Index&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">])</span>

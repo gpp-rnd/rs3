@@ -268,7 +268,7 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">transcript_aa_seq_df</span> <span class="o">=</span> <span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">transcript_aa_seq_df</span> <span class="o">=</span> <span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">transcript_aa_seq_df</span>
 </pre></div>
 
@@ -606,7 +606,7 @@ params: dict or None, parameters for query |</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">translation_overlap_df</span> <span class="o">=</span> <span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">transcript_aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
-                                                      <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                                                      <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">translation_overlap_df</span>
 </pre></div>
 
@@ -938,7 +938,7 @@ params: dict or None, parameters for query |</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;./data/target_data/&#39;</span> <span class="o">+</span> <span class="s1">&#39;aa_seqs.pq&#39;</span><span class="p">)</span>
 </pre></div>
 
