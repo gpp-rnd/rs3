@@ -83,7 +83,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="predict_seq_tracr" class="doc_header"><code>predict_seq_tracr</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_seq_tracr</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>context_col</code></strong>, <strong><code>ref_tracrs</code></strong>)</p>
+<h4 id="predict_seq_tracr" class="doc_header"><code>predict_seq_tracr</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_seq_tracr</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>context_col</code></strong>, <strong><code>ref_tracrs</code></strong>, <strong><code>n_jobs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -107,7 +107,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="combine_target_seq_scores" class="doc_header"><code>combine_target_seq_scores</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>combine_target_seq_scores</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>)</p>
+<h4 id="combine_target_seq_scores" class="doc_header"><code>combine_target_seq_scores</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>combine_target_seq_scores</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -131,7 +131,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="predict" class="doc_header"><code>predict</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>=<em><code>None</code></em>, <strong><code>target</code></strong>=<em><code>False</code></em>, <strong><code>aa_seq_file</code></strong>=<em><code>None</code></em>, <strong><code>domain_file</code></strong>=<em><code>None</code></em>, <strong><code>target_id_cols</code></strong>=<em><code>None</code></em>, <strong><code>context_col</code></strong>=<em><code>'sgRNA Context Sequence'</code></em>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
+<h4 id="predict" class="doc_header"><code>predict</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>=<em><code>None</code></em>, <strong><code>target</code></strong>=<em><code>False</code></em>, <strong><code>aa_seq_file</code></strong>=<em><code>None</code></em>, <strong><code>domain_file</code></strong>=<em><code>None</code></em>, <strong><code>target_id_cols</code></strong>=<em><code>None</code></em>, <strong><code>context_col</code></strong>=<em><code>'sgRNA Context Sequence'</code></em>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 <p>Make predictions using RS3</p>
 <p>:param design_df: DataFrame

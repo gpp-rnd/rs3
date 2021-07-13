@@ -12,10 +12,11 @@ from .targetdata import (build_translation_overlap_df,
 from .predicttarg import predict_target
 
 # Cell
-def predict_seq_tracr(design_df, tracr, context_col, ref_tracrs):
+def predict_seq_tracr(design_df, tracr, context_col, ref_tracrs, n_jobs):
     if not tracr in ref_tracrs:
         raise ValueError('tracrRNA must be one of ' + ','.join(ref_tracrs))
-    design_df['RS3 Sequence Score (' + tracr + ' tracr)'] = predict_seq(design_df[context_col], sequence_tracr=tracr)
+    design_df['RS3 Sequence Score (' + tracr + ' tracr)'] = predict_seq(design_df[context_col], sequence_tracr=tracr,
+                                                                        n_jobs=n_jobs)
 
 def combine_target_seq_scores(design_df, tracr):
     design_df['RS3 Sequence (' + tracr + ' tracr) + Target Score'] = \
@@ -48,10 +49,10 @@ def predict(design_df, tracr=None, target=False,
     out_df = design_df.copy()
     ref_tracrs = ['Hsu2013', 'Chen2013']
     if type(tracr) is str:
-        predict_seq_tracr(out_df, tracr, context_col, ref_tracrs)
+        predict_seq_tracr(out_df, tracr, context_col, ref_tracrs, n_jobs=n_jobs)
     else: # list
         for t in tracr:
-            predict_seq_tracr(out_df, t, context_col, ref_tracrs)
+            predict_seq_tracr(out_df, t, context_col, ref_tracrs, n_jobs=n_jobs)
     if target:
         out_df[transcript_base_col] = out_df[transcript_id_col].str.split('.', expand=True)[0]
         transcript_bases = pd.Series(out_df[transcript_base_col].unique())
