@@ -64,7 +64,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_target_columns" class="doc_header"><code>add_target_columns</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target_columns</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>cut_pos_col</code></strong>=<em><code>'Target Cut Length'</code></em>)</p>
+<h4 id="add_target_columns" class="doc_header"><code>add_target_columns</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target_columns</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>cut_pos_col</code></strong>=<em><code>'Target Cut Length'</code></em>)</p>
 </blockquote>
 <p>Add ['AA Index' and 'Transcript Base'] to design df</p>
 <p>:param design_df: DataFrame
@@ -124,7 +124,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_position_features" class="doc_header"><code>get_position_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_position_features</code>(<strong><code>sg_df</code></strong>, <strong><code>id_cols</code></strong>)</p>
+<h4 id="get_position_features" class="doc_header"><code>get_position_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_position_features</code>(<strong><code>sg_df</code></strong>, <strong><code>id_cols</code></strong>)</p>
 </blockquote>
 <p>Get  features ['Target Cut %', 'sense']</p>
 <p>:param sg_df: DataFrame
@@ -186,7 +186,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_one_aa_frac" class="doc_header"><code>get_one_aa_frac</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_one_aa_frac</code>(<strong><code>feature_dict</code></strong>, <strong><code>aa_sequence</code></strong>, <strong><code>aas</code></strong>)</p>
+<h4 id="get_one_aa_frac" class="doc_header"><code>get_one_aa_frac</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_one_aa_frac</code>(<strong><code>feature_dict</code></strong>, <strong><code>aa_sequence</code></strong>, <strong><code>aas</code></strong>)</p>
 </blockquote>
 <p>Get fraction of single aa</p>
 <p>:param feature_dict: dict, feature dictionary
@@ -241,7 +241,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_aromaticity" class="doc_header"><code>get_aa_aromaticity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_aromaticity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_aromaticity" class="doc_header"><code>get_aa_aromaticity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_aromaticity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get fraction of aromatic amino acids in a sequence.</p>
 <p>Phe (F) + Trp (W) + Tyr (Y)</p>
@@ -269,7 +269,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_hydrophobicity" class="doc_header"><code>get_aa_hydrophobicity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_hydrophobicity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_hydrophobicity" class="doc_header"><code>get_aa_hydrophobicity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L61" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_hydrophobicity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Grand Average of Hydropathy</p>
 <p>The GRAVY value is calculated by adding the hydropathy value for each residue and dividing
@@ -299,7 +299,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_ip" class="doc_header"><code>get_aa_ip</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L73" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_ip</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_ip" class="doc_header"><code>get_aa_ip</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_ip</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get the Isoelectric Point of an amino acid sequence</p>
 <p>Charge of amino acid</p>
@@ -327,7 +327,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_secondary_structure" class="doc_header"><code>get_aa_secondary_structure</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L84" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_secondary_structure</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_secondary_structure" class="doc_header"><code>get_aa_secondary_structure</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_secondary_structure</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get the fraction of amion acids that tend to be in a helix, turn or sheet</p>
 <p>:param feature_dict: dict
@@ -382,7 +382,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="featurize_aa_seqs" class="doc_header"><code>featurize_aa_seqs</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>featurize_aa_seqs</code>(<strong><code>aa_sequences</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="featurize_aa_seqs" class="doc_header"><code>featurize_aa_seqs</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>featurize_aa_seqs</code>(<strong><code>aa_sequences</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Get feature DataFrame for a list of amino acid sequences</p>
 <p>:param aa_sequences: list of str
@@ -435,7 +435,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_amino_acid_features" class="doc_header"><code>get_amino_acid_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_amino_acid_features</code>(<strong><code>sg_designs</code></strong>, <strong><code>aa_seq_df</code></strong>, <strong><code>width</code></strong>, <strong><code>features</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>target_transcript_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>)</p>
+<h4 id="get_amino_acid_features" class="doc_header"><code>get_amino_acid_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_amino_acid_features</code>(<strong><code>sg_designs</code></strong>, <strong><code>aa_seq_df</code></strong>, <strong><code>width</code></strong>, <strong><code>features</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>target_transcript_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>)</p>
 </blockquote>
 <p>Featurize amino acid sequences</p>
 <p>:param sg_designs: DataFrame
@@ -509,7 +509,7 @@ nb_path: "02_targetfeat.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:00&lt;00:00, 83.17it/s]
+<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.79it/s]
 </pre>
 </div>
 </div>
@@ -568,7 +568,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_protein_domain_features" class="doc_header"><code>get_protein_domain_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L165" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_protein_domain_features</code>(<strong><code>sg_design_df</code></strong>, <strong><code>protein_domains</code></strong>, <strong><code>sources</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>, <strong><code>domain_type_col</code></strong>=<em><code>'type'</code></em>, <strong><code>domain_start_col</code></strong>=<em><code>'start'</code></em>, <strong><code>domain_end_col</code></strong>=<em><code>'end'</code></em>)</p>
+<h4 id="get_protein_domain_features" class="doc_header"><code>get_protein_domain_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L173" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_protein_domain_features</code>(<strong><code>sg_design_df</code></strong>, <strong><code>protein_domains</code></strong>, <strong><code>sources</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>, <strong><code>domain_type_col</code></strong>=<em><code>'type'</code></em>, <strong><code>domain_start_col</code></strong>=<em><code>'start'</code></em>, <strong><code>domain_end_col</code></strong>=<em><code>'end'</code></em>)</p>
 </blockquote>
 <p>Get binary dataframe of protein domains</p>
 <p>:param sg_design_df: DataFrame, with columns [transcript_base_col, aa_index_col]
@@ -630,7 +630,7 @@ nb_path: "02_targetfeat.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:32&lt;00:00,  6.09it/s]
+<pre>100%|██████████| 200/200 [00:52&lt;00:00,  3.79it/s]
 </pre>
 </div>
 </div>
@@ -677,7 +677,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_target_feature_df" class="doc_header"><code>build_target_feature_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_target_feature_df</code>(<strong><code>sg_designs</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>, <strong><code>aa_seq_df</code></strong>=<em><code>None</code></em>, <strong><code>aa_width</code></strong>=<em><code>16</code></em>, <strong><code>aa_features</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_df</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_sources</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="build_target_feature_df" class="doc_header"><code>build_target_feature_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L217" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_target_feature_df</code>(<strong><code>sg_designs</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>, <strong><code>aa_seq_df</code></strong>=<em><code>None</code></em>, <strong><code>aa_width</code></strong>=<em><code>16</code></em>, <strong><code>aa_features</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_df</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_sources</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Build the feature matrix for the sgRNA target site</p>
 <p>:param sg_designs: DataFrame

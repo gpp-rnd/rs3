@@ -508,7 +508,7 @@ By listing both tracrRNA `tracr=['Hsu2013', 'Chen2013']` and setting `target=Tru
 
 ```
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
-                         n_jobs=3)
+                         n_jobs=2)
 scored_designs
 ```
 
