@@ -7,6 +7,7 @@ __all__ = ['add_target_columns', 'get_position_features', 'get_one_aa_frac', 'ge
 # Cell
 import pandas as pd
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
+import warnings
 
 # Cell
 def add_target_columns(design_df, transcript_id_col='Target Transcript',
@@ -154,8 +155,15 @@ def get_amino_acid_features(sg_designs, aa_seq_df, width, features, id_cols,
     # Zero-indexed for python
     sg_aas['AA Subsequence'] = sg_aas.apply(lambda row: row['extended_seq'][(row['seq_start'] - 1):row['seq_end']],
                                             axis=1)
-    aa_features = featurize_aa_seqs(sg_aas['AA Subsequence'], features=features)
-    aa_features_annot = pd.concat([sg_aas[id_cols + ['AA Subsequence']]
+    # filter out sequences without the canonical amino acids
+    aa_set = set('ARNDCQEGHILKMFPSTWYV*-')
+    filtered_sg_aas = (sg_aas[sg_aas['AA Subsequence'].apply(lambda s: set(s) <= aa_set)]
+                       .reset_index(drop=True))
+    filtered_diff = (sg_aas.shape[0] - filtered_sg_aas.shape[0])
+    if filtered_diff > 0:
+        warnings.warn('Ignored ' + str(filtered_sg_aas) + ' amino acid sequences with non-canonical amino acids')
+    aa_features = featurize_aa_seqs(filtered_sg_aas['AA Subsequence'], features=features)
+    aa_features_annot = pd.concat([filtered_sg_aas[id_cols + ['AA Subsequence']]
                                    .reset_index(drop=True),
                                    aa_features.reset_index(drop=True)], axis=1)
     return aa_features_annot
