@@ -3,4 +3,5 @@ include LICENSE
 include CONTRIBUTING.md
 include README.md
 include rs3/RuleSet3.pkl
+include rs3/target_model.pkl
 recursive-exclude * __pycache__
