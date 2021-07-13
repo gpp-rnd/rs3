@@ -161,7 +161,7 @@ def get_amino_acid_features(sg_designs, aa_seq_df, width, features, id_cols,
                        .reset_index(drop=True))
     filtered_diff = (sg_aas.shape[0] - filtered_sg_aas.shape[0])
     if filtered_diff > 0:
-        warnings.warn('Ignored ' + str(filtered_sg_aas) + ' amino acid sequences with non-canonical amino acids')
+        warnings.warn('Ignored ' + str(filtered_diff) + ' amino acid sequences with non-canonical amino acids')
     aa_features = featurize_aa_seqs(filtered_sg_aas['AA Subsequence'], features=features)
     aa_features_annot = pd.concat([filtered_sg_aas[id_cols + ['AA Subsequence']]
                                    .reset_index(drop=True),
