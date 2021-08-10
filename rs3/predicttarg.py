@@ -8,30 +8,40 @@ import joblib
 import os
 
 # Cell
-def load_target_model():
+def load_target_model(lite=False):
     """Load rule set 3 target model"""
-    model = joblib.load(os.path.join(os.path.dirname(__file__), 'target_model.pkl'))
+    if lite:
+        model_name = 'target_lite_model.pkl'
+    else:
+        model_name = 'target_model.pkl'
+    model = joblib.load(os.path.join(os.path.dirname(__file__), model_name))
     return model
 
 # Cell
-def predict_target(design_df, aa_seq_df, protein_domain_df,
-                   id_cols=None):
+def predict_target(design_df, aa_seq_df, protein_domain_df=None, conservation_df=None,
+                   id_cols=None, lite=False):
     """Make predictions using the Rule Set 3 target model
 
     :param design_df: DataFrame
     :param aa_seq_df: DataFrame
     :param protein_domain_df: DatFrame
     :param id_cols: list or str
+    :param lite: bool, whether to use the lite model
     :return: list
     """
-    model = load_target_model()
+    model = load_target_model(lite=lite)
     if id_cols is None:
         id_cols = ['sgRNA Context Sequence', 'Target Cut Length', 'Target Transcript', 'Orientation']
+    if lite:
+        features = ['position', 'aa']
+    else:
+        features = ['position', 'aa', 'domain', 'conservation']
     target_feature_df, target_feature_cols = (targetfeat
                                               .build_target_feature_df(design_df,
-                                                                       features=['position', 'aa', 'domain'], # fixed
+                                                                       features=features,
                                                                        aa_seq_df=aa_seq_df,
                                                                        protein_domain_df=protein_domain_df,
+                                                                       conservation_df=conservation_df,
                                                                        id_cols=id_cols))
     X_target = target_feature_df[target_feature_cols]
     predictions = model.predict(X_target)

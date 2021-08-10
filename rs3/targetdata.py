@@ -2,7 +2,9 @@
 
 __all__ = ['ensembl_post', 'chunks', 'post_transcript_sequence_chunk', 'post_transcript_sequence',
            'build_transcript_aa_seq_df', 'ensembl_get', 'get_translation_overlap', 'build_translation_overlap_df',
-           'write_transcript_data']
+           'write_transcript_data', 'get_transcript_info', 'get_conservation', 'get_exon_conservation',
+           'get_transcript_conservation', 'get_transcript_conservation_safe', 'build_conservation_df',
+           'write_conservation_data']
 
 # Cell
 import requests
@@ -12,6 +14,8 @@ from joblib import Parallel, delayed
 from tqdm import tqdm
 import warnings
 import os
+from scipy import stats
+import multiprocessing
 
 # Cell
 def ensembl_post(ext, data, headers=None, params=None):
@@ -200,3 +204,180 @@ def write_transcript_data(design_df, transcript_id_col='Target Transcript',
                                         index=False)
         translation_overlap_df.to_parquet(path=filepath + protein_domain_name, engine='pyarrow',
                                           index=False)
+
+# Cell
+def get_transcript_info(base_transcript):
+    """Using an ensembl transcript ID, get
+
+    :param base_transcript: str
+    :return: (exon_df, trans_sr, chr)
+        exon_df: DataFrame, with global exon start and end position
+        trans_sr: Series, with global translation start and stop positions for CDS and translation length
+        chr: str
+
+    """
+    r = ensembl_get("/lookup/id/" + base_transcript + "?expand=1",
+                    headers={"Content-Type": "application/json"}, params={'expand': '1'})
+    decoded = r.json()
+    exon_df = pd.DataFrame(decoded['Exon'])
+    trans_sr = pd.Series(decoded['Translation'])
+    chr = decoded['seq_region_name']
+    return exon_df, trans_sr, chr
+
+# Cell
+def get_conservation(chr, start, end, genome):
+    """Get conservation scores for a given region of a genome
+
+    :param chr: str, chromosome number
+    :param start: int
+    :param end: int
+    :param genome: str
+    :return: DataFrame
+    """
+    api_url = 'http://api.genome.ucsc.edu/getData/track'
+    if genome == 'hg38':
+        track = 'phyloP100way'
+    elif genome == 'mm39':
+        track = 'phyloP35way'
+    else:
+        raise ValueError('Genome not recognized')
+    chrom = 'chr' + chr
+    params = {
+        'genome': genome,
+        'track': track,
+        'start': start,
+        'end': end,
+        'chrom': chrom
+    }
+    results = requests.get(api_url, data=params)
+    if results.ok:
+        value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+                    .rename(columns={'value': 'conservation'}))
+    else:
+        raise ValueError(results.reason)
+    return value_df
+
+# Cell
+def get_exon_conservation(exon_df, chr, genome):
+    """Get conservation scores for each exon
+
+    :param exon_df: DataFrame
+    :param chr: str
+    :param genome: str
+    :return: DataFrame
+    """
+    conservation_dict = {}
+    for i, row in exon_df.set_index('id').iterrows():
+        # subtract one since the nucleotide conservation corresponds to the "end" index
+        conservation_dict[i] = get_conservation(chr, row['start'] - 1, row['end'], genome)
+        # get the conservation of i
+    conservation_df = (pd.concat(conservation_dict)
+                       .reset_index(level=0)
+                       .reset_index(drop=True)
+                       .rename({'level_0': 'exon_id',
+                                'end': 'genomic position'}, axis=1)
+                       .drop('start', axis=1))
+    return conservation_df
+
+
+def get_transcript_conservation(transcript_id, target_strand, genome):
+    """Get conservation scores for a transcript
+
+    :param transcript_id: str
+    :param target_strand: str, '+' or '-'
+    :param genome: str
+    :return: DataFrame
+    """
+    exon_df, trans_sr, chr = get_transcript_info(transcript_id)
+    # only include translated positions
+    exon_df['start'] = exon_df['start'].apply(lambda x: max(x, trans_sr['start']))
+    exon_df['end'] = exon_df['end'].apply(lambda x: min(x, trans_sr['end']))
+    exon_df = exon_df[exon_df['end'] > exon_df['start']].reset_index(drop=True)
+    conservation_df = get_exon_conservation(exon_df, chr, genome)
+    conservation_df['Transcript Base'] = transcript_id
+    if target_strand == '-':
+        ascending = False
+    else:
+        ascending = True
+    conservation_df = (conservation_df
+                       .sort_values('genomic position', ascending=ascending)
+                       .reset_index(drop=True))
+    conservation_df['target position'] = conservation_df.index + 1
+    conservation_df['chromosome'] = chr
+    conservation_df['genome'] = genome
+    conservation_df['translation length'] = trans_sr['length']
+    return conservation_df
+
+# Cell
+def get_transcript_conservation_safe(transcript_id, target_strand, genome):
+    """Helper function for parrallel query. Return None when conservation dataframe cannot be assembled"""
+    try:
+        return get_transcript_conservation(transcript_id, target_strand, genome)
+    except:
+        return None
+
+
+def build_conservation_df(design_df, n_jobs=1):
+    transcript_refseq_df = (design_df[['Target Transcript', 'Strand of Target', 'Target Total Length']]
+                            .drop_duplicates())
+    if not (transcript_refseq_df['Target Transcript'].str.startswith('ENST') |
+            transcript_refseq_df['Target Transcript'].str.startswith('ENSMUST')).all():
+        raise ValueError('Must supply human or mouse Ensembl transcript IDs as input')
+    print('Getting conservation')
+    transcript_refseq_df['Transcript Base'] = (transcript_refseq_df['Target Transcript'].str.split('.', expand=True)[0])
+    transcript_refseq_df['genome'] = transcript_refseq_df['Transcript Base'].apply(lambda trans:
+                                                                                   'mm39' if 'MUS' in trans else 'hg38')
+    all_transcript_conservation_list = Parallel(n_jobs)(delayed(get_transcript_conservation_safe)
+                                                        (row['Transcript Base'],
+                                                         row['Strand of Target'],
+                                                         row['genome'])
+                                                         for _, row in tqdm(transcript_refseq_df.iterrows(),
+                                                                            total=transcript_refseq_df.shape[0]))
+    transcript_conservation_list = []
+    failed_list = []
+    transcript_list = transcript_refseq_df['Transcript Base'].to_list()
+    for i, conservation_df in enumerate(all_transcript_conservation_list):
+        if conservation_df is None:
+            failed_list.append(transcript_list[i])
+        else:
+            transcript_conservation_list.append(conservation_df)
+    if len(failed_list) > 0:
+        warnings.warn('Failed to get conservation scores for ' + str(len(failed_list)) +
+                      ' transcripts' + ', '.join(failed_list))
+    transcript_conservation_df = (pd.concat(transcript_conservation_list))
+    transcript_cons_designs = (transcript_conservation_df
+                               .merge(transcript_refseq_df, how='inner',
+                                      on=['Transcript Base', 'genome']))
+    filtered_transcript_conservation = transcript_cons_designs[
+        (transcript_cons_designs['translation length'] + 1)*3 == transcript_cons_designs['Target Total Length']].copy()
+    mismatched_transcripts = transcript_conservation_df['Transcript Base'][
+        ~transcript_conservation_df['Transcript Base'].isin(filtered_transcript_conservation['Transcript Base'])]
+    if len(mismatched_transcripts) > 0:
+        warnings.warn('Filtered: ' + str(len(mismatched_transcripts)) +
+                      ' transcripts with mismatched length:' + ','.join(mismatched_transcripts))
+    filtered_transcript_conservation['ranked_conservation'] = (filtered_transcript_conservation.groupby('Transcript Base')
+                                                               ['conservation']
+                                                               .rank(pct=True))
+    return filtered_transcript_conservation
+
+# Cell
+def write_conservation_data(design_df, n_jobs=1,
+                            overwrite=True, filepath='./data/target_data/',
+                            cons_file_name='conservation.pq'):
+    """Write conservation scores to parquet files
+
+    :param design_df: DataFrame
+    :param n_jobs: int
+    :param overwrite: bool, whether to overwrite existing file
+    :param filepath: str, directory for output sequences
+    :param cons_file_name: str, name of conservation file
+    """
+    if os.path.isfile(filepath + cons_file_name) and (not overwrite):
+        raise ValueError('Conservation data already exits and cannot be overwritten')
+    else:
+        conservation_df = build_conservation_df(design_df, n_jobs=n_jobs)
+        if not os.path.isdir(filepath):
+            print('Creating new directory ' + filepath)
+            os.makedirs(filepath)
+        conservation_df.to_parquet(path=filepath + cons_file_name, engine='pyarrow',
+                                   index=False)

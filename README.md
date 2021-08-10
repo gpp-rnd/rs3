@@ -12,13 +12,13 @@
 
 Import packages
 
-```
+```python
 from rs3.seq import predict_seq
 ```
 
 Create a list of context sequences you want to predict
 
-```
+```python
 context_seqs = ['GACGAAAGCGACAACGCGTTCATCCGGGCA', 'AGAAAACACTAGCATCCCCACCCGCGGACT']
 ```
 
@@ -27,9 +27,15 @@ You can predict on-target scores for sequences using the `predict_seq` function,
 [Chen2013](https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub)
 as the tracrRNA to score with
 
-```
+```python
 predict_seq(context_seqs, sequence_tracr='Hsu2013')
 ```
+
+    Calculating sequence-based features
+
+
+    100%|██████████| 2/2 [00:00<00:00, 247.15it/s]
+
 
 
 
@@ -43,7 +49,7 @@ predict_seq(context_seqs, sequence_tracr='Hsu2013')
 Using the `predict` function we can calculate both target scores and sequence scores. Target-based scores use
 information such as amino acid sequence and whether the sgRNA targets in a protein domain.
 
-```
+```python
 import pandas as pd
 from rs3.predict import predict
 import gpplot
@@ -53,7 +59,7 @@ import matplotlib.pyplot as plt
 
 We'll use a list of ~250 sgRNA from the GeckoV2 library as an example dataset
 
-```
+```python
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 design_df
 ```
@@ -374,8 +380,10 @@ design_df
 
 
 
-```
-gecko_activity = pd.read_csv('test_data/Aguirre2017_activity.csv')
+```python
+import multiprocessing
+max_n_jobs = multiprocessing.cpu_count()
+gecko_activity = pd.read_csv('test_data/Aguirre2016_activity.csv')
 gecko_activity
 ```
 
@@ -506,22 +514,44 @@ gecko_activity
 By listing both tracrRNA `tracr=['Hsu2013', 'Chen2013']` and setting `target=True`, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.
 
-```
+```python
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
-                         n_jobs=2)
+                         n_jobs_min=2, n_jobs_max=max_n_jobs,
+                         lite=False,
+                         aa_seq_file='test_data/target_data/aa_seqs.pq',
+                         conservatin_file='test_data/target_data/conservation.pq',
+                         domain_file='test_data/target_data/protein_domains.pq')
 scored_designs
 ```
+
+    Calculating sequence-based features
+
+
+    100%|██████████| 400/400 [00:03<00:00, 112.76it/s]
+
+
+    Calculating sequence-based features
+
+
+    100%|██████████| 400/400 [00:00<00:00, 2364.35it/s]
+
 
     Getting amino acid sequences
 
 
-    100%|██████████| 4/4 [00:00<00:00, 94.47it/s]
+    100%|██████████| 4/4 [00:02<00:00,  1.36it/s]
 
 
     Getting protein domains
 
 
-    100%|██████████| 200/200 [00:30<00:00,  6.50it/s]
+    100%|██████████| 200/200 [00:48<00:00,  4.10it/s]
+
+
+    Getting conservation
+
+
+    100%|██████████| 200/200 [05:01<00:00,  1.51s/it]
     /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
     /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
@@ -560,14 +590,14 @@ scored_designs
       <th>CRISPR Mechanism</th>
       <th>Target Domain</th>
       <th>...</th>
-      <th>Pools Containing Matching Construct</th>
       <th>Pick Order</th>
       <th>Picking Round</th>
       <th>Picking Notes</th>
       <th>RS3 Sequence Score (Hsu2013 tracr)</th>
       <th>RS3 Sequence Score (Chen2013 tracr)</th>
       <th>Transcript Base</th>
-      <th>RS3 Target Score</th>
+      <th>Missing conservation information</th>
+      <th>Target Score</th>
       <th>RS3 Sequence (Hsu2013 tracr) + Target Score</th>
       <th>RS3 Sequence (Chen2013 tracr) + Target Score</th>
     </tr>
@@ -586,16 +616,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.750904</td>
       <td>0.512534</td>
       <td>ENST00000259457</td>
-      <td>0.273974</td>
-      <td>1.024878</td>
-      <td>0.786508</td>
+      <td>False</td>
+      <td>0.152037</td>
+      <td>0.902940</td>
+      <td>0.664571</td>
     </tr>
     <tr>
       <th>1</th>
@@ -610,16 +640,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.218514</td>
       <td>-0.095684</td>
       <td>ENST00000259457</td>
-      <td>-0.010152</td>
-      <td>-0.228667</td>
-      <td>-0.105837</td>
+      <td>False</td>
+      <td>0.064880</td>
+      <td>-0.153634</td>
+      <td>-0.030804</td>
     </tr>
     <tr>
       <th>2</th>
@@ -634,16 +664,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.126708</td>
       <td>-0.307830</td>
       <td>ENST00000394249</td>
-      <td>-0.018259</td>
-      <td>-0.144967</td>
-      <td>-0.326089</td>
+      <td>False</td>
+      <td>-0.063012</td>
+      <td>-0.189720</td>
+      <td>-0.370842</td>
     </tr>
     <tr>
       <th>3</th>
@@ -658,16 +688,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.690050</td>
       <td>0.390095</td>
       <td>ENST00000394249</td>
-      <td>-0.089659</td>
-      <td>0.600392</td>
-      <td>0.300436</td>
+      <td>False</td>
+      <td>-0.126357</td>
+      <td>0.563693</td>
+      <td>0.263738</td>
     </tr>
     <tr>
       <th>4</th>
@@ -682,16 +712,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
       <td>0.451508</td>
       <td>-0.169016</td>
       <td>ENST00000361337</td>
-      <td>-0.018748</td>
-      <td>0.432760</td>
-      <td>-0.187764</td>
+      <td>False</td>
+      <td>-0.234410</td>
+      <td>0.217098</td>
+      <td>-0.403426</td>
     </tr>
     <tr>
       <th>...</th>
@@ -730,16 +760,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.220600</td>
       <td>-0.022154</td>
       <td>ENST00000454402</td>
-      <td>0.102902</td>
-      <td>-0.117698</td>
-      <td>0.080747</td>
+      <td>False</td>
+      <td>0.101662</td>
+      <td>-0.118938</td>
+      <td>0.079508</td>
     </tr>
     <tr>
       <th>396</th>
@@ -754,16 +784,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
       <td>0.621609</td>
       <td>0.539656</td>
       <td>ENST00000254998</td>
-      <td>0.220856</td>
-      <td>0.842465</td>
-      <td>0.760513</td>
+      <td>False</td>
+      <td>0.036224</td>
+      <td>0.657833</td>
+      <td>0.575881</td>
     </tr>
     <tr>
       <th>397</th>
@@ -778,16 +808,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.119830</td>
       <td>0.012744</td>
       <td>ENST00000254998</td>
-      <td>0.146767</td>
-      <td>0.266597</td>
-      <td>0.159511</td>
+      <td>False</td>
+      <td>0.089654</td>
+      <td>0.209484</td>
+      <td>0.102398</td>
     </tr>
     <tr>
       <th>398</th>
@@ -802,16 +832,16 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
       <td>0.798633</td>
       <td>0.646323</td>
       <td>ENST00000381685</td>
-      <td>-0.039771</td>
-      <td>0.758861</td>
-      <td>0.606552</td>
+      <td>False</td>
+      <td>0.056575</td>
+      <td>0.855208</td>
+      <td>0.702899</td>
     </tr>
     <tr>
       <th>399</th>
@@ -826,25 +856,25 @@ scored_designs
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.283254</td>
       <td>0.264148</td>
       <td>ENST00000381685</td>
-      <td>0.015462</td>
-      <td>0.298716</td>
-      <td>0.279611</td>
+      <td>False</td>
+      <td>0.136640</td>
+      <td>0.419894</td>
+      <td>0.400789</td>
     </tr>
   </tbody>
 </table>
-<p>400 rows × 66 columns</p>
+<p>400 rows × 67 columns</p>
 </div>
 
 
 
-```
+```python
 gecko_activity_scores = (gecko_activity.merge(scored_designs,
                                               how='inner',
                                               on=['sgRNA Sequence', 'sgRNA Context Sequence',
@@ -884,14 +914,14 @@ gecko_activity_scores
       <th>Target Gene ID</th>
       <th>Target Transcript</th>
       <th>...</th>
-      <th>Pools Containing Matching Construct</th>
       <th>Pick Order</th>
       <th>Picking Round</th>
       <th>Picking Notes</th>
       <th>RS3 Sequence Score (Hsu2013 tracr)</th>
       <th>RS3 Sequence Score (Chen2013 tracr)</th>
       <th>Transcript Base</th>
-      <th>RS3 Target Score</th>
+      <th>Missing conservation information</th>
+      <th>Target Score</th>
       <th>RS3 Sequence (Hsu2013 tracr) + Target Score</th>
       <th>RS3 Sequence (Chen2013 tracr) + Target Score</th>
     </tr>
@@ -910,16 +940,16 @@ gecko_activity_scores
       <td>ENSG00000136930</td>
       <td>ENST00000259457.8</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.218514</td>
       <td>-0.095684</td>
       <td>ENST00000259457</td>
-      <td>-0.010152</td>
-      <td>-0.228667</td>
-      <td>-0.105837</td>
+      <td>False</td>
+      <td>0.064880</td>
+      <td>-0.153634</td>
+      <td>-0.030804</td>
     </tr>
     <tr>
       <th>1</th>
@@ -934,16 +964,16 @@ gecko_activity_scores
       <td>ENSG00000198901</td>
       <td>ENST00000394249.8</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.126708</td>
       <td>-0.307830</td>
       <td>ENST00000394249</td>
-      <td>-0.018259</td>
-      <td>-0.144967</td>
-      <td>-0.326089</td>
+      <td>False</td>
+      <td>-0.063012</td>
+      <td>-0.189720</td>
+      <td>-0.370842</td>
     </tr>
     <tr>
       <th>2</th>
@@ -958,16 +988,16 @@ gecko_activity_scores
       <td>ENSG00000198900</td>
       <td>ENST00000361337.3</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.356580</td>
       <td>-0.082514</td>
       <td>ENST00000361337</td>
-      <td>-0.418276</td>
-      <td>-0.774856</td>
-      <td>-0.500790</td>
+      <td>False</td>
+      <td>-0.354708</td>
+      <td>-0.711288</td>
+      <td>-0.437222</td>
     </tr>
     <tr>
       <th>3</th>
@@ -982,16 +1012,16 @@ gecko_activity_scores
       <td>ENSG00000203760</td>
       <td>ENST00000368328.5</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.663540</td>
       <td>-0.303324</td>
       <td>ENST00000368328</td>
-      <td>0.274739</td>
-      <td>-0.388801</td>
-      <td>-0.028585</td>
+      <td>False</td>
+      <td>0.129285</td>
+      <td>-0.534255</td>
+      <td>-0.174039</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1006,16 +1036,16 @@ gecko_activity_scores
       <td>ENSG00000164346</td>
       <td>ENST00000610426.5</td>
       <td>...</td>
-      <td>NaN</td>
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.413636</td>
       <td>-0.585179</td>
       <td>ENST00000610426</td>
-      <td>-0.072158</td>
-      <td>-0.485794</td>
-      <td>-0.657337</td>
+      <td>False</td>
+      <td>-0.113577</td>
+      <td>-0.527213</td>
+      <td>-0.698756</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1054,16 +1084,16 @@ gecko_activity_scores
       <td>ENSG00000150776</td>
       <td>ENST00000393047.8</td>
       <td>...</td>
-      <td>CP1718</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.298329</td>
       <td>0.274344</td>
       <td>ENST00000393047</td>
-      <td>-0.201158</td>
-      <td>0.097171</td>
-      <td>0.073187</td>
+      <td>False</td>
+      <td>-0.082951</td>
+      <td>0.215378</td>
+      <td>0.191393</td>
     </tr>
     <tr>
       <th>248</th>
@@ -1078,16 +1108,16 @@ gecko_activity_scores
       <td>ENSG00000111445</td>
       <td>ENST00000454402.7</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.220600</td>
       <td>-0.022154</td>
       <td>ENST00000454402</td>
-      <td>0.102902</td>
-      <td>-0.117698</td>
-      <td>0.080747</td>
+      <td>False</td>
+      <td>0.101662</td>
+      <td>-0.118938</td>
+      <td>0.079508</td>
     </tr>
     <tr>
       <th>249</th>
@@ -1102,16 +1132,16 @@ gecko_activity_scores
       <td>ENSG00000132661</td>
       <td>ENST00000254998.3</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.119830</td>
       <td>0.012744</td>
       <td>ENST00000254998</td>
-      <td>0.146767</td>
-      <td>0.266597</td>
-      <td>0.159511</td>
+      <td>False</td>
+      <td>0.089654</td>
+      <td>0.209484</td>
+      <td>0.102398</td>
     </tr>
     <tr>
       <th>250</th>
@@ -1126,16 +1156,16 @@ gecko_activity_scores
       <td>ENSG00000115761</td>
       <td>ENST00000381685.10</td>
       <td>...</td>
-      <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>0.283254</td>
       <td>0.264148</td>
       <td>ENST00000381685</td>
-      <td>0.015462</td>
-      <td>0.298716</td>
-      <td>0.279611</td>
+      <td>False</td>
+      <td>0.136640</td>
+      <td>0.419894</td>
+      <td>0.400789</td>
     </tr>
     <tr>
       <th>251</th>
@@ -1150,27 +1180,27 @@ gecko_activity_scores
       <td>ENSG00000174444</td>
       <td>ENST00000307961.11</td>
       <td>...</td>
-      <td>CP1718</td>
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
       <td>-0.636302</td>
       <td>-0.575100</td>
       <td>ENST00000307961</td>
-      <td>0.021391</td>
-      <td>-0.614912</td>
-      <td>-0.553709</td>
+      <td>False</td>
+      <td>0.185059</td>
+      <td>-0.451243</td>
+      <td>-0.390041</td>
     </tr>
   </tbody>
 </table>
-<p>252 rows × 67 columns</p>
+<p>252 rows × 68 columns</p>
 </div>
 
 
 
 Since Gecko was screened with the tracrRNA from Hsu et al. 2013, we'll use this as our predictor
 
-```
+```python
 plt.subplots(figsize=(4,4))
 gpplot.point_densityplot(gecko_activity_scores, y='avg_mean_centered_neg_lfc',
                          x='RS3 Sequence (Hsu2013 tracr) + Target Score')

@@ -2,7 +2,8 @@
 
 __all__ = ['add_target_columns', 'get_position_features', 'get_one_aa_frac', 'get_aa_aromaticity',
            'get_aa_hydrophobicity', 'get_aa_ip', 'get_aa_secondary_structure', 'featurize_aa_seqs',
-           'get_amino_acid_features', 'get_protein_domain_features', 'build_target_feature_df']
+           'extract_amino_acid_subsequence', 'get_amino_acid_features', 'get_protein_domain_features',
+           'get_conservation_ranges', 'get_conservation_features', 'build_target_feature_df']
 
 # Cell
 import pandas as pd
@@ -127,6 +128,29 @@ def featurize_aa_seqs(aa_sequences, features=None):
     return feature_matrix
 
 # Cell
+def extract_amino_acid_subsequence(sg_aas, width):
+    """ Get the amino acid subsequence with a width of `width` on either side of the Amino Acid index
+
+    :param sg_aas: DataFrame, sgRNA designs merged with amino acid sequence
+    :param width: int
+    :return: DataFrame
+    """
+    # Pad the sequences at the beginning and end, so our index doesn't go over
+    l_padding = '-' * (width + 1)  # can cut just before the CDS
+    r_padding = '-' * width  # can cut the stop codon
+    # add stop codon at the end of the sequence
+    sg_aas_subseq = sg_aas.copy()
+    sg_aas_subseq['extended_seq'] = l_padding + sg_aas_subseq['seq'] + '*' + r_padding
+    sg_aas_subseq['AA 0-Indexed'] = sg_aas_subseq['AA Index'] - 1
+    sg_aas_subseq['AA 0-Indexed padded'] = sg_aas_subseq['AA 0-Indexed'] + len(l_padding)
+    sg_aas_subseq['seq_start'] = sg_aas_subseq['AA 0-Indexed padded'] - width
+    sg_aas_subseq['seq_end'] = sg_aas_subseq['AA 0-Indexed padded'] + width
+    sg_aas_subseq['AA Subsequence'] = sg_aas_subseq.apply(lambda row: row['extended_seq'][row['seq_start']:(row['seq_end'] + 1)],
+                                                    axis=1)
+    return sg_aas_subseq
+
+
+# Cell
 def get_amino_acid_features(sg_designs, aa_seq_df, width, features, id_cols,
                             transcript_base_col='Transcript Base',
                             target_transcript_col='Target Transcript',
@@ -146,18 +170,11 @@ def get_amino_acid_features(sg_designs, aa_seq_df, width, features, id_cols,
                                                   [target_transcript_col, transcript_base_col, aa_index_col]))],
                               how='inner',
                               on=[target_transcript_col, transcript_base_col]))
-    padding = '-' * (width + 1)
-    sg_aas['extended_seq'] = padding + sg_aas['seq'] + '*' + padding
-    sg_aas['AA Index pad'] = sg_aas[aa_index_col] + width + 1
-    # One-indexed
-    sg_aas['seq_start'] = sg_aas['AA Index pad'] - width
-    sg_aas['seq_end'] = sg_aas['AA Index pad'] + width - 1
+    sg_aas_subseq = extract_amino_acid_subsequence(sg_aas, width)
     # Zero-indexed for python
-    sg_aas['AA Subsequence'] = sg_aas.apply(lambda row: row['extended_seq'][(row['seq_start'] - 1):row['seq_end']],
-                                            axis=1)
     # filter out sequences without the canonical amino acids
     aa_set = set('ARNDCQEGHILKMFPSTWYV*-')
-    filtered_sg_aas = (sg_aas[sg_aas['AA Subsequence'].apply(lambda s: set(s) <= aa_set)]
+    filtered_sg_aas = (sg_aas_subseq[sg_aas_subseq['AA Subsequence'].apply(lambda s: set(s) <= aa_set)]
                        .reset_index(drop=True))
     filtered_diff = (sg_aas.shape[0] - filtered_sg_aas.shape[0])
     if filtered_diff > 0:
@@ -214,9 +231,56 @@ def get_protein_domain_features(sg_design_df, protein_domains, sources, id_cols,
     return domain_feature_df
 
 # Cell
+def get_conservation_ranges(cut_pos, small_width, large_width):
+    small_range = range(cut_pos - small_width + 1, cut_pos + small_width + 1)
+    large_range = range(cut_pos - large_width + 1, cut_pos + large_width + 1)
+    return small_range, large_range
+
+
+def get_conservation_features(sg_designs, conservation_df, conservation_column,
+                              small_width, large_width, id_cols):
+    """Get conservation features
+
+    :param sg_designs: DataFrame
+    :param conservation_df: DataFrame, tidy conservation scores indexed by Transcript Base and target position
+    :param conservation_column: str, name of column to calculate scores with
+    :param small_width: int, small window length to average scores in one direction
+    :param large_width: int, large window length to average scores in the one direction
+    :return: DataFrame of conservation features
+    """
+    sg_designs_width = sg_designs[id_cols + ['Transcript Base']].copy()
+    sg_designs_width['target position small'], sg_designs_width['target position large'] =  \
+        zip(*sg_designs_width['Target Cut Length']
+            .apply(get_conservation_ranges, small_width=small_width,
+                   large_width=large_width))
+    small_width_conservation = (sg_designs_width.drop('target position large', axis=1)
+                                .rename({'target position small': 'target position'}, axis=1)
+                                .explode('target position')
+                                .merge(conservation_df, how='inner',
+                                       on=['Target Transcript', 'Transcript Base', 'target position'])
+                                .groupby(id_cols)
+                                .agg(cons=(conservation_column, 'mean'))
+                                .rename({'cons': 'cons_' + str(small_width * 2)}, axis=1)
+                                .reset_index())
+    large_width_conservation = (sg_designs_width.drop('target position small', axis=1)
+                                .rename({'target position large': 'target position'}, axis=1)
+                                .explode('target position')
+                                .merge(conservation_df, how='inner',
+                                       on=['Target Transcript', 'Transcript Base', 'target position'])
+                                .groupby(id_cols)
+                                .agg(cons=(conservation_column, 'mean'))
+                                .rename({'cons': 'cons_' + str(large_width * 2)}, axis=1)
+                                .reset_index())
+    cons_feature_df = small_width_conservation.merge(large_width_conservation, how='outer',
+                                                     on=id_cols)
+    return cons_feature_df
+
+# Cell
 def build_target_feature_df(sg_designs, features=None,
                             aa_seq_df=None, aa_width=16, aa_features=None,
                             protein_domain_df=None, protein_domain_sources=None,
+                            conservation_df=None, conservation_column='ranked_conservation',
+                            cons_small_width=2, cons_large_width=16,
                             id_cols=None):
     """Build the feature matrix for the sgRNA target site
 
@@ -227,12 +291,16 @@ def build_target_feature_df(sg_designs, features=None,
     :param aa_features: list
     :param protein_domain_df: DataFrame
     :param protein_domain_sources: list or None. Defaults to all sources except Sifts
+    :param conservation_df: DataFrame
+    :param conservation_column: str
+    :param cons_small_width: int
+    :param cons_large_width: int
     :return: (feature_df, feature_list)
         feature_df: DataFrame
         feature_list: list
     """
     if features is None:
-        features = ['position', 'aa', 'domain']
+        features = ['position', 'aa', 'domain', 'conservation']
     if id_cols is None:
         id_cols = ['sgRNA Context Sequence', 'Target Cut Length',
                    'Target Transcript', 'Orientation']
@@ -246,6 +314,12 @@ def build_target_feature_df(sg_designs, features=None,
     if 'domain' in features:
         domain_features = get_protein_domain_features(design_df, protein_domain_df, protein_domain_sources, id_cols)
         feature_df_dict['domain'] = domain_features
+    if 'conservation' in features:
+        conservation_features = get_conservation_features(design_df, conservation_df,
+                                                          conservation_column,
+                                                          cons_small_width, cons_large_width,
+                                                          id_cols)
+        feature_df_dict['conservation'] = conservation_features
     if 'aa' in features:
         aa_features = get_amino_acid_features(design_df, aa_seq_df, aa_width, aa_features, id_cols)
         feature_df_dict['aa'] = aa_features
