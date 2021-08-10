@@ -56,6 +56,24 @@ nb_path: "02_targetfeat.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="n">max_n_jobs</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
 <div class="output">
@@ -64,7 +82,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_target_columns" class="doc_header"><code>add_target_columns</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target_columns</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>cut_pos_col</code></strong>=<em><code>'Target Cut Length'</code></em>)</p>
+<h4 id="add_target_columns" class="doc_header"><code>add_target_columns</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_target_columns</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>cut_pos_col</code></strong>=<em><code>'Target Cut Length'</code></em>)</p>
 </blockquote>
 <p>Add ['AA Index' and 'Transcript Base'] to design df</p>
 <p>:param design_df: DataFrame
@@ -124,7 +142,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_position_features" class="doc_header"><code>get_position_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_position_features</code>(<strong><code>sg_df</code></strong>, <strong><code>id_cols</code></strong>)</p>
+<h4 id="get_position_features" class="doc_header"><code>get_position_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L27" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_position_features</code>(<strong><code>sg_df</code></strong>, <strong><code>id_cols</code></strong>)</p>
 </blockquote>
 <p>Get  features ['Target Cut %', 'sense']</p>
 <p>:param sg_df: DataFrame
@@ -186,7 +204,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_one_aa_frac" class="doc_header"><code>get_one_aa_frac</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_one_aa_frac</code>(<strong><code>feature_dict</code></strong>, <strong><code>aa_sequence</code></strong>, <strong><code>aas</code></strong>)</p>
+<h4 id="get_one_aa_frac" class="doc_header"><code>get_one_aa_frac</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_one_aa_frac</code>(<strong><code>feature_dict</code></strong>, <strong><code>aa_sequence</code></strong>, <strong><code>aas</code></strong>)</p>
 </blockquote>
 <p>Get fraction of single aa</p>
 <p>:param feature_dict: dict, feature dictionary
@@ -241,7 +259,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_aromaticity" class="doc_header"><code>get_aa_aromaticity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_aromaticity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_aromaticity" class="doc_header"><code>get_aa_aromaticity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L51" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_aromaticity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get fraction of aromatic amino acids in a sequence.</p>
 <p>Phe (F) + Trp (W) + Tyr (Y)</p>
@@ -269,7 +287,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_hydrophobicity" class="doc_header"><code>get_aa_hydrophobicity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L61" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_hydrophobicity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_hydrophobicity" class="doc_header"><code>get_aa_hydrophobicity</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L62" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_hydrophobicity</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Grand Average of Hydropathy</p>
 <p>The GRAVY value is calculated by adding the hydropathy value for each residue and dividing
@@ -299,7 +317,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_ip" class="doc_header"><code>get_aa_ip</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_ip</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_ip" class="doc_header"><code>get_aa_ip</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L75" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_ip</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get the Isoelectric Point of an amino acid sequence</p>
 <p>Charge of amino acid</p>
@@ -327,7 +345,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_aa_secondary_structure" class="doc_header"><code>get_aa_secondary_structure</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_secondary_structure</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
+<h4 id="get_aa_secondary_structure" class="doc_header"><code>get_aa_secondary_structure</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L86" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_aa_secondary_structure</code>(<strong><code>feature_dict</code></strong>, <strong><code>analyzed_seq</code></strong>)</p>
 </blockquote>
 <p>Get the fraction of amion acids that tend to be in a helix, turn or sheet</p>
 <p>:param feature_dict: dict
@@ -382,7 +400,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="featurize_aa_seqs" class="doc_header"><code>featurize_aa_seqs</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>featurize_aa_seqs</code>(<strong><code>aa_sequences</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="featurize_aa_seqs" class="doc_header"><code>featurize_aa_seqs</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>featurize_aa_seqs</code>(<strong><code>aa_sequences</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Get feature DataFrame for a list of amino acid sequences</p>
 <p>:param aa_sequences: list of str
@@ -435,7 +453,65 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_amino_acid_features" class="doc_header"><code>get_amino_acid_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_amino_acid_features</code>(<strong><code>sg_designs</code></strong>, <strong><code>aa_seq_df</code></strong>, <strong><code>width</code></strong>, <strong><code>features</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>target_transcript_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>)</p>
+<h4 id="extract_amino_acid_subsequence" class="doc_header"><code>extract_amino_acid_subsequence</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_amino_acid_subsequence</code>(<strong><code>sg_aas</code></strong>, <strong><code>width</code></strong>)</p>
+</blockquote>
+<p>Get the amino acid subsequence with a width of <code>width</code> on either side of the Amino Acid index</p>
+<p>:param sg_aas: DataFrame, sgRNA designs merged with amino acid sequence
+:param width: int
+:return: DataFrame</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">small_aa_seq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;AA Index&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+                                    <span class="s1">&#39;seq&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MAVLKYSLW&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">})</span>
+<span class="n">small_aa_subseq_df</span> <span class="o">=</span> <span class="n">extract_amino_acid_subsequence</span><span class="p">(</span><span class="n">small_aa_seq_df</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">actual_subseqs</span> <span class="o">=</span> <span class="n">small_aa_subseq_df</span><span class="p">[</span><span class="s1">&#39;AA Subsequence&#39;</span><span class="p">]</span>
+<span class="n">expected_subseqs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;--MAV&#39;</span><span class="p">,</span> <span class="s1">&#39;VLKYS&#39;</span><span class="p">,</span> <span class="s1">&#39;SLW*-&#39;</span><span class="p">]</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual_subseqs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_subseqs</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">all</span><span class="p">([</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">actual_subseqs</span><span class="p">,</span> <span class="n">expected_subseqs</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_amino_acid_features" class="doc_header"><code>get_amino_acid_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L154" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_amino_acid_features</code>(<strong><code>sg_designs</code></strong>, <strong><code>aa_seq_df</code></strong>, <strong><code>width</code></strong>, <strong><code>features</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>target_transcript_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>)</p>
 </blockquote>
 <p>Featurize amino acid sequences</p>
 <p>:param sg_designs: DataFrame
@@ -488,7 +564,7 @@ nb_path: "02_targetfeat.ipynb"
                                                 <span class="s1">&#39;Isoelectric Point&#39;</span><span class="p">,</span> <span class="s1">&#39;Secondary Structure&#39;</span><span class="p">],</span>
                                       <span class="n">id_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span>
                                                <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">])</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">aa_features</span><span class="p">[</span><span class="s1">&#39;AA Subsequence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">==</span> <span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">aa_features</span><span class="p">[</span><span class="s1">&#39;AA Subsequence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">==</span> <span class="mi">21</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -509,7 +585,7 @@ nb_path: "02_targetfeat.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.79it/s]
+<pre>100%|██████████| 4/4 [00:03&lt;00:00,  1.08it/s]
 </pre>
 </div>
 </div>
@@ -568,7 +644,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_protein_domain_features" class="doc_header"><code>get_protein_domain_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L173" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_protein_domain_features</code>(<strong><code>sg_design_df</code></strong>, <strong><code>protein_domains</code></strong>, <strong><code>sources</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>, <strong><code>domain_type_col</code></strong>=<em><code>'type'</code></em>, <strong><code>domain_start_col</code></strong>=<em><code>'start'</code></em>, <strong><code>domain_end_col</code></strong>=<em><code>'end'</code></em>)</p>
+<h4 id="get_protein_domain_features" class="doc_header"><code>get_protein_domain_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L190" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_protein_domain_features</code>(<strong><code>sg_design_df</code></strong>, <strong><code>protein_domains</code></strong>, <strong><code>sources</code></strong>, <strong><code>id_cols</code></strong>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>aa_index_col</code></strong>=<em><code>'AA Index'</code></em>, <strong><code>domain_type_col</code></strong>=<em><code>'type'</code></em>, <strong><code>domain_start_col</code></strong>=<em><code>'start'</code></em>, <strong><code>domain_end_col</code></strong>=<em><code>'end'</code></em>)</p>
 </blockquote>
 <p>Get binary dataframe of protein domains</p>
 <p>:param sg_design_df: DataFrame, with columns [transcript_base_col, aa_index_col]
@@ -630,7 +706,7 @@ nb_path: "02_targetfeat.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:52&lt;00:00,  3.79it/s]
+<pre>100%|██████████| 200/200 [01:02&lt;00:00,  3.21it/s]
 </pre>
 </div>
 </div>
@@ -661,6 +737,117 @@ nb_path: "02_targetfeat.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conservation-Features">Conservation Features<a class="anchor-link" href="#Conservation-Features"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_conservation_ranges" class="doc_header"><code>get_conservation_ranges</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L234" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_conservation_ranges</code>(<strong><code>cut_pos</code></strong>, <strong><code>small_width</code></strong>, <strong><code>large_width</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_conservation_features" class="doc_header"><code>get_conservation_features</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L240" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_conservation_features</code>(<strong><code>sg_designs</code></strong>, <strong><code>conservation_df</code></strong>, <strong><code>conservation_column</code></strong>, <strong><code>small_width</code></strong>, <strong><code>large_width</code></strong>, <strong><code>id_cols</code></strong>)</p>
+</blockquote>
+<p>Get conservation features</p>
+<p>:param sg_designs: DataFrame
+:param conservation_df: DataFrame, tidy conservation scores indexed by Transcript Base and target position
+:param conservation_column: str, name of column to calculate scores with
+:param small_width: int, small window length to average scores in one direction
+:param large_width: int, large window length to average scores in the one direction
+:return: DataFrame of conservation features</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conservation_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_conservation_df</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
+<span class="n">conservation_features</span> <span class="o">=</span> <span class="n">get_conservation_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">conservation_df</span><span class="p">,</span>
+                                                  <span class="n">small_width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">large_width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                                                  <span class="n">conservation_column</span><span class="o">=</span><span class="s1">&#39;ranked_conservation&#39;</span><span class="p">,</span>
+                                                  <span class="n">id_cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">])</span>
+<span class="n">merged_features</span> <span class="o">=</span> <span class="n">protein_domain_feature_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">conservation_features</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span>
+                                                                                          <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span>
+                                                                                          <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span>
+                                                                                          <span class="s1">&#39;Orientation&#39;</span><span class="p">])</span>
+<span class="n">smart_avg_cons</span> <span class="o">=</span> <span class="n">merged_features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">merged_features</span><span class="p">[</span><span class="s1">&#39;Smart&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;cons_12&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">non_smart_avg_cons</span> <span class="o">=</span> <span class="n">merged_features</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">merged_features</span><span class="p">[</span><span class="s1">&#39;Smart&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="s1">&#39;cons_12&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">smart_avg_cons</span> <span class="o">&gt;</span> <span class="n">non_smart_avg_cons</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 200/200 [04:58&lt;00:00,  1.49s/it]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Combining-target-features">Combining target features<a class="anchor-link" href="#Combining-target-features"> </a></h2><p>We'll combine, the position, amino acid and domain feature matrices into a single target feature matrix</p>
 
 </div>
@@ -677,7 +864,7 @@ nb_path: "02_targetfeat.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_target_feature_df" class="doc_header"><code>build_target_feature_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L217" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_target_feature_df</code>(<strong><code>sg_designs</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>, <strong><code>aa_seq_df</code></strong>=<em><code>None</code></em>, <strong><code>aa_width</code></strong>=<em><code>16</code></em>, <strong><code>aa_features</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_df</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_sources</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="build_target_feature_df" class="doc_header"><code>build_target_feature_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetfeat.py#L279" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_target_feature_df</code>(<strong><code>sg_designs</code></strong>, <strong><code>features</code></strong>=<em><code>None</code></em>, <strong><code>aa_seq_df</code></strong>=<em><code>None</code></em>, <strong><code>aa_width</code></strong>=<em><code>16</code></em>, <strong><code>aa_features</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_df</code></strong>=<em><code>None</code></em>, <strong><code>protein_domain_sources</code></strong>=<em><code>None</code></em>, <strong><code>conservation_df</code></strong>=<em><code>None</code></em>, <strong><code>conservation_column</code></strong>=<em><code>'ranked_conservation'</code></em>, <strong><code>cons_small_width</code></strong>=<em><code>2</code></em>, <strong><code>cons_large_width</code></strong>=<em><code>16</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Build the feature matrix for the sgRNA target site</p>
 <p>:param sg_designs: DataFrame
@@ -687,6 +874,10 @@ nb_path: "02_targetfeat.ipynb"
 :param aa_features: list
 :param protein_domain_df: DataFrame
 :param protein_domain_sources: list or None. Defaults to all sources except Sifts
+:param conservation_df: DataFrame
+:param conservation_column: str
+:param cons_small_width: int
+:param cons_large_width: int
 :return: (feature_df, feature_list)
     feature_df: DataFrame
     feature_list: list</p>
@@ -717,12 +908,354 @@ nb_path: "02_targetfeat.ipynb"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">feature_df</span><span class="p">,</span> <span class="n">feature_list</span> <span class="o">=</span> <span class="n">build_target_feature_df</span><span class="p">(</span><span class="n">sg_designs</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
                                                    <span class="n">aa_seq_df</span><span class="o">=</span><span class="n">aa_seq_df</span><span class="p">,</span>
-                                                   <span class="n">protein_domain_df</span><span class="o">=</span><span class="n">domain_df</span><span class="p">)</span>
+                                                   <span class="n">protein_domain_df</span><span class="o">=</span><span class="n">domain_df</span><span class="p">,</span>
+                                                   <span class="n">conservation_df</span><span class="o">=</span><span class="n">conservation_df</span><span class="p">)</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span>
 <span class="k">assert</span> <span class="n">feature_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">design_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">feature_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sgRNA Context Sequence</th>
+      <th>Target Cut Length</th>
+      <th>Target Transcript</th>
+      <th>Orientation</th>
+      <th>Target Cut %</th>
+      <th>sense</th>
+      <th>Pfam</th>
+      <th>PANTHER</th>
+      <th>HAMAP</th>
+      <th>SuperFamily</th>
+      <th>...</th>
+      <th>Y</th>
+      <th>*</th>
+      <th>Hydrophobicity</th>
+      <th>Aromaticity</th>
+      <th>Isoelectric Point</th>
+      <th>Helix</th>
+      <th>Turn</th>
+      <th>Sheet</th>
+      <th>cons_4</th>
+      <th>cons_32</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
+      <td>191</td>
+      <td>ENST00000259457.8</td>
+      <td>sense</td>
+      <td>22.9</td>
+      <td>True</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.030303</td>
+      <td>0.0</td>
+      <td>2.696970e-01</td>
+      <td>0.060606</td>
+      <td>6.746697</td>
+      <td>0.333333</td>
+      <td>0.181818</td>
+      <td>0.181818</td>
+      <td>0.658423</td>
+      <td>0.553095</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
+      <td>137</td>
+      <td>ENST00000259457.8</td>
+      <td>sense</td>
+      <td>16.4</td>
+      <td>True</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.060606</td>
+      <td>0.0</td>
+      <td>-3.090909e-01</td>
+      <td>0.060606</td>
+      <td>10.377427</td>
+      <td>0.303030</td>
+      <td>0.181818</td>
+      <td>0.151515</td>
+      <td>0.531775</td>
+      <td>0.485106</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
+      <td>316</td>
+      <td>ENST00000394249.8</td>
+      <td>sense</td>
+      <td>17.0</td>
+      <td>True</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>-1.569697e+00</td>
+      <td>0.000000</td>
+      <td>8.429515</td>
+      <td>0.212121</td>
+      <td>0.030303</td>
+      <td>0.393939</td>
+      <td>0.295961</td>
+      <td>0.509586</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
+      <td>787</td>
+      <td>ENST00000394249.8</td>
+      <td>antisense</td>
+      <td>42.2</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>-4.939394e-01</td>
+      <td>0.030303</td>
+      <td>6.356498</td>
+      <td>0.272727</td>
+      <td>0.121212</td>
+      <td>0.393939</td>
+      <td>0.261943</td>
+      <td>0.385014</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
+      <td>420</td>
+      <td>ENST00000361337.3</td>
+      <td>antisense</td>
+      <td>18.3</td>
+      <td>False</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.060606</td>
+      <td>0.0</td>
+      <td>-1.754545e+00</td>
+      <td>0.090909</td>
+      <td>6.394068</td>
+      <td>0.212121</td>
+      <td>0.181818</td>
+      <td>0.151515</td>
+      <td>0.462522</td>
+      <td>0.363985</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>TGTCTTTATATAGCTGTTTCGCACAGGCTA</td>
+      <td>220</td>
+      <td>ENST00000454402.7</td>
+      <td>antisense</td>
+      <td>21.5</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.060606</td>
+      <td>0.0</td>
+      <td>-6.666667e-02</td>
+      <td>0.090909</td>
+      <td>8.119293</td>
+      <td>0.303030</td>
+      <td>0.242424</td>
+      <td>0.303030</td>
+      <td>0.482160</td>
+      <td>0.503070</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>TTGTCAATGTCTACTACACCACCATGGATA</td>
+      <td>79</td>
+      <td>ENST00000254998.3</td>
+      <td>sense</td>
+      <td>18.7</td>
+      <td>True</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.090909</td>
+      <td>0.0</td>
+      <td>-5.606061e-01</td>
+      <td>0.121212</td>
+      <td>9.108819</td>
+      <td>0.272727</td>
+      <td>0.090909</td>
+      <td>0.333333</td>
+      <td>0.285461</td>
+      <td>0.435949</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>GGCGTTTGCTGTCCCGCCTGTACATGGGCA</td>
+      <td>115</td>
+      <td>ENST00000254998.3</td>
+      <td>sense</td>
+      <td>27.2</td>
+      <td>True</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.090909</td>
+      <td>0.0</td>
+      <td>-3.363636e-01</td>
+      <td>0.121212</td>
+      <td>10.420170</td>
+      <td>0.333333</td>
+      <td>0.212121</td>
+      <td>0.242424</td>
+      <td>0.420804</td>
+      <td>0.407654</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>ACTAGCAATGGCTTATCAGATCGAAGGTCA</td>
+      <td>776</td>
+      <td>ENST00000381685.10</td>
+      <td>antisense</td>
+      <td>37.5</td>
+      <td>False</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.060606</td>
+      <td>0.0</td>
+      <td>-1.076580e-16</td>
+      <td>0.060606</td>
+      <td>6.414417</td>
+      <td>0.363636</td>
+      <td>0.181818</td>
+      <td>0.242424</td>
+      <td>0.537796</td>
+      <td>0.521695</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>AAATTTTGTCTGATGACTACTCAAAGGTAT</td>
+      <td>322</td>
+      <td>ENST00000381685.10</td>
+      <td>sense</td>
+      <td>15.6</td>
+      <td>True</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>...</td>
+      <td>0.060606</td>
+      <td>0.0</td>
+      <td>-1.333333e-01</td>
+      <td>0.151515</td>
+      <td>4.373726</td>
+      <td>0.424242</td>
+      <td>0.151515</td>
+      <td>0.181818</td>
+      <td>0.568033</td>
+      <td>0.618567</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 52 columns</p>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 

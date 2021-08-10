@@ -8,7 +8,8 @@ import warnings
 
 from .seq import predict_seq
 from .targetdata import (build_translation_overlap_df,
-                            build_transcript_aa_seq_df)
+                            build_transcript_aa_seq_df,
+                            build_conservation_df)
 from .predicttarg import predict_target
 
 # Cell
@@ -18,19 +19,23 @@ def predict_seq_tracr(design_df, tracr, context_col, ref_tracrs, n_jobs):
     design_df['RS3 Sequence Score (' + tracr + ' tracr)'] = predict_seq(design_df[context_col], sequence_tracr=tracr,
                                                                         n_jobs=n_jobs)
 
-def combine_target_seq_scores(design_df, tracr):
-    design_df['RS3 Sequence (' + tracr + ' tracr) + Target Score'] = \
+def combine_target_seq_scores(design_df, tracr, target_score_col, lite):
+    full_rs_name = 'RS3 Sequence (' + tracr + ' tracr) + Target Score'
+    if lite:
+        full_rs_name += 'lite'
+    design_df[full_rs_name] = \
         design_df['RS3 Sequence Score (' + tracr + ' tracr)'] + \
-        design_df['RS3 Target Score']
+        design_df[target_score_col]
 
 def predict(design_df, tracr=None, target=False,
             aa_seq_file=None, domain_file=None,
+            conservatin_file=None,
             target_id_cols=None,
             context_col='sgRNA Context Sequence',
             transcript_id_col='Target Transcript',
             transcript_base_col='Transcript Base',
             transcript_len_col='Target Total Length',
-            n_jobs=1):
+            n_jobs_min=1, n_jobs_max=1, lite=True):
     """Make predictions using RS3
 
     :param design_df: DataFrame
@@ -43,16 +48,16 @@ def predict(design_df, tracr=None, target=False,
     :param transcript_id_col: str
     :param transcript_base_col: str
     :param transcript_len_col: str
-    :param n_jobs: int
+    :param n_jobs_min: int
     :return: DataFram
     """
     out_df = design_df.copy()
     ref_tracrs = ['Hsu2013', 'Chen2013']
     if type(tracr) is str:
-        predict_seq_tracr(out_df, tracr, context_col, ref_tracrs, n_jobs=n_jobs)
+        predict_seq_tracr(out_df, tracr, context_col, ref_tracrs, n_jobs=n_jobs_max)
     else: # list
         for t in tracr:
-            predict_seq_tracr(out_df, t, context_col, ref_tracrs, n_jobs=n_jobs)
+            predict_seq_tracr(out_df, t, context_col, ref_tracrs, n_jobs=n_jobs_max)
     if target:
         out_df[transcript_base_col] = out_df[transcript_id_col].str.split('.', expand=True)[0]
         transcript_bases = pd.Series(out_df[transcript_base_col].unique())
@@ -60,7 +65,7 @@ def predict(design_df, tracr=None, target=False,
             aa_seq_df = build_transcript_aa_seq_df(out_df,
                                                    transcript_id_col=transcript_id_col,
                                                    transcript_len_col=transcript_len_col,
-                                                   n_jobs=n_jobs)
+                                                   n_jobs=n_jobs_min)
         else:
             aa_seq_df = pd.read_parquet(aa_seq_file, engine='pyarrow',
                                         filters=[[(transcript_base_col, 'in', transcript_bases)]])
@@ -69,18 +74,36 @@ def predict(design_df, tracr=None, target=False,
             warnings.warn('Missing amino acid sequences for transcripts: ' +
                           ','.join(missing_transcripts_aa))
             out_df['Missing translation information'] = out_df[transcript_base_col].isin(missing_transcripts_aa)
-        if domain_file is None:
-            domain_df = build_translation_overlap_df(aa_seq_df['id'].unique(), n_jobs=n_jobs)
+        if lite:
+            target_score_col = 'Target Score Lite'
+            out_df[target_score_col] = predict_target(design_df=out_df, aa_seq_df=aa_seq_df,
+                                                      id_cols=target_id_cols, lite=lite)
         else:
-            domain_df = pd.read_parquet(domain_file, engine='pyarrow',
-                                        filters=[[(transcript_base_col, 'in', out_df[transcript_base_col].unique())]])
-        # No warning for domain, since some transcripts aren't annotated with any domains
-        out_df['RS3 Target Score'] = predict_target(design_df=out_df, aa_seq_df=aa_seq_df,
-                                                    protein_domain_df=domain_df,
-                                                    id_cols=target_id_cols)
+            if domain_file is None:
+                domain_df = build_translation_overlap_df(aa_seq_df['id'].unique(), n_jobs=n_jobs_min)
+            else:
+                domain_df = pd.read_parquet(domain_file, engine='pyarrow',
+                                            filters=[[(transcript_base_col, 'in', out_df[transcript_base_col].unique())]])
+                # No warning for domain, since some transcripts aren't annotated with any domains
+
+            if conservatin_file is None:
+                conservation_df = build_conservation_df(design_df, n_jobs=n_jobs_max)
+            else:
+                conservation_df = pd.read_parquet(conservatin_file, engine='pyarrow',
+                                                  filters=[[(transcript_base_col, 'in', out_df[transcript_base_col].unique())]])
+            missing_transcripts_cons = transcript_bases[~transcript_bases.isin(conservation_df[transcript_base_col])]
+            if len(missing_transcripts_cons) > 0:
+                warnings.warn('Missing conservation scores for transcripts: ' +
+                              ','.join(missing_transcripts_cons))
+            out_df['Missing conservation information'] = out_df[transcript_base_col].isin(missing_transcripts_cons)
+            target_score_col = 'Target Score'
+            out_df[target_score_col] = predict_target(design_df=out_df, aa_seq_df=aa_seq_df,
+                                                      protein_domain_df=domain_df,
+                                                      conservation_df=conservation_df,
+                                                      id_cols=target_id_cols, lite=lite)
         if type(tracr) is str:
-            combine_target_seq_scores(out_df, tracr)
+            combine_target_seq_scores(out_df, tracr, target_score_col, lite)
         else: # list
             for t in tracr:
-                combine_target_seq_scores(out_df, t)
+                combine_target_seq_scores(out_df, t, target_score_col, lite)
     return out_df
