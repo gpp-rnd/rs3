@@ -12,13 +12,13 @@
 
 Import packages
 
-```python
+```
 from rs3.seq import predict_seq
 ```
 
 Create a list of context sequences you want to predict
 
-```python
+```
 context_seqs = ['GACGAAAGCGACAACGCGTTCATCCGGGCA', 'AGAAAACACTAGCATCCCCACCCGCGGACT']
 ```
 
@@ -27,7 +27,7 @@ You can predict on-target scores for sequences using the `predict_seq` function,
 [Chen2013](https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub)
 as the tracrRNA to score with
 
-```python
+```
 predict_seq(context_seqs, sequence_tracr='Hsu2013')
 ```
 
@@ -49,7 +49,7 @@ predict_seq(context_seqs, sequence_tracr='Hsu2013')
 Using the `predict` function we can calculate both target scores and sequence scores. Target-based scores use
 information such as amino acid sequence and whether the sgRNA targets in a protein domain.
 
-```python
+```
 import pandas as pd
 from rs3.predict import predict
 import gpplot
@@ -59,7 +59,7 @@ import matplotlib.pyplot as plt
 
 We'll use a list of ~250 sgRNA from the GeckoV2 library as an example dataset
 
-```python
+```
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 design_df
 ```
@@ -380,7 +380,7 @@ design_df
 
 
 
-```python
+```
 import multiprocessing
 max_n_jobs = multiprocessing.cpu_count()
 gecko_activity = pd.read_csv('test_data/Aguirre2016_activity.csv')
@@ -514,7 +514,7 @@ gecko_activity
 By listing both tracrRNA `tracr=['Hsu2013', 'Chen2013']` and setting `target=True`, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.
 
-```python
+```
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=max_n_jobs,
                          lite=False,
@@ -874,7 +874,7 @@ scored_designs
 
 
 
-```python
+```
 gecko_activity_scores = (gecko_activity.merge(scored_designs,
                                               how='inner',
                                               on=['sgRNA Sequence', 'sgRNA Context Sequence',
@@ -1200,7 +1200,7 @@ gecko_activity_scores
 
 Since Gecko was screened with the tracrRNA from Hsu et al. 2013, we'll use this as our predictor
 
-```python
+```
 plt.subplots(figsize=(4,4))
 gpplot.point_densityplot(gecko_activity_scores, y='avg_mean_centered_neg_lfc',
                          x='RS3 Sequence (Hsu2013 tracr) + Target Score')
