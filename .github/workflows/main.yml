@@ -11,8 +11,8 @@ jobs:
         architecture: 'x64'
     - name: Install the library
       run: |
-        pip install nbdev jupyter
         pip install -e .[dev]
+        pip install nbdev jupyter
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
@@ -30,4 +30,4 @@ jobs:
         if [ -n "$(nbdev_diff_nbs)" ]; then echo -e "!!! Detected difference between the notebooks and the library"; false; fi
     - name: Run tests
       run: |
-        nbdev_test_nbs --fname=index.ipynb
+        nbdev_test_nbs --fname=index.ipynb --n_workers=1
