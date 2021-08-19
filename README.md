@@ -1987,11 +1987,16 @@ will be calculated for both tracrs
 * `target` - boolean indicating whether to calculate target scores
 * `n_jobs_min`, `n_jobs_max`  - number of cpus to use for parallel computation
 * `aa_seq_file`, `domain_file`, `conservatin_file` - precalculated parquet files. Optional inputs
-as these features can also be calulated on the fly
+as these features can also be calculated on the fly
 * `lite` - boolean indicating whether to calculate lite target scores
 
 By listing both tracrRNAs `tracr=['Hsu2013', 'Chen2013']` and setting `target=True`, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.
+
+In this example the amino acid sequences, protein domains and conservation scores were 
+prequeried using the `write_transcript_data` and `write_consevation_data`
+functions from the `targetdata` module. Pre-querying these data can be helpful for 
+large scale design runs. 
 
 We can compare these predictions against the observed activity from GeckoV2
 

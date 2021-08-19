@@ -2486,11 +2486,15 @@ will be calculated for both tracrs</li>
 <li><code>target</code> - boolean indicating whether to calculate target scores</li>
 <li><code>n_jobs_min</code>, <code>n_jobs_max</code>  - number of cpus to use for parallel computation</li>
 <li><code>aa_seq_file</code>, <code>domain_file</code>, <code>conservatin_file</code> - precalculated parquet files. Optional inputs
-as these features can also be calulated on the fly</li>
+as these features can also be calculated on the fly</li>
 <li><code>lite</code> - boolean indicating whether to calculate lite target scores</li>
 </ul>
 <p>By listing both tracrRNAs <code>tracr=['Hsu2013', 'Chen2013']</code> and setting <code>target=True</code>, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.</p>
+<p>In this example the amino acid sequences, protein domains and conservation scores were 
+prequeried using the <a href="/rs3/targetdata.html#write_transcript_data"><code>write_transcript_data</code></a> and <code>write_consevation_data</code>
+functions from the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module. Pre-querying these data can be helpful for 
+large scale design runs.</p>
 
 </div>
 </div>
