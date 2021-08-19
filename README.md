@@ -1786,9 +1786,9 @@ max_n_jobs = multiprocessing.cpu_count()
 ```
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=max_n_jobs,
-                         aa_seq_file='./data/target_data/aa_seqs.pq',
-                         domain_file='./data/target_data/protein_domains.pq',
-                         conservatin_file='./data/target_data/conservation.pq',
+                         aa_seq_file='./test_data/target_data/aa_seqs.pq',
+                         domain_file='./test_data/target_data/protein_domains.pq',
+                         conservatin_file='./test_data/target_data/conservation.pq',
                          lite=False)
 scored_designs.head()
 ```
@@ -1993,10 +1993,10 @@ as these features can also be calculated on the fly
 By listing both tracrRNAs `tracr=['Hsu2013', 'Chen2013']` and setting `target=True`, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.
 
-In this example the amino acid sequences, protein domains and conservation scores were 
+In this example the amino acid sequences, protein domains and conservation scores were
 prequeried using the `write_transcript_data` and `write_consevation_data`
-functions from the `targetdata` module. Pre-querying these data can be helpful for 
-large scale design runs. 
+functions from the `targetdata` module. Pre-querying these data can be helpful for
+large scale design runs.
 
 We can compare these predictions against the observed activity from GeckoV2
 

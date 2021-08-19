@@ -2247,9 +2247,9 @@ featurizing sgRNAs (<code>n_jobs_max</code>). We recommend keeping <code>n_jobs_
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scored_designs</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">tracr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">,</span> <span class="s1">&#39;Chen2013&#39;</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">n_jobs_min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs_max</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">,</span>
-                         <span class="n">aa_seq_file</span><span class="o">=</span><span class="s1">&#39;./data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span>
-                         <span class="n">domain_file</span><span class="o">=</span><span class="s1">&#39;./data/target_data/protein_domains.pq&#39;</span><span class="p">,</span>
-                         <span class="n">conservatin_file</span><span class="o">=</span><span class="s1">&#39;./data/target_data/conservation.pq&#39;</span><span class="p">,</span>
+                         <span class="n">aa_seq_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span>
+                         <span class="n">domain_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/protein_domains.pq&#39;</span><span class="p">,</span>
+                         <span class="n">conservatin_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/conservation.pq&#39;</span><span class="p">,</span>
                          <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">scored_designs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
@@ -2491,9 +2491,9 @@ as these features can also be calculated on the fly</li>
 </ul>
 <p>By listing both tracrRNAs <code>tracr=['Hsu2013', 'Chen2013']</code> and setting <code>target=True</code>, we calculate
 5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.</p>
-<p>In this example the amino acid sequences, protein domains and conservation scores were 
+<p>In this example the amino acid sequences, protein domains and conservation scores were
 prequeried using the <a href="/rs3/targetdata.html#write_transcript_data"><code>write_transcript_data</code></a> and <code>write_consevation_data</code>
-functions from the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module. Pre-querying these data can be helpful for 
+functions from the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module. Pre-querying these data can be helpful for
 large scale design runs.</p>
 
 </div>
