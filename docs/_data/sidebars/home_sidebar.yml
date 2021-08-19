@@ -22,7 +22,7 @@ entries:
       title: predicttarg
       url: predicttarg.html
     - output: web,pdf
-      title: Title
+      title: predict
       url: predict.html
     output: web
     title: rs3

@@ -1,13 +1,13 @@
 ---
 
-title: Title
+title: predict
 
 
 keywords: fastai
 sidebar: home_sidebar
 
-
-
+summary: "Wrap all components of making rule set 3 predictions into one function"
+description: "Wrap all components of making rule set 3 predictions into one function"
 nb_path: "04_predict.ipynb"
 ---
 <!--
@@ -85,7 +85,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="predict_seq_tracr" class="doc_header"><code>predict_seq_tracr</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_seq_tracr</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>context_col</code></strong>, <strong><code>ref_tracrs</code></strong>, <strong><code>n_jobs</code></strong>)</p>
+<h4 id="predict_seq_tracr" class="doc_header"><code>predict_seq_tracr</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L22" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_seq_tracr</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>context_col</code></strong>, <strong><code>ref_tracrs</code></strong>, <strong><code>n_jobs</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -109,7 +109,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="combine_target_seq_scores" class="doc_header"><code>combine_target_seq_scores</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L22" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>combine_target_seq_scores</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>target_score_col</code></strong>, <strong><code>lite</code></strong>)</p>
+<h4 id="combine_target_seq_scores" class="doc_header"><code>combine_target_seq_scores</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>combine_target_seq_scores</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>, <strong><code>target_score_col</code></strong>, <strong><code>lite</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -133,7 +133,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="predict" class="doc_header"><code>predict</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>=<em><code>None</code></em>, <strong><code>target</code></strong>=<em><code>False</code></em>, <strong><code>aa_seq_file</code></strong>=<em><code>None</code></em>, <strong><code>domain_file</code></strong>=<em><code>None</code></em>, <strong><code>conservatin_file</code></strong>=<em><code>None</code></em>, <strong><code>target_id_cols</code></strong>=<em><code>None</code></em>, <strong><code>context_col</code></strong>=<em><code>'sgRNA Context Sequence'</code></em>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs_min</code></strong>=<em><code>1</code></em>, <strong><code>n_jobs_max</code></strong>=<em><code>1</code></em>, <strong><code>lite</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="predict" class="doc_header"><code>predict</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predict.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict</code>(<strong><code>design_df</code></strong>, <strong><code>tracr</code></strong>=<em><code>None</code></em>, <strong><code>target</code></strong>=<em><code>False</code></em>, <strong><code>aa_seq_file</code></strong>=<em><code>None</code></em>, <strong><code>domain_file</code></strong>=<em><code>None</code></em>, <strong><code>conservatin_file</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>, <strong><code>context_col</code></strong>=<em><code>'sgRNA Context Sequence'</code></em>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_base_col</code></strong>=<em><code>'Transcript Base'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs_min</code></strong>=<em><code>1</code></em>, <strong><code>n_jobs_max</code></strong>=<em><code>1</code></em>, <strong><code>lite</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Make predictions using RS3</p>
 <p>:param design_df: DataFrame
@@ -141,7 +141,7 @@ nb_path: "04_predict.ipynb"
 :param target: bool, whether to include target scores
 :param aa_seq_file: str, path to precomputed amino acid sequences
 :param domain_file: str, path to precomputed domain file
-:param target_id_cols: list or None
+:param id_cols: list or None
 :param context_col: str
 :param transcript_id_col: str
 :param transcript_base_col: str
@@ -196,7 +196,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:03&lt;00:00, 125.50it/s]
+<pre>100%|██████████| 400/400 [00:04&lt;00:00, 85.01it/s] 
 </pre>
 </div>
 </div>
@@ -212,7 +212,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2286.14it/s]
+<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2471.62it/s]
 </pre>
 </div>
 </div>
@@ -228,7 +228,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:03&lt;00:00,  1.02it/s]
+<pre>100%|██████████| 4/4 [00:08&lt;00:00,  2.25s/it]
 </pre>
 </div>
 </div>
@@ -244,7 +244,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:48&lt;00:00,  4.13it/s]
+<pre>100%|██████████| 200/200 [00:59&lt;00:00,  3.35it/s]
 </pre>
 </div>
 </div>
@@ -260,7 +260,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [04:57&lt;00:00,  1.49s/it]
+<pre>100%|██████████| 200/200 [03:36&lt;00:00,  1.08s/it]
 /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
   warnings.warn(
 /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
@@ -306,7 +306,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:04&lt;00:00,  1.02s/it]
+<pre>100%|██████████| 4/4 [00:05&lt;00:00,  1.31s/it]
 </pre>
 </div>
 </div>
@@ -322,7 +322,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:49&lt;00:00,  4.01it/s]
+<pre>100%|██████████| 200/200 [01:00&lt;00:00,  3.30it/s]
 </pre>
 </div>
 </div>
@@ -363,7 +363,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [05:18&lt;00:00,  1.59s/it]
+<pre>100%|██████████| 200/200 [03:35&lt;00:00,  1.08s/it]
 </pre>
 </div>
 </div>
@@ -408,7 +408,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:00&lt;00:00, 801.10it/s]
+<pre>100%|██████████| 400/400 [00:00&lt;00:00, 628.94it/s]
 </pre>
 </div>
 </div>
@@ -424,7 +424,7 @@ nb_path: "04_predict.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2206.68it/s]
+<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2256.05it/s]
 /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
   warnings.warn(
 /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
@@ -493,7 +493,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.matrix.ClusterGrid at 0x7f86f0867f10&gt;</pre>
+<pre>&lt;seaborn.matrix.ClusterGrid at 0x7fc6d0223340&gt;</pre>
 </div>
 
 </div>
@@ -560,7 +560,7 @@ nb_path: "04_predict.ipynb"
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.matrix.ClusterGrid at 0x7f86c72cf3a0&gt;</pre>
+<pre>&lt;seaborn.matrix.ClusterGrid at 0x7fc6cfa528e0&gt;</pre>
 </div>
 
 </div>
