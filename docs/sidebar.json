@@ -5,6 +5,6 @@
     "targetdata": "targetdata.html",
     "targetfeat": "targetfeat.html",
     "predicttarg": "predicttarg.html",
-    "Title": "predict.html"
+    "predict": "predict.html"
   }
 }

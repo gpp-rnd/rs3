@@ -12,7 +12,8 @@ import warnings
 
 # Cell
 def add_target_columns(design_df, transcript_id_col='Target Transcript',
-                       cut_pos_col='Target Cut Length'):
+                       cut_pos_col='Target Cut Length',
+                       transcript_base_col='Transcript Base'):
     """Add ['AA Index' and 'Transcript Base'] to design df
 
     :param design_df: DataFrame
@@ -20,7 +21,7 @@ def add_target_columns(design_df, transcript_id_col='Target Transcript',
     """
     out_df = design_df.copy()
     out_df['AA Index'] = (out_df[cut_pos_col] - 1) // 3 + 1
-    out_df['Transcript Base'] = out_df[transcript_id_col].str.split('.', expand=True)[0]
+    out_df[transcript_base_col] = out_df[transcript_id_col].str.split('.', expand=True)[0]
     return out_df
 
 # Cell
@@ -198,7 +199,8 @@ def get_amino_acid_features(aa_subseq_df, features, id_cols):
 
 
 # Cell
-def get_protein_domain_features(sg_design_df, protein_domains, sources, id_cols,
+def get_protein_domain_features(sg_design_df, protein_domains, id_cols,
+                                sources=None,
                                 transcript_base_col='Transcript Base',
                                 aa_index_col='AA Index',
                                 domain_type_col='type',
@@ -208,8 +210,8 @@ def get_protein_domain_features(sg_design_df, protein_domains, sources, id_cols,
 
     :param sg_design_df: DataFrame, with columns [transcript_base_col, aa_index_col]
     :param protein_domains: DataFrame, with columns [transcript_base_col, domain_type_col]
-    :param sources: list. list of database types to include
     :param id_cols: list
+    :param sources: list. list of database types to include
     :param transcript_base_col: str
     :param aa_index_col: str
     :param domain_type_col: str

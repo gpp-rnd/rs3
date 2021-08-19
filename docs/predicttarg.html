@@ -47,6 +47,7 @@ nb_path: "03_predicttarg.ipynb"
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">rs3</span> <span class="kn">import</span> <span class="n">targetdata</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
     </div>
@@ -152,14 +153,14 @@ nb_path: "03_predicttarg.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="predict_target" class="doc_header"><code>predict_target</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predicttarg.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_target</code>(<strong><code>design_df</code></strong>, <strong><code>aa_seq_df</code></strong>, <strong><code>protein_domain_df</code></strong>=<em><code>None</code></em>, <strong><code>conservation_df</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>, <strong><code>lite</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="predict_target" class="doc_header"><code>predict_target</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/predicttarg.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>predict_target</code>(<strong><code>design_df</code></strong>, <strong><code>aa_subseq_df</code></strong>, <strong><code>domain_feature_df</code></strong>=<em><code>None</code></em>, <strong><code>conservation_feature_df</code></strong>=<em><code>None</code></em>, <strong><code>id_cols</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Make predictions using the Rule Set 3 target model</p>
+<p>Make predictions using the Rule Set 3 target model. Note that if the protein_domain_df
+or conservation_df are not supplied, then the lite model will be used, otherwise the full model is used.</p>
 <p>:param design_df: DataFrame
-:param aa_seq_df: DataFrame
-:param protein_domain_df: DatFrame
+:param aa_subseq_df: DataFrame
+:param domain_feature_df: DataFrame
 :param id_cols: list or str
-:param lite: bool, whether to use the lite model
 :return: list</p>
 
 </div>
@@ -187,19 +188,28 @@ nb_path: "03_predicttarg.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;test_data/sgrna-designs.txt&#39;</span><span class="p">)</span>
-<span class="n">aa_seq_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">domain_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">conservation_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_conservation_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
-                             <span class="n">aa_seq_df</span><span class="o">=</span><span class="n">aa_seq_df</span><span class="p">,</span>
-                             <span class="n">protein_domain_df</span><span class="o">=</span><span class="n">domain_df</span><span class="p">,</span>
-                             <span class="n">conservation_df</span><span class="o">=</span><span class="n">conservation_df</span><span class="p">)</span>
-<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
-<span class="n">lite_predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
-                                  <span class="n">aa_seq_df</span><span class="o">=</span><span class="n">aa_seq_df</span><span class="p">,</span>
-                                  <span class="n">lite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score Lite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lite_predictions</span>
-<span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">],</span> <span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score Lite&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.7</span>
+<span class="n">design_targ_df</span> <span class="o">=</span> <span class="n">targetfeat</span><span class="o">.</span><span class="n">add_target_columns</span><span class="p">(</span><span class="n">design_df</span><span class="p">)</span>
+<span class="n">id_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_seq_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">aa_subseq_df</span> <span class="o">=</span> <span class="n">targetfeat</span><span class="o">.</span><span class="n">get_aa_subseq_df</span><span class="p">(</span><span class="n">sg_designs</span><span class="o">=</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">aa_seq_df</span><span class="o">=</span><span class="n">aa_seq_df</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                           <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">aa_subseq_df</span>
 </pre></div>
 
     </div>
@@ -220,10 +230,329 @@ nb_path: "03_predicttarg.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:03&lt;00:00,  1.14it/s]
+<pre>100%|██████████| 4/4 [00:04&lt;00:00,  1.04s/it]
 </pre>
 </div>
 </div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Target Transcript</th>
+      <th>Target Total Length</th>
+      <th>Transcript Base</th>
+      <th>desc</th>
+      <th>molecule</th>
+      <th>seq</th>
+      <th>id</th>
+      <th>version</th>
+      <th>AA len</th>
+      <th>sgRNA Context Sequence</th>
+      <th>AA Index</th>
+      <th>Target Cut Length</th>
+      <th>Orientation</th>
+      <th>extended_seq</th>
+      <th>AA 0-Indexed</th>
+      <th>AA 0-Indexed padded</th>
+      <th>seq_start</th>
+      <th>seq_end</th>
+      <th>AA Subsequence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ENST00000259457.8</td>
+      <td>834</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+      <td>ENSP00000259457</td>
+      <td>3</td>
+      <td>277</td>
+      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
+      <td>64</td>
+      <td>191</td>
+      <td>sense</td>
+      <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
+      <td>63</td>
+      <td>80</td>
+      <td>64</td>
+      <td>96</td>
+      <td>GVVYKDGIVLGADTRATEGMVVADKNCSKIHFI</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ENST00000259457.8</td>
+      <td>834</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+      <td>ENSP00000259457</td>
+      <td>3</td>
+      <td>277</td>
+      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
+      <td>46</td>
+      <td>137</td>
+      <td>sense</td>
+      <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
+      <td>45</td>
+      <td>62</td>
+      <td>46</td>
+      <td>78</td>
+      <td>AKRGYKLPKVRKTGTTIAGVVYKDGIVLGADTR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ENST00000394249.8</td>
+      <td>1863</td>
+      <td>ENST00000394249</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+      <td>ENSP00000377793</td>
+      <td>3</td>
+      <td>620</td>
+      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
+      <td>106</td>
+      <td>316</td>
+      <td>sense</td>
+      <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
+      <td>105</td>
+      <td>122</td>
+      <td>106</td>
+      <td>138</td>
+      <td>EEGETTILQLEKDLRTQVELMRKQKKERKQELK</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ENST00000394249.8</td>
+      <td>1863</td>
+      <td>ENST00000394249</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+      <td>ENSP00000377793</td>
+      <td>3</td>
+      <td>620</td>
+      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
+      <td>263</td>
+      <td>787</td>
+      <td>antisense</td>
+      <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
+      <td>262</td>
+      <td>279</td>
+      <td>263</td>
+      <td>295</td>
+      <td>WDRLQIPEEEREAVATIMSGSKAKVRKALQLEV</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ENST00000361337.3</td>
+      <td>2298</td>
+      <td>ENST00000361337</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MSGDHLHNDSQIEADFRLNDSHKHKDKHKDREHRHKEHKKEKDREK...</td>
+      <td>ENSP00000354522</td>
+      <td>2</td>
+      <td>765</td>
+      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
+      <td>140</td>
+      <td>420</td>
+      <td>antisense</td>
+      <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
+      <td>139</td>
+      <td>156</td>
+      <td>140</td>
+      <td>172</td>
+      <td>GYFVPPKEDIKPLKRPRDEDDADYKPKKIKTED</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>ENST00000454402.7</td>
+      <td>1023</td>
+      <td>ENST00000454402</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>METSALKQQEQPAATKIRNLPWVEKYRPQTLNDLISHQDILSTIQK...</td>
+      <td>ENSP00000408295</td>
+      <td>2</td>
+      <td>340</td>
+      <td>TGTCTTTATATAGCTGTTTCGCACAGGCTA</td>
+      <td>74</td>
+      <td>220</td>
+      <td>antisense</td>
+      <td>-----------------METSALKQQEQPAATKIRNLPWVEKYRPQ...</td>
+      <td>73</td>
+      <td>90</td>
+      <td>74</td>
+      <td>106</td>
+      <td>LYGPPGTGKTSTILACAKQLYKDKEFGSMVLEL</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>ENST00000254998.3</td>
+      <td>423</td>
+      <td>ENST00000254998</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MASVDFKTYVDQACRAAEEFVNVYYTTMDKRRRLLSRLYMGTATLV...</td>
+      <td>ENSP00000254998</td>
+      <td>2</td>
+      <td>140</td>
+      <td>TTGTCAATGTCTACTACACCACCATGGATA</td>
+      <td>27</td>
+      <td>79</td>
+      <td>sense</td>
+      <td>-----------------MASVDFKTYVDQACRAAEEFVNVYYTTMD...</td>
+      <td>26</td>
+      <td>43</td>
+      <td>27</td>
+      <td>59</td>
+      <td>DQACRAAEEFVNVYYTTMDKRRRLLSRLYMGTA</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>ENST00000254998.3</td>
+      <td>423</td>
+      <td>ENST00000254998</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MASVDFKTYVDQACRAAEEFVNVYYTTMDKRRRLLSRLYMGTATLV...</td>
+      <td>ENSP00000254998</td>
+      <td>2</td>
+      <td>140</td>
+      <td>GGCGTTTGCTGTCCCGCCTGTACATGGGCA</td>
+      <td>39</td>
+      <td>115</td>
+      <td>sense</td>
+      <td>-----------------MASVDFKTYVDQACRAAEEFVNVYYTTMD...</td>
+      <td>38</td>
+      <td>55</td>
+      <td>39</td>
+      <td>71</td>
+      <td>VYYTTMDKRRRLLSRLYMGTATLVWNGNAVSGQ</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>ENST00000381685.10</td>
+      <td>2067</td>
+      <td>ENST00000381685</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MQVSSLNEVKIYSLSCGKSLPEWLSDRKKRALQKKDVDVRRRIELI...</td>
+      <td>ENSP00000371101</td>
+      <td>5</td>
+      <td>688</td>
+      <td>ACTAGCAATGGCTTATCAGATCGAAGGTCA</td>
+      <td>259</td>
+      <td>776</td>
+      <td>antisense</td>
+      <td>-----------------MQVSSLNEVKIYSLSCGKSLPEWLSDRKK...</td>
+      <td>258</td>
+      <td>275</td>
+      <td>259</td>
+      <td>291</td>
+      <td>TMAVGTTTGQVLLYDLRSDKPLLVKDHQYGLPI</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>ENST00000381685.10</td>
+      <td>2067</td>
+      <td>ENST00000381685</td>
+      <td>None</td>
+      <td>protein</td>
+      <td>MQVSSLNEVKIYSLSCGKSLPEWLSDRKKRALQKKDVDVRRRIELI...</td>
+      <td>ENSP00000371101</td>
+      <td>5</td>
+      <td>688</td>
+      <td>AAATTTTGTCTGATGACTACTCAAAGGTAT</td>
+      <td>108</td>
+      <td>322</td>
+      <td>sense</td>
+      <td>-----------------MQVSSLNEVKIYSLSCGKSLPEWLSDRKK...</td>
+      <td>107</td>
+      <td>124</td>
+      <td>108</td>
+      <td>140</td>
+      <td>CLDSEVVTFEILSDDYSKIVFLHNDRYIEFHSQ</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 19 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">domain_feature_df</span> <span class="o">=</span> <span class="n">targetfeat</span><span class="o">.</span><span class="n">get_protein_domain_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">domain_df</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                           <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -236,10 +565,38 @@ nb_path: "03_predicttarg.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:50&lt;00:00,  3.97it/s]
+<pre>100%|██████████| 200/200 [00:48&lt;00:00,  4.12it/s]
 </pre>
 </div>
 </div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conservation_df</span> <span class="o">=</span> <span class="n">targetdata</span><span class="o">.</span><span class="n">build_conservation_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
+<span class="n">conservation_feature_df</span> <span class="o">=</span> <span class="n">targetfeat</span><span class="o">.</span><span class="n">get_conservation_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">conservation_df</span><span class="p">,</span>
+                                                             <span class="n">small_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">large_width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                                             <span class="n">conservation_column</span><span class="o">=</span><span class="s1">&#39;ranked_conservation&#39;</span><span class="p">,</span>
+                                                             <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">conservation_feature_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 <div class="output_area">
 
@@ -252,12 +609,180 @@ nb_path: "03_predicttarg.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [04:58&lt;00:00,  1.49s/it]
-/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
-  warnings.warn(
-/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
-  warnings.warn(
-/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+<pre>100%|██████████| 200/200 [03:53&lt;00:00,  1.17s/it]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sgRNA Context Sequence</th>
+      <th>Target Cut Length</th>
+      <th>Target Transcript</th>
+      <th>Orientation</th>
+      <th>cons_4</th>
+      <th>cons_32</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAAAGAATGATGAAAAGACACCACAGGGAG</td>
+      <td>244</td>
+      <td>ENST00000610426.5</td>
+      <td>sense</td>
+      <td>0.218231</td>
+      <td>0.408844</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AAAAGAGCCATGAATCTAAACATCAGGAAT</td>
+      <td>640</td>
+      <td>ENST00000223073.6</td>
+      <td>sense</td>
+      <td>0.129825</td>
+      <td>0.278180</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AAAAGCGCCAAATGGCCCGAGAATTGGGAG</td>
+      <td>709</td>
+      <td>ENST00000331923.9</td>
+      <td>sense</td>
+      <td>0.470906</td>
+      <td>0.532305</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AAACAGAAAAAGTTAAAATCACCAAGGTGT</td>
+      <td>496</td>
+      <td>ENST00000283882.4</td>
+      <td>sense</td>
+      <td>0.580556</td>
+      <td>0.602708</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AAACAGATGGAAGATGCTTACCGGGGGACC</td>
+      <td>132</td>
+      <td>ENST00000393047.8</td>
+      <td>sense</td>
+      <td>0.283447</td>
+      <td>0.414293</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>TTTGATTGCATTAAGGTTGGACTCTGGATT</td>
+      <td>246</td>
+      <td>ENST00000249269.9</td>
+      <td>sense</td>
+      <td>0.580612</td>
+      <td>0.618707</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>TTTGCCCACAGCTCCAAAGCATCGCGGAGA</td>
+      <td>130</td>
+      <td>ENST00000227618.8</td>
+      <td>sense</td>
+      <td>0.323770</td>
+      <td>0.416368</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>TTTTACAGTGCGATGTATGATGTATGGCTT</td>
+      <td>119</td>
+      <td>ENST00000338366.6</td>
+      <td>sense</td>
+      <td>0.788000</td>
+      <td>0.537417</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>TTTTGGATCTCGTAGTGATTCAAGAGGGAA</td>
+      <td>233</td>
+      <td>ENST00000629496.3</td>
+      <td>sense</td>
+      <td>0.239630</td>
+      <td>0.347615</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>TTTTTGTTACTACAGGTTCGCTGCTGGGAA</td>
+      <td>201</td>
+      <td>ENST00000395840.6</td>
+      <td>sense</td>
+      <td>0.693767</td>
+      <td>0.639044</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 6 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
+                             <span class="n">aa_subseq_df</span><span class="o">=</span><span class="n">aa_subseq_df</span><span class="p">,</span>
+                             <span class="n">domain_feature_df</span><span class="o">=</span><span class="n">domain_feature_df</span><span class="p">,</span>
+                             <span class="n">conservation_feature_df</span><span class="o">=</span><span class="n">conservation_feature_df</span><span class="p">)</span>
+<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
   warnings.warn(
 /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
   warnings.warn(
@@ -265,6 +790,103 @@ nb_path: "03_predicttarg.ipynb"
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lite_predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
+                                  <span class="n">aa_subseq_df</span><span class="o">=</span><span class="n">aa_subseq_df</span><span class="p">)</span>
+<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score Lite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lite_predictions</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0      TGGAGCAGATACAAGAGCAACTGAAGGGAT
+1      CCGGAAAACTGGCACGACCATCGCTGGGGT
+2      TAGAAAAAGATTTGCGCACCCAAGTGGAAT
+3      TGGCCTTTGACCCAGACATAATGGTGGCCA
+4      AAATACTCACTCATCCTCATCTCGAGGTCT
+                    ...              
+395    TGTCTTTATATAGCTGTTTCGCACAGGCTA
+396    TTGTCAATGTCTACTACACCACCATGGATA
+397    GGCGTTTGCTGTCCCGCCTGTACATGGGCA
+398    ACTAGCAATGGCTTATCAGATCGAAGGTCA
+399    AAATTTTGTCTGATGACTACTCAAAGGTAT
+Name: sgRNA Context Sequence, Length: 400, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">],</span> <span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score Lite&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.7</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -291,6 +913,35 @@ nb_path: "03_predicttarg.ipynb"
                       <span class="n">sanger_designs</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.2</span>
 <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">gecko_designs</span><span class="p">[</span><span class="s1">&#39;avg_mean_centered_neg_lfc&#39;</span><span class="p">],</span>
                       <span class="n">gecko_designs</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.05</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rs_dev_target_lite_predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test_data/target_lite_score_export.csv&#39;</span><span class="p">)</span>
+                                  <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;Target Lite Score&#39;</span><span class="p">:</span> <span class="s1">&#39;Target Score Lite&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rs_dev_target_predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test_data/target_score_export.csv&#39;</span><span class="p">)</span>
+<span class="n">merged_rs_dev_predictions</span> <span class="o">=</span> <span class="n">rs_dev_target_lite_predictions</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">rs_dev_target_predictions</span><span class="p">,</span>
+                                                                 <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="n">merged_rs_dev_rs3_predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">design_df</span>
+                                 <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merged_rs_dev_predictions</span><span class="p">,</span>
+                                        <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span>
+                                        <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span>
+                                            <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">],</span>
+                                        <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39; rs3&#39;</span><span class="p">,</span> <span class="s1">&#39; rs_dev&#39;</span><span class="p">]))</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">merged_rs_dev_rs3_predictions</span><span class="p">[</span><span class="s1">&#39;Target Score rs3&#39;</span><span class="p">],</span> <span class="n">merged_rs_dev_rs3_predictions</span><span class="p">[</span><span class="s1">&#39;Target Score rs_dev&#39;</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">merged_rs_dev_rs3_predictions</span><span class="p">[</span><span class="s1">&#39;Target Score Lite rs3&#39;</span><span class="p">],</span> <span class="n">merged_rs_dev_rs3_predictions</span><span class="p">[</span><span class="s1">&#39;Target Score Lite rs_dev&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
