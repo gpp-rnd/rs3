@@ -30,4 +30,5 @@ jobs:
         if [ -n "$(nbdev_diff_nbs)" ]; then echo -e "!!! Detected difference between the notebooks and the library"; false; fi
     - name: Run tests
       run: |
+        jupyter nbconvert --to markdown --execute index.ipynb --stdout
         nbdev_test_nbs --fname=index.ipynb --n_workers=1
