@@ -52,7 +52,7 @@ predict_seq(context_seqs, sequence_tracr='Hsu2013')
     Calculating sequence-based features
 
 
-    100%|██████████| 2/2 [00:00<00:00, 233.75it/s]
+    100%|██████████| 2/2 [00:00<00:00, 221.06it/s]
 
 
 
@@ -265,7 +265,7 @@ id_cols = ['sgRNA Context Sequence', 'Target Cut Length', 'Target Transcript', '
 #### Amino acid sequence input
 
 To calculate the amino acid sequence matrix, you must first load the complete sequence from ensembl using the
-`build_transcript_aa_seq_df`. See the documentation for the `predicttarget` module for an example of how to
+`build_transcript_aa_seq_df`. See the documentation for the `predicttarg` module for an example of how to
 use this function.
 
 In this example we will use amino acid sequences that have been precalculated using the `write_transcript_data`
@@ -619,9 +619,9 @@ aa_subseq_df.head()
       <th>id</th>
       <th>AA len</th>
       <th>Target Cut Length</th>
+      <th>sgRNA Context Sequence</th>
       <th>Orientation</th>
       <th>AA Index</th>
-      <th>sgRNA Context Sequence</th>
       <th>extended_seq</th>
       <th>AA 0-Indexed</th>
       <th>AA 0-Indexed padded</th>
@@ -643,9 +643,9 @@ aa_subseq_df.head()
       <td>ENSP00000259457</td>
       <td>277</td>
       <td>191</td>
+      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
       <td>sense</td>
       <td>64</td>
-      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>63</td>
       <td>80</td>
@@ -665,9 +665,9 @@ aa_subseq_df.head()
       <td>ENSP00000259457</td>
       <td>277</td>
       <td>137</td>
+      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
       <td>sense</td>
       <td>46</td>
-      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>45</td>
       <td>62</td>
@@ -687,9 +687,9 @@ aa_subseq_df.head()
       <td>ENSP00000377793</td>
       <td>620</td>
       <td>316</td>
+      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
       <td>sense</td>
       <td>106</td>
-      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>105</td>
       <td>122</td>
@@ -709,9 +709,9 @@ aa_subseq_df.head()
       <td>ENSP00000377793</td>
       <td>620</td>
       <td>787</td>
+      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
       <td>antisense</td>
       <td>263</td>
-      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>262</td>
       <td>279</td>
@@ -731,9 +731,9 @@ aa_subseq_df.head()
       <td>ENSP00000354522</td>
       <td>765</td>
       <td>420</td>
+      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
       <td>antisense</td>
       <td>140</td>
-      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
       <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
       <td>139</td>
       <td>156</td>
@@ -1772,7 +1772,18 @@ import gpplot
 import seaborn as sns
 ```
 
-As an example, we calculate predictions for GeckoV2 sgRNAs. The `predict` function allows for parallel computation
+#### Preloaded data
+
+In this first example with the `predict` function, we calculate predictions for GeckoV2 sgRNAs.
+
+In this example the amino acid sequences, protein domains and conservation scores were prequeried using the
+`write_transcript_data` and `write_conservation_data` functions from the targetdata module.
+Pre-querying these data can be helpful for large scale design runs.
+
+You can also use the `predict` function without pre-querying and calculate
+scores on the fly. You can see an example of this in the next section.
+
+The `predict` function allows for parallel computation
 for querying databases (`n_jobs_min`) and featurizing sgRNAs (`n_jobs_max`).
 We recommend keeping `n_jobs_min` set to 1 or 2, as the APIs limit the amount of queries per hour.
 
@@ -1795,13 +1806,13 @@ scored_designs.head()
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:03<00:00, 102.40it/s]
+    100%|██████████| 400/400 [00:04<00:00, 83.95it/s] 
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:00<00:00, 2070.60it/s]
+    100%|██████████| 400/400 [00:00<00:00, 1205.43it/s]
     /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
     /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
@@ -1991,10 +2002,6 @@ Here are the details for the keyword arguments of the above function
 By listing both tracrRNAs `tracr=['Hsu2013', 'Chen2013']` and setting `target=True`,
 we calculate 5 unique scores: one sequence score for each tracr, the target score,
 and the sequence scores plus the target score.
-
-In this example the amino acid sequences, protein domains and conservation scores were prequeried using the
-`write_transcript_data` and `write_consevation_data` functions from the targetdata module.
-Pre-querying these data can be helpful for large scale design runs.
 
 We can compare these predictions against the observed activity from GeckoV2
 
@@ -2261,7 +2268,6 @@ gecko_activity_scores.head()
 Since GeckoV2 was screened with the tracrRNA from Hsu et al. 2013, we'll use these scores sequence scores a part of our final prediction.
 
 ```
-
 plt.subplots(figsize=(4,4))
 gpplot.point_densityplot(gecko_activity_scores, y='avg_mean_centered_neg_lfc',
                          x='RS3 Sequence (Hsu2013 tracr) + Target Score')
@@ -2272,4 +2278,376 @@ sns.despine()
 
 
 ![png](docs/images/output_42_0.png)
+
+
+#### Predictions on the fly
+
+You can also make predictions without pre-querying the target data. Here
+we use example designs for BCL2L1, MCL1 and EEF2.
+
+```
+design_df = pd.read_table('test_data/sgrna-designs_BCL2L1_MCL1_EEF2.txt')
+```
+
+```
+scored_designs = predict(design_df,
+                         tracr=['Hsu2013', 'Chen2013'], target=True,
+                         n_jobs_min=2, n_jobs_max=8,
+                         lite=False)
+scored_designs
+```
+
+    Calculating sequence-based features
+
+
+    100%|██████████| 849/849 [00:00<00:00, 1463.81it/s]
+
+
+    Calculating sequence-based features
+
+
+    100%|██████████| 849/849 [00:00<00:00, 2198.00it/s]
+
+
+    Getting amino acid sequences
+
+
+    100%|██████████| 1/1 [00:00<00:00,  5.36it/s]
+
+
+    Getting protein domains
+
+
+    100%|██████████| 3/3 [00:00<00:00, 2371.45it/s]
+
+
+    Getting conservation
+
+
+    100%|██████████| 3/3 [00:00<00:00, 25.88it/s]
+    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+      warnings.warn(
+    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+      warnings.warn(
+
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Input</th>
+      <th>Quota</th>
+      <th>Target Taxon</th>
+      <th>Target Gene ID</th>
+      <th>Target Gene Symbol</th>
+      <th>Target Transcript</th>
+      <th>Target Alias</th>
+      <th>CRISPR Mechanism</th>
+      <th>Target Domain</th>
+      <th>Reference Sequence</th>
+      <th>...</th>
+      <th>Picking Round</th>
+      <th>Picking Notes</th>
+      <th>RS3 Sequence Score (Hsu2013 tracr)</th>
+      <th>RS3 Sequence Score (Chen2013 tracr)</th>
+      <th>AA Index</th>
+      <th>Transcript Base</th>
+      <th>Missing conservation information</th>
+      <th>Target Score</th>
+      <th>RS3 Sequence (Hsu2013 tracr) + Target Score</th>
+      <th>RS3 Sequence (Chen2013 tracr) + Target Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>EEF2</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000167658</td>
+      <td>EEF2</td>
+      <td>ENST00000309311.7</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000019.10</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Outside Target Window: 5-65%</td>
+      <td>0.935416</td>
+      <td>0.799237</td>
+      <td>666</td>
+      <td>ENST00000309311</td>
+      <td>False</td>
+      <td>-0.115549</td>
+      <td>0.819867</td>
+      <td>0.683689</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>EEF2</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000167658</td>
+      <td>EEF2</td>
+      <td>ENST00000309311.7</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000019.10</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>BsmBI:CGTCTC; Outside Target Window: 5-65%</td>
+      <td>0.176762</td>
+      <td>0.064882</td>
+      <td>581</td>
+      <td>ENST00000309311</td>
+      <td>False</td>
+      <td>-0.017643</td>
+      <td>0.159119</td>
+      <td>0.047239</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>EEF2</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000167658</td>
+      <td>EEF2</td>
+      <td>ENST00000309311.7</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000019.10</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.349643</td>
+      <td>0.533079</td>
+      <td>107</td>
+      <td>ENST00000309311</td>
+      <td>False</td>
+      <td>0.172910</td>
+      <td>1.522552</td>
+      <td>0.705989</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>EEF2</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000167658</td>
+      <td>EEF2</td>
+      <td>ENST00000309311.7</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000019.10</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>0.879892</td>
+      <td>-0.029800</td>
+      <td>406</td>
+      <td>ENST00000309311</td>
+      <td>False</td>
+      <td>0.121034</td>
+      <td>1.000926</td>
+      <td>0.091234</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>EEF2</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000167658</td>
+      <td>EEF2</td>
+      <td>ENST00000309311.7</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000019.10</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>0.860174</td>
+      <td>0.386281</td>
+      <td>546</td>
+      <td>ENST00000309311</td>
+      <td>False</td>
+      <td>0.036041</td>
+      <td>0.896215</td>
+      <td>0.422322</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>844</th>
+      <td>MCL1</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000143384</td>
+      <td>MCL1</td>
+      <td>ENST00000369026.3</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000001.11</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Off-target Match Bin I matches &gt; 3; Spacing Vi...</td>
+      <td>-0.459566</td>
+      <td>-0.357175</td>
+      <td>52</td>
+      <td>ENST00000369026</td>
+      <td>False</td>
+      <td>-0.299583</td>
+      <td>-0.759149</td>
+      <td>-0.656758</td>
+    </tr>
+    <tr>
+      <th>845</th>
+      <td>MCL1</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000143384</td>
+      <td>MCL1</td>
+      <td>ENST00000369026.3</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000001.11</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Outside Target Window: 5-65%; poly(T):TTTT</td>
+      <td>-1.818456</td>
+      <td>-1.718872</td>
+      <td>5</td>
+      <td>ENST00000369026</td>
+      <td>False</td>
+      <td>-0.003507</td>
+      <td>-1.821962</td>
+      <td>-1.722379</td>
+    </tr>
+    <tr>
+      <th>846</th>
+      <td>MCL1</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000143384</td>
+      <td>MCL1</td>
+      <td>ENST00000369026.3</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000001.11</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Spacing Violation: Too close to earlier pick a...</td>
+      <td>-1.036048</td>
+      <td>-1.231021</td>
+      <td>24</td>
+      <td>ENST00000369026</td>
+      <td>False</td>
+      <td>-0.285485</td>
+      <td>-1.321533</td>
+      <td>-1.516506</td>
+    </tr>
+    <tr>
+      <th>847</th>
+      <td>MCL1</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000143384</td>
+      <td>MCL1</td>
+      <td>ENST00000369026.3</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000001.11</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>Spacing Violation: Too close to earlier pick a...</td>
+      <td>-0.862146</td>
+      <td>-0.851444</td>
+      <td>30</td>
+      <td>ENST00000369026</td>
+      <td>False</td>
+      <td>-0.312348</td>
+      <td>-1.174494</td>
+      <td>-1.163792</td>
+    </tr>
+    <tr>
+      <th>848</th>
+      <td>MCL1</td>
+      <td>5</td>
+      <td>9606</td>
+      <td>ENSG00000143384</td>
+      <td>MCL1</td>
+      <td>ENST00000369026.3</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>NC_000001.11</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>On-Target Efficacy Score &lt; 0.2; Spacing Violat...</td>
+      <td>-0.764290</td>
+      <td>-0.836055</td>
+      <td>30</td>
+      <td>ENST00000369026</td>
+      <td>False</td>
+      <td>-0.312348</td>
+      <td>-1.076638</td>
+      <td>-1.148403</td>
+    </tr>
+  </tbody>
+</table>
+<p>849 rows × 61 columns</p>
+</div>
+
+
+
+We see that the predict function is querying the target data in addition
+to making predictions.
+
 
