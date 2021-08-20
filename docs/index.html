@@ -37,8 +37,21 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can install the latest releas of rs3 from pypi using</p>
+<p>You can install the latest release of rs3 from pypi using</p>
 <p><code>pip install rs3</code></p>
+<p>For mac users you may also have to brew install the OpenMP library</p>
+<p><code>brew install libomp</code></p>
+<p>or install lightgbm without Openmp</p>
+<p><code>pip install lightgbm --install-option=--nomp</code></p>
+<p>See the <a href="https://github.com/microsoft/LightGBM/tree/master/python-package">LightGBM documentation</a>
+for more information</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Documentation">Documentation<a class="anchor-link" href="#Documentation"> </a></h2><p>You can see the complete documentation for Rule Set 3 <a href="https://gpp-rnd.github.io/rs3/">here</a>.</p>
 
 </div>
 </div>
@@ -51,7 +64,7 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Import packages</p>
+<p>To calculate Rule Set 3 (sequence) scores, import the predict_seq function from the seq module.</p>
 
 </div>
 </div>
@@ -75,7 +88,7 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Create a list of context sequences you want to predict</p>
+<p>You can store the 30mer context sequences you want to predict as a list.</p>
 
 </div>
 </div>
@@ -99,10 +112,11 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can predict on-target scores for sequences using the <a href="/rs3/seq.html#predict_seq"><code>predict_seq</code></a> function, specifying either
+<p>You can specify either the
 <a href="https://www.nature.com/articles/nbt.2647">Hsu2013</a> or
 <a href="https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub">Chen2013</a>
-as the tracrRNA to score with</p>
+as the tracrRNA to score with.
+We generally find any tracrRNA that does not have a T in the fifth position is better predicted with the Chen2013 input.</p>
 
 </div>
 </div>
@@ -135,7 +149,7 @@ as the tracrRNA to score with</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 2/2 [00:00&lt;00:00, 247.15it/s]
+<pre>100%|██████████| 2/2 [00:00&lt;00:00, 233.75it/s]
 </pre>
 </div>
 </div>
@@ -158,8 +172,9 @@ as the tracrRNA to score with</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Target-and-sequence-scores">Target and sequence scores<a class="anchor-link" href="#Target-and-sequence-scores"> </a></h3><p>Using the <a href="/rs3/predict.html"><code>predict</code></a> function we can calculate both target scores and sequence scores. Target-based scores use
-information such as amino acid sequence and whether the sgRNA targets in a protein domain.</p>
+<h3 id="Target-based-model">Target based model<a class="anchor-link" href="#Target-based-model"> </a></h3><p>To get target scores, which use features at the endogenous target site to make predictions,
+you must build or load feature matrices for the amino acid sequences, conservation scores, and protein domains.</p>
+<p>As an example, we'll calculate target scores for 250 sgRNAs in the GeckoV2 library.</p>
 
 </div>
 </div>
@@ -172,10 +187,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">rs3.predict</span> <span class="kn">import</span> <span class="n">predict</span>
-<span class="kn">import</span> <span class="nn">gpplot</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">rs3.predicttarg</span> <span class="kn">import</span> <span class="n">predict_target</span>
+<span class="kn">from</span> <span class="nn">rs3.targetfeat</span> <span class="kn">import</span> <span class="p">(</span><span class="n">add_target_columns</span><span class="p">,</span>
+                            <span class="n">get_aa_subseq_df</span><span class="p">,</span>
+                            <span class="n">get_protein_domain_features</span><span class="p">,</span>
+                            <span class="n">get_conservation_features</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -185,13 +201,6 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We'll use a list of ~250 sgRNA from the GeckoV2 library as an example dataset</p>
-
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -200,7 +209,7 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;test_data/sgrna-designs.txt&#39;</span><span class="p">)</span>
-<span class="n">design_df</span>
+<span class="n">design_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -376,153 +385,249 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>1</td>
       <td>NaN</td>
     </tr>
-    <tr>
+  </tbody>
+</table>
+<p>5 rows × 60 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Throughout the analysis we will be using a core set of ID columns to merge the feature matrices. These ID columns
+should uniquely identify an sgRNA and its target site.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">id_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut Length&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Transcript&#39;</span><span class="p">,</span> <span class="s1">&#39;Orientation&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Amino-acid-sequence-input">Amino acid sequence input<a class="anchor-link" href="#Amino-acid-sequence-input"> </a></h4><p>To calculate the amino acid sequence matrix, you must first load the complete sequence from ensembl using the
+<a href="/rs3/targetdata.html#build_transcript_aa_seq_df"><code>build_transcript_aa_seq_df</code></a>. See the documentation for the <code>predicttarget</code> module for an example of how to
+use this function.</p>
+<p>In this example we will use amino acid sequences that have been precalculated using the <a href="/rs3/targetdata.html#write_transcript_data"><code>write_transcript_data</code></a>
+function in the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module. Check out the documentation for this module for more information on
+how to use this function.</p>
+<p>We use pyarrow to read the written transcript data.
+The stored transcripts are indexed by their Ensembl ID without the version number identifier.
+To get this shortened version of the Ensembl ID use the <a href="/rs3/targetfeat.html#add_target_columns"><code>add_target_columns</code></a> function from the <a href="/rs3/targetfeat.html"><code>targetfeat</code></a> module.
+This function adds the 'Transcript Base' column as well as a column indicating the amino acid index ('AA Index')
+of the cut site. The 'AA Index' column will be used for merging with the amino acid translations.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_targ_df</span> <span class="o">=</span> <span class="n">add_target_columns</span><span class="p">(</span><span class="n">design_df</span><span class="p">)</span>
+<span class="n">design_targ_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Input</th>
+      <th>Quota</th>
+      <th>Target Taxon</th>
+      <th>Target Gene ID</th>
+      <th>Target Gene Symbol</th>
+      <th>Target Transcript</th>
+      <th>Target Reference Coords</th>
+      <th>Target Alias</th>
+      <th>CRISPR Mechanism</th>
+      <th>Target Domain</th>
       <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
+      <th>Combined Rank</th>
+      <th>Preselected As</th>
+      <th>Matching Active Arrayed Oligos</th>
+      <th>Matching Arrayed Constructs</th>
+      <th>Pools Containing Matching Construct</th>
+      <th>Pick Order</th>
+      <th>Picking Round</th>
+      <th>Picking Notes</th>
+      <th>AA Index</th>
+      <th>Transcript Base</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
-      <th>395</th>
-      <td>RFC5</td>
+      <th>0</th>
+      <td>PSMB7</td>
       <td>2</td>
       <td>9606</td>
-      <td>ENSG00000111445</td>
-      <td>RFC5</td>
-      <td>ENST00000454402.7</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>23</td>
-      <td>TTTATATAGCTGTTTCGCAC</td>
+      <td>7</td>
+      <td>GCAGATACAAGAGCAACTGA</td>
+      <td>NaN</td>
+      <td>BRDN0004619103</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>64</td>
+      <td>ENST00000259457</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>48</td>
+      <td>AAAACTGGCACGACCATCGC</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>46</td>
+      <td>ENST00000259457</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>7</td>
+      <td>AAAAGATTTGCGCACCCAAG</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
+      <td>106</td>
+      <td>ENST00000394249</td>
     </tr>
     <tr>
-      <th>396</th>
-      <td>NXT1</td>
+      <th>3</th>
+      <td>PRC1</td>
       <td>2</td>
       <td>9606</td>
-      <td>ENSG00000132661</td>
-      <td>NXT1</td>
-      <td>ENST00000254998.3</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>3</td>
+      <td>8</td>
+      <td>CTTTGACCCAGACATAATGG</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>BRDN0002419367</td>
       <td>NaN</td>
       <td>2</td>
-      <td>1</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>397</th>
-      <td>NXT1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000132661</td>
-      <td>NXT1</td>
-      <td>ENST00000254998.3</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>31</td>
-      <td>TTTGCTGTCCCGCCTGTACA</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1</td>
       <td>0</td>
       <td>Preselected</td>
+      <td>263</td>
+      <td>ENST00000394249</td>
     </tr>
     <tr>
-      <th>398</th>
-      <td>NOL10</td>
+      <th>4</th>
+      <td>TOP1</td>
       <td>2</td>
       <td>9606</td>
-      <td>ENSG00000115761</td>
-      <td>NOL10</td>
-      <td>ENST00000381685.10</td>
+      <td>ENSG00000198900</td>
+      <td>TOP1</td>
+      <td>ENST00000361337.3</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>CRISPRko</td>
       <td>CDS</td>
       <td>...</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>3</td>
+      <td>1</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>NaN</td>
+      <td>BRDN0001486452</td>
       <td>NaN</td>
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
-    </tr>
-    <tr>
-      <th>399</th>
-      <td>NOL10</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000115761</td>
-      <td>NOL10</td>
-      <td>ENST00000381685.10</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>14</td>
-      <td>TTTGTCTGATGACTACTCAA</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
+      <td>140</td>
+      <td>ENST00000361337</td>
     </tr>
   </tbody>
 </table>
-<p>400 rows × 60 columns</p>
+<p>5 rows × 62 columns</p>
 </div>
 </div>
 
@@ -541,10 +646,1845 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">transcript_bases</span> <span class="o">=</span> <span class="n">design_targ_df</span><span class="p">[</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">transcript_bases</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([&#39;ENST00000259457&#39;, &#39;ENST00000394249&#39;, &#39;ENST00000361337&#39;,
+       &#39;ENST00000368328&#39;, &#39;ENST00000610426&#39;], dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_seq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;test_data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pyarrow&#39;</span><span class="p">,</span>
+                            <span class="n">filters</span><span class="o">=</span><span class="p">[[(</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">transcript_bases</span><span class="p">)]])</span>
+<span class="n">aa_seq_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Target Transcript</th>
+      <th>Target Total Length</th>
+      <th>Transcript Base</th>
+      <th>version</th>
+      <th>seq</th>
+      <th>molecule</th>
+      <th>desc</th>
+      <th>id</th>
+      <th>AA len</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ENST00000259457.8</td>
+      <td>834</td>
+      <td>ENST00000259457</td>
+      <td>3</td>
+      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000259457</td>
+      <td>277</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ENST00000394249.8</td>
+      <td>1863</td>
+      <td>ENST00000394249</td>
+      <td>3</td>
+      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000377793</td>
+      <td>620</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ENST00000361337.3</td>
+      <td>2298</td>
+      <td>ENST00000361337</td>
+      <td>2</td>
+      <td>MSGDHLHNDSQIEADFRLNDSHKHKDKHKDREHRHKEHKKEKDREK...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000354522</td>
+      <td>765</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ENST00000368328.5</td>
+      <td>267</td>
+      <td>ENST00000368328</td>
+      <td>4</td>
+      <td>MALSTIVSQRKQIKRKAPRGFLKRVFKRKKPQLRLEKSGDLLVHLN...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000357311</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ENST00000610426.5</td>
+      <td>783</td>
+      <td>ENST00000610426</td>
+      <td>1</td>
+      <td>MPQNEYIELHRKRYGYRLDYHEKKRKKESREAHERSKKAKKMIGLK...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000483484</td>
+      <td>260</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the complete transcript translations, we extract an amino acid subsequence as input to our model. The subsequence
+is centered around the amino acid encoded by the nucleotide preceding the cut site in the direction of transcription.
+This is the nucleotide that corresponds to the 'Target Cut Length' in a CRISPick design file.
+We take 16 amino acids on either side of the cut site for a total sequence length of 33.</p>
+<p>The <a href="/rs3/targetfeat.html#get_aa_subseq_df"><code>get_aa_subseq_df</code></a> from the <a href="/rs3/targetfeat.html"><code>targetfeat</code></a> module will calculate these subsequences
+from the complete amino acid sequences.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">aa_subseq_df</span> <span class="o">=</span> <span class="n">get_aa_subseq_df</span><span class="p">(</span><span class="n">sg_designs</span><span class="o">=</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">aa_seq_df</span><span class="o">=</span><span class="n">aa_seq_df</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">aa_subseq_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Target Transcript</th>
+      <th>Target Total Length</th>
+      <th>Transcript Base</th>
+      <th>version</th>
+      <th>seq</th>
+      <th>molecule</th>
+      <th>desc</th>
+      <th>id</th>
+      <th>AA len</th>
+      <th>Target Cut Length</th>
+      <th>Orientation</th>
+      <th>AA Index</th>
+      <th>sgRNA Context Sequence</th>
+      <th>extended_seq</th>
+      <th>AA 0-Indexed</th>
+      <th>AA 0-Indexed padded</th>
+      <th>seq_start</th>
+      <th>seq_end</th>
+      <th>AA Subsequence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ENST00000259457.8</td>
+      <td>834</td>
+      <td>ENST00000259457</td>
+      <td>3</td>
+      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000259457</td>
+      <td>277</td>
+      <td>191</td>
+      <td>sense</td>
+      <td>64</td>
+      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
+      <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
+      <td>63</td>
+      <td>80</td>
+      <td>64</td>
+      <td>96</td>
+      <td>GVVYKDGIVLGADTRATEGMVVADKNCSKIHFI</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ENST00000259457.8</td>
+      <td>834</td>
+      <td>ENST00000259457</td>
+      <td>3</td>
+      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000259457</td>
+      <td>277</td>
+      <td>137</td>
+      <td>sense</td>
+      <td>46</td>
+      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
+      <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
+      <td>45</td>
+      <td>62</td>
+      <td>46</td>
+      <td>78</td>
+      <td>AKRGYKLPKVRKTGTTIAGVVYKDGIVLGADTR</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ENST00000394249.8</td>
+      <td>1863</td>
+      <td>ENST00000394249</td>
+      <td>3</td>
+      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000377793</td>
+      <td>620</td>
+      <td>316</td>
+      <td>sense</td>
+      <td>106</td>
+      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
+      <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
+      <td>105</td>
+      <td>122</td>
+      <td>106</td>
+      <td>138</td>
+      <td>EEGETTILQLEKDLRTQVELMRKQKKERKQELK</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ENST00000394249.8</td>
+      <td>1863</td>
+      <td>ENST00000394249</td>
+      <td>3</td>
+      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000377793</td>
+      <td>620</td>
+      <td>787</td>
+      <td>antisense</td>
+      <td>263</td>
+      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
+      <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
+      <td>262</td>
+      <td>279</td>
+      <td>263</td>
+      <td>295</td>
+      <td>WDRLQIPEEEREAVATIMSGSKAKVRKALQLEV</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ENST00000361337.3</td>
+      <td>2298</td>
+      <td>ENST00000361337</td>
+      <td>2</td>
+      <td>MSGDHLHNDSQIEADFRLNDSHKHKDKHKDREHRHKEHKKEKDREK...</td>
+      <td>protein</td>
+      <td>None</td>
+      <td>ENSP00000354522</td>
+      <td>765</td>
+      <td>420</td>
+      <td>antisense</td>
+      <td>140</td>
+      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
+      <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
+      <td>139</td>
+      <td>156</td>
+      <td>140</td>
+      <td>172</td>
+      <td>GYFVPPKEDIKPLKRPRDEDDADYKPKKIKTED</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Lite-Scores">Lite Scores<a class="anchor-link" href="#Lite-Scores"> </a></h4><p>You now have all the information you need to calculate "lite" Target Scores, which are less data intensive than complete
+target scores, with the <a href="/rs3/predicttarg.html#predict_target"><code>predict_target</code></a> function from the <a href="/rs3/predicttarg.html"><code>predicttarg</code></a> module.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lite_predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
+                                  <span class="n">aa_subseq_df</span><span class="o">=</span><span class="n">aa_subseq_df</span><span class="p">)</span>
+<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score Lite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lite_predictions</span>
+<span class="n">design_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Input</th>
+      <th>Quota</th>
+      <th>Target Taxon</th>
+      <th>Target Gene ID</th>
+      <th>Target Gene Symbol</th>
+      <th>Target Transcript</th>
+      <th>Target Reference Coords</th>
+      <th>Target Alias</th>
+      <th>CRISPR Mechanism</th>
+      <th>Target Domain</th>
+      <th>...</th>
+      <th>Off-Target Rank Weight</th>
+      <th>Combined Rank</th>
+      <th>Preselected As</th>
+      <th>Matching Active Arrayed Oligos</th>
+      <th>Matching Arrayed Constructs</th>
+      <th>Pools Containing Matching Construct</th>
+      <th>Pick Order</th>
+      <th>Picking Round</th>
+      <th>Picking Notes</th>
+      <th>Target Score Lite</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>7</td>
+      <td>GCAGATACAAGAGCAACTGA</td>
+      <td>NaN</td>
+      <td>BRDN0004619103</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.012467</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>48</td>
+      <td>AAAACTGGCACGACCATCGC</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.048338</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>7</td>
+      <td>AAAAGATTTGCGCACCCAAG</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>-0.129234</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>8</td>
+      <td>CTTTGACCCAGACATAATGG</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.061647</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TOP1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198900</td>
+      <td>TOP1</td>
+      <td>ENST00000361337.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>BRDN0001486452</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>-0.009100</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 61 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you would like to calculate full target scores then follow the sections below.</p>
+<h4 id="Protein-domain-input">Protein domain input<a class="anchor-link" href="#Protein-domain-input"> </a></h4><p>To calculate full target scores you will also need inputs for protein domains and conservation.</p>
+<p>The protein domain input should have 16 binary columns for 16 different protein domain sources in addition to the
+<code>id_cols</code>. The protein domain sources are 'Pfam', 'PANTHER', 'HAMAP', 'SuperFamily', 'TIGRfam', 'ncoils', 'Gene3D',
+'Prosite_patterns', 'Seg', 'SignalP', 'TMHMM', 'MobiDBLite', 'PIRSF', 'PRINTS', 'Smart', 'Prosite_profiles'.
+These columns should be kept in order when inputting for scoring.</p>
+<p>In this example we will load the protein domain information from a parquet file, which was written
+using <a href="/rs3/targetdata.html#write_transcript_data"><code>write_transcript_data</code></a> function in the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module. You can also query transcript data on the fly,
+by using the <a href="/rs3/targetdata.html#build_translation_overlap_df"><code>build_translation_overlap_df</code></a> function. See the documentation for the <a href="/rs3/predicttarg.html"><code>predicttarg</code></a> module for more
+information on how to do this.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;test_data/target_data/protein_domains.pq&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pyarrow&#39;</span><span class="p">,</span>
+                            <span class="n">filters</span><span class="o">=</span><span class="p">[[(</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">transcript_bases</span><span class="p">)]])</span>
+<span class="n">domain_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>type</th>
+      <th>cigar_string</th>
+      <th>id</th>
+      <th>hit_end</th>
+      <th>feature_type</th>
+      <th>description</th>
+      <th>seq_region_name</th>
+      <th>end</th>
+      <th>hit_start</th>
+      <th>translation_id</th>
+      <th>interpro</th>
+      <th>hseqname</th>
+      <th>Transcript Base</th>
+      <th>align_type</th>
+      <th>start</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Pfam</td>
+      <td></td>
+      <td>PF12465</td>
+      <td>36</td>
+      <td>protein_feature</td>
+      <td>Proteasome beta subunit, C-terminal</td>
+      <td>ENSP00000259457</td>
+      <td>271</td>
+      <td>1</td>
+      <td>976188</td>
+      <td>IPR024689</td>
+      <td>PF12465</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>235</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Pfam</td>
+      <td></td>
+      <td>PF00227</td>
+      <td>190</td>
+      <td>protein_feature</td>
+      <td>Proteasome, subunit alpha/beta</td>
+      <td>ENSP00000259457</td>
+      <td>221</td>
+      <td>2</td>
+      <td>976188</td>
+      <td>IPR001353</td>
+      <td>PF00227</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PRINTS</td>
+      <td></td>
+      <td>PR00141</td>
+      <td>0</td>
+      <td>protein_feature</td>
+      <td>Peptidase T1A, proteasome beta-subunit</td>
+      <td>ENSP00000259457</td>
+      <td>66</td>
+      <td>0</td>
+      <td>976188</td>
+      <td>IPR000243</td>
+      <td>PR00141</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PRINTS</td>
+      <td></td>
+      <td>PR00141</td>
+      <td>0</td>
+      <td>protein_feature</td>
+      <td>Peptidase T1A, proteasome beta-subunit</td>
+      <td>ENSP00000259457</td>
+      <td>182</td>
+      <td>0</td>
+      <td>976188</td>
+      <td>IPR000243</td>
+      <td>PR00141</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>171</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PRINTS</td>
+      <td></td>
+      <td>PR00141</td>
+      <td>0</td>
+      <td>protein_feature</td>
+      <td>Peptidase T1A, proteasome beta-subunit</td>
+      <td>ENSP00000259457</td>
+      <td>193</td>
+      <td>0</td>
+      <td>976188</td>
+      <td>IPR000243</td>
+      <td>PR00141</td>
+      <td>ENST00000259457</td>
+      <td>None</td>
+      <td>182</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now to transform the <code>domain_df</code> into a wide form for model input, we use the <a href="/rs3/targetfeat.html#get_protein_domain_features"><code>get_protein_domain_features</code></a> function
+from the <a href="/rs3/targetfeat.html"><code>targetfeat</code></a> module.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">domain_feature_df</span> <span class="o">=</span> <span class="n">get_protein_domain_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">domain_df</span><span class="p">,</span> <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">domain_feature_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sgRNA Context Sequence</th>
+      <th>Target Cut Length</th>
+      <th>Target Transcript</th>
+      <th>Orientation</th>
+      <th>Pfam</th>
+      <th>PANTHER</th>
+      <th>HAMAP</th>
+      <th>SuperFamily</th>
+      <th>TIGRfam</th>
+      <th>ncoils</th>
+      <th>Gene3D</th>
+      <th>Prosite_patterns</th>
+      <th>Seg</th>
+      <th>SignalP</th>
+      <th>TMHMM</th>
+      <th>MobiDBLite</th>
+      <th>PIRSF</th>
+      <th>PRINTS</th>
+      <th>Smart</th>
+      <th>Prosite_profiles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAAAGAATGATGAAAAGACACCACAGGGAG</td>
+      <td>244</td>
+      <td>ENST00000610426.5</td>
+      <td>sense</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AAAAGAGCCATGAATCTAAACATCAGGAAT</td>
+      <td>640</td>
+      <td>ENST00000223073.6</td>
+      <td>sense</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AAAAGCGCCAAATGGCCCGAGAATTGGGAG</td>
+      <td>709</td>
+      <td>ENST00000331923.9</td>
+      <td>sense</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AAACAGAAAAAGTTAAAATCACCAAGGTGT</td>
+      <td>496</td>
+      <td>ENST00000283882.4</td>
+      <td>sense</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AAACAGATGGAAGATGCTTACCGGGGGACC</td>
+      <td>132</td>
+      <td>ENST00000393047.8</td>
+      <td>sense</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For input into the <a href="/rs3/predicttarg.html#predict_target"><code>predict_target</code></a> function, the <code>domain_feature_df</code> should have the <code>id_cols</code> as well as
+columns for each of the 16 protein domain features.</p>
+<h4 id="Conservation-input">Conservation input<a class="anchor-link" href="#Conservation-input"> </a></h4><p>Finally, for the full target model you need to calculate conservation features.
+The conservation features represent conservation across evolutionary time at the sgRNA cut site and are quantified
+using PhyloP scores. These scores are available for download by the UCSC genome browser
+for <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/">hg38</a> (phyloP100way),
+and <a href="https://hgdownload.soe.ucsc.edu/goldenPath/mm39/database/">mm39</a> (phyloP35way).</p>
+<p>Within this package we query conservation scores using the UCSC genome browser's
+<a href="http://genome.ucsc.edu/goldenPath/help/api.html">REST API</a>.
+To get conservation scores, you can use the <a href="/rs3/targetdata.html#build_conservation_df"><code>build_conservation_df</code></a> function from the <a href="/rs3/targetdata.html"><code>targetdata</code></a> module.
+Here we load conservation scores, which were written to parquet using the <a href="/rs3/targetdata.html#write_conservation_data"><code>write_conservation_data</code></a> function from the
+<a href="/rs3/targetdata.html"><code>targetdata</code></a> module.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conservation_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;test_data/target_data/conservation.pq&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pyarrow&#39;</span><span class="p">,</span>
+                                  <span class="n">filters</span><span class="o">=</span><span class="p">[[(</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">transcript_bases</span><span class="p">)]])</span>
+<span class="n">conservation_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>exon_id</th>
+      <th>genomic position</th>
+      <th>conservation</th>
+      <th>Transcript Base</th>
+      <th>target position</th>
+      <th>chromosome</th>
+      <th>genome</th>
+      <th>translation length</th>
+      <th>Target Transcript</th>
+      <th>Strand of Target</th>
+      <th>Target Total Length</th>
+      <th>ranked_conservation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ENSE00001866322</td>
+      <td>124415425.0</td>
+      <td>6.46189</td>
+      <td>ENST00000259457</td>
+      <td>1</td>
+      <td>9</td>
+      <td>hg38</td>
+      <td>277</td>
+      <td>ENST00000259457.8</td>
+      <td>-</td>
+      <td>834</td>
+      <td>0.639089</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ENSE00001866322</td>
+      <td>124415424.0</td>
+      <td>7.48071</td>
+      <td>ENST00000259457</td>
+      <td>2</td>
+      <td>9</td>
+      <td>hg38</td>
+      <td>277</td>
+      <td>ENST00000259457.8</td>
+      <td>-</td>
+      <td>834</td>
+      <td>0.686451</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ENSE00001866322</td>
+      <td>124415423.0</td>
+      <td>6.36001</td>
+      <td>ENST00000259457</td>
+      <td>3</td>
+      <td>9</td>
+      <td>hg38</td>
+      <td>277</td>
+      <td>ENST00000259457.8</td>
+      <td>-</td>
+      <td>834</td>
+      <td>0.622902</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ENSE00001866322</td>
+      <td>124415422.0</td>
+      <td>6.36001</td>
+      <td>ENST00000259457</td>
+      <td>4</td>
+      <td>9</td>
+      <td>hg38</td>
+      <td>277</td>
+      <td>ENST00000259457.8</td>
+      <td>-</td>
+      <td>834</td>
+      <td>0.622902</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ENSE00001866322</td>
+      <td>124415421.0</td>
+      <td>8.09200</td>
+      <td>ENST00000259457</td>
+      <td>5</td>
+      <td>9</td>
+      <td>hg38</td>
+      <td>277</td>
+      <td>ENST00000259457.8</td>
+      <td>-</td>
+      <td>834</td>
+      <td>0.870504</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We normalize conservation scores to a within-gene percent rank, in the 'ranked_conservation' column,
+in order to make scores comparable across genes and genomes. Note that a rank of 0 indicates the
+least conserved nucleotide and a rank of 1 indicates the most conserved.</p>
+<p>To featurize the conservation scores, we average across a window of 4 and 32 nucleotides
+centered around the nucleotide preceding the cut site in the direction of transcription.
+Note that this nucleotide is the 2nd nucleotide in the window of 4 and the 16th nucleotide in the window of 32.</p>
+<p>We use the <a href="/rs3/targetfeat.html#get_conservation_features"><code>get_conservation_features</code></a> function from the <a href="/rs3/targetfeat.html"><code>targetfeat</code></a> module to get these features from the
+<code>conservation_df</code>.</p>
+<p>For the <code>predict_targ</code> function, we need the <code>id_cols</code> and the columns 'cons_4' and 'cons_32' in the
+<code>conservation_feature_df</code>.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conservation_feature_df</span> <span class="o">=</span> <span class="n">get_conservation_features</span><span class="p">(</span><span class="n">design_targ_df</span><span class="p">,</span> <span class="n">conservation_df</span><span class="p">,</span>
+                                                    <span class="n">small_width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">large_width</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                                    <span class="n">conservation_column</span><span class="o">=</span><span class="s1">&#39;ranked_conservation&#39;</span><span class="p">,</span>
+                                                    <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">conservation_feature_df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sgRNA Context Sequence</th>
+      <th>Target Cut Length</th>
+      <th>Target Transcript</th>
+      <th>Orientation</th>
+      <th>cons_4</th>
+      <th>cons_32</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAAAGAATGATGAAAAGACACCACAGGGAG</td>
+      <td>244</td>
+      <td>ENST00000610426.5</td>
+      <td>sense</td>
+      <td>0.218231</td>
+      <td>0.408844</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AAAAGAGCCATGAATCTAAACATCAGGAAT</td>
+      <td>640</td>
+      <td>ENST00000223073.6</td>
+      <td>sense</td>
+      <td>0.129825</td>
+      <td>0.278180</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AAAAGCGCCAAATGGCCCGAGAATTGGGAG</td>
+      <td>709</td>
+      <td>ENST00000331923.9</td>
+      <td>sense</td>
+      <td>0.470906</td>
+      <td>0.532305</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AAACAGAAAAAGTTAAAATCACCAAGGTGT</td>
+      <td>496</td>
+      <td>ENST00000283882.4</td>
+      <td>sense</td>
+      <td>0.580556</td>
+      <td>0.602708</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AAACAGATGGAAGATGCTTACCGGGGGACC</td>
+      <td>132</td>
+      <td>ENST00000393047.8</td>
+      <td>sense</td>
+      <td>0.283447</td>
+      <td>0.414293</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>395</th>
+      <td>TTTGATTGCATTAAGGTTGGACTCTGGATT</td>
+      <td>246</td>
+      <td>ENST00000249269.9</td>
+      <td>sense</td>
+      <td>0.580612</td>
+      <td>0.618707</td>
+    </tr>
+    <tr>
+      <th>396</th>
+      <td>TTTGCCCACAGCTCCAAAGCATCGCGGAGA</td>
+      <td>130</td>
+      <td>ENST00000227618.8</td>
+      <td>sense</td>
+      <td>0.323770</td>
+      <td>0.416368</td>
+    </tr>
+    <tr>
+      <th>397</th>
+      <td>TTTTACAGTGCGATGTATGATGTATGGCTT</td>
+      <td>119</td>
+      <td>ENST00000338366.6</td>
+      <td>sense</td>
+      <td>0.788000</td>
+      <td>0.537417</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>TTTTGGATCTCGTAGTGATTCAAGAGGGAA</td>
+      <td>233</td>
+      <td>ENST00000629496.3</td>
+      <td>sense</td>
+      <td>0.239630</td>
+      <td>0.347615</td>
+    </tr>
+    <tr>
+      <th>399</th>
+      <td>TTTTTGTTACTACAGGTTCGCTGCTGGGAA</td>
+      <td>201</td>
+      <td>ENST00000395840.6</td>
+      <td>sense</td>
+      <td>0.693767</td>
+      <td>0.639044</td>
+    </tr>
+  </tbody>
+</table>
+<p>400 rows × 6 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Full-Target-Scores">Full Target Scores<a class="anchor-link" href="#Full-Target-Scores"> </a></h4><p>In order to calculate Target Scores you must input the feature matrices and design_df to the <a href="/rs3/predicttarg.html#predict_target"><code>predict_target</code></a>
+function from the <a href="/rs3/predicttarg.html"><code>predicttarg</code></a> module.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">target_predictions</span> <span class="o">=</span> <span class="n">predict_target</span><span class="p">(</span><span class="n">design_df</span><span class="o">=</span><span class="n">design_df</span><span class="p">,</span>
+                                    <span class="n">aa_subseq_df</span><span class="o">=</span><span class="n">aa_subseq_df</span><span class="p">,</span>
+                                    <span class="n">domain_feature_df</span><span class="o">=</span><span class="n">domain_feature_df</span><span class="p">,</span>
+                                    <span class="n">conservation_feature_df</span><span class="o">=</span><span class="n">conservation_feature_df</span><span class="p">,</span>
+                                    <span class="n">id_cols</span><span class="o">=</span><span class="n">id_cols</span><span class="p">)</span>
+<span class="n">design_df</span><span class="p">[</span><span class="s1">&#39;Target Score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_predictions</span>
+<span class="n">design_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Input</th>
+      <th>Quota</th>
+      <th>Target Taxon</th>
+      <th>Target Gene ID</th>
+      <th>Target Gene Symbol</th>
+      <th>Target Transcript</th>
+      <th>Target Reference Coords</th>
+      <th>Target Alias</th>
+      <th>CRISPR Mechanism</th>
+      <th>Target Domain</th>
+      <th>...</th>
+      <th>Combined Rank</th>
+      <th>Preselected As</th>
+      <th>Matching Active Arrayed Oligos</th>
+      <th>Matching Arrayed Constructs</th>
+      <th>Pools Containing Matching Construct</th>
+      <th>Pick Order</th>
+      <th>Picking Round</th>
+      <th>Picking Notes</th>
+      <th>Target Score Lite</th>
+      <th>Target Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>7</td>
+      <td>GCAGATACAAGAGCAACTGA</td>
+      <td>NaN</td>
+      <td>BRDN0004619103</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.012467</td>
+      <td>0.152037</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>48</td>
+      <td>AAAACTGGCACGACCATCGC</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.048338</td>
+      <td>0.064880</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>7</td>
+      <td>AAAAGATTTGCGCACCCAAG</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>-0.129234</td>
+      <td>-0.063012</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>8</td>
+      <td>CTTTGACCCAGACATAATGG</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.061647</td>
+      <td>-0.126357</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TOP1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198900</td>
+      <td>TOP1</td>
+      <td>ENST00000361337.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>BRDN0001486452</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>-0.009100</td>
+      <td>-0.234410</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 62 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Target Scores can be added directly to the sequence scores for your final Rule Set 3 predictions.</p>
+<h3 id="Predict-Function">Predict Function<a class="anchor-link" href="#Predict-Function"> </a></h3><p>If you don't want to generate the target matrices themselves, you can use the <a href="/rs3/predict.html"><code>predict</code></a> function from
+the <a href="/rs3/predict.html"><code>predict</code></a> module.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rs3.predict</span> <span class="kn">import</span> <span class="n">predict</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">gpplot</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As an example, we calculate predictions for GeckoV2 sgRNAs. The <a href="/rs3/predict.html"><code>predict</code></a> function allows for parallel computation
+for querying databases (<code>n_jobs_min</code>) and featurizing sgRNAs (<code>n_jobs_max</code>).
+We recommend keeping <code>n_jobs_min</code> set to 1 or 2, as the APIs limit the amount of queries per hour.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;test_data/sgrna-designs.txt&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="n">max_n_jobs</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
-<span class="n">gecko_activity</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test_data/Aguirre2016_activity.csv&#39;</span><span class="p">)</span>
-<span class="n">gecko_activity</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scored_designs</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">tracr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">,</span> <span class="s1">&#39;Chen2013&#39;</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">n_jobs_min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs_max</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">,</span>
+                         <span class="n">aa_seq_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span>
+                         <span class="n">domain_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/protein_domains.pq&#39;</span><span class="p">,</span>
+                         <span class="n">conservatin_file</span><span class="o">=</span><span class="s1">&#39;./test_data/target_data/conservation.pq&#39;</span><span class="p">,</span>
+                         <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">scored_designs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calculating sequence-based features
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 400/400 [00:03&lt;00:00, 102.40it/s]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Calculating sequence-based features
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2070.60it/s]
+/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+  warnings.warn(
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Input</th>
+      <th>Quota</th>
+      <th>Target Taxon</th>
+      <th>Target Gene ID</th>
+      <th>Target Gene Symbol</th>
+      <th>Target Transcript</th>
+      <th>Target Reference Coords</th>
+      <th>Target Alias</th>
+      <th>CRISPR Mechanism</th>
+      <th>Target Domain</th>
+      <th>...</th>
+      <th>Picking Round</th>
+      <th>Picking Notes</th>
+      <th>RS3 Sequence Score (Hsu2013 tracr)</th>
+      <th>RS3 Sequence Score (Chen2013 tracr)</th>
+      <th>AA Index</th>
+      <th>Transcript Base</th>
+      <th>Missing conservation information</th>
+      <th>Target Score</th>
+      <th>RS3 Sequence (Hsu2013 tracr) + Target Score</th>
+      <th>RS3 Sequence (Chen2013 tracr) + Target Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.750904</td>
+      <td>0.512534</td>
+      <td>64</td>
+      <td>ENST00000259457</td>
+      <td>False</td>
+      <td>0.152037</td>
+      <td>0.902940</td>
+      <td>0.664571</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PSMB7</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000136930</td>
+      <td>PSMB7</td>
+      <td>ENST00000259457.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>-0.218514</td>
+      <td>-0.095684</td>
+      <td>46</td>
+      <td>ENST00000259457</td>
+      <td>False</td>
+      <td>0.064880</td>
+      <td>-0.153634</td>
+      <td>-0.030804</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>-0.126708</td>
+      <td>-0.307830</td>
+      <td>106</td>
+      <td>ENST00000394249</td>
+      <td>False</td>
+      <td>-0.063012</td>
+      <td>-0.189720</td>
+      <td>-0.370842</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PRC1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198901</td>
+      <td>PRC1</td>
+      <td>ENST00000394249.8</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>0</td>
+      <td>Preselected</td>
+      <td>0.690050</td>
+      <td>0.390095</td>
+      <td>263</td>
+      <td>ENST00000394249</td>
+      <td>False</td>
+      <td>-0.126357</td>
+      <td>0.563693</td>
+      <td>0.263738</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TOP1</td>
+      <td>2</td>
+      <td>9606</td>
+      <td>ENSG00000198900</td>
+      <td>TOP1</td>
+      <td>ENST00000361337.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>CRISPRko</td>
+      <td>CDS</td>
+      <td>...</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>0.451508</td>
+      <td>-0.169016</td>
+      <td>140</td>
+      <td>ENST00000361337</td>
+      <td>False</td>
+      <td>-0.234410</td>
+      <td>0.217098</td>
+      <td>-0.403426</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 68 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here are the details for the keyword arguments of the above function</p>
+<ul>
+<li><code>tracr</code> - tracr to calculate scores for. If a list is supplied instead of a string, scores will be calculated for both tracrs</li>
+<li><code>target</code> - boolean indicating whether to calculate target scores</li>
+<li><code>n_jobs_min</code>, <code>n_jobs_max</code> - number of cpus to use for parallel computation</li>
+<li><code>aa_seq_file</code>, <code>domain_file</code>, <code>conservatin_file</code> - precalculated parquet files. Optional inputs as these features can also be calculated on the fly</li>
+<li><code>lite</code> - boolean indicating whether to calculate lite target scores</li>
+</ul>
+<p>By listing both tracrRNAs <code>tracr=['Hsu2013', 'Chen2013']</code> and setting <code>target=True</code>,
+we calculate 5 unique scores: one sequence score for each tracr, the target score,
+and the sequence scores plus the target score.</p>
+<p>In this example the amino acid sequences, protein domains and conservation scores were prequeried using the
+<a href="/rs3/targetdata.html#write_transcript_data"><code>write_transcript_data</code></a> and <code>write_consevation_data</code> functions from the targetdata module.
+Pre-querying these data can be helpful for large scale design runs.</p>
+<p>We can compare these predictions against the observed activity from GeckoV2</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gecko_activity</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test_data/Aguirre2016_activity.csv&#39;</span><span class="p">)</span>
+<span class="n">gecko_activity</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -624,496 +2564,8 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>9.4</td>
       <td>0.734196</td>
     </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>8654</th>
-      <td>TTTGTGGCAGCGAATCATAA</td>
-      <td>TGTCTTTGTGGCAGCGAATCATAATGGTTC</td>
-      <td>UMPS</td>
-      <td>43.8</td>
-      <td>-0.927345</td>
-    </tr>
-    <tr>
-      <th>8655</th>
-      <td>TTTGTTAATATCTGCTGAAC</td>
-      <td>TGAATTTGTTAATATCTGCTGAACAGGAGT</td>
-      <td>GTF2A1</td>
-      <td>40.3</td>
-      <td>-0.382060</td>
-    </tr>
-    <tr>
-      <th>8656</th>
-      <td>TTTGTTAGGATGTGCATTCC</td>
-      <td>TTTCTTTGTTAGGATGTGCATTCCAGGTAC</td>
-      <td>NAT10</td>
-      <td>16.4</td>
-      <td>-0.927645</td>
-    </tr>
-    <tr>
-      <th>8657</th>
-      <td>TTTGTTAGGTCATCGTATTG</td>
-      <td>GGTTTTTGTTAGGTCATCGTATTGAGGAAG</td>
-      <td>RPL4</td>
-      <td>33.5</td>
-      <td>-1.425502</td>
-    </tr>
-    <tr>
-      <th>8658</th>
-      <td>TTTGTTCCTTAGTTGCTGAC</td>
-      <td>TACTTTTGTTCCTTAGTTGCTGACAGGTCC</td>
-      <td>MRPL47</td>
-      <td>34.8</td>
-      <td>-1.268444</td>
-    </tr>
   </tbody>
 </table>
-<p>8659 rows × 5 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>By listing both tracrRNA <code>tracr=['Hsu2013', 'Chen2013']</code> and setting <code>target=True</code>, we calculate
-5 unique scores: one sequence score for each tracr, the target score, and the sequence scores plus the target score.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scored_designs</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">tracr</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hsu2013&#39;</span><span class="p">,</span> <span class="s1">&#39;Chen2013&#39;</span><span class="p">],</span> <span class="n">target</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                         <span class="n">n_jobs_min</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs_max</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">,</span>
-                         <span class="n">lite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                         <span class="n">aa_seq_file</span><span class="o">=</span><span class="s1">&#39;test_data/target_data/aa_seqs.pq&#39;</span><span class="p">,</span>
-                         <span class="n">conservatin_file</span><span class="o">=</span><span class="s1">&#39;test_data/target_data/conservation.pq&#39;</span><span class="p">,</span>
-                         <span class="n">domain_file</span><span class="o">=</span><span class="s1">&#39;test_data/target_data/protein_domains.pq&#39;</span><span class="p">)</span>
-<span class="n">scored_designs</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Calculating sequence-based features
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:03&lt;00:00, 112.76it/s]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Calculating sequence-based features
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 400/400 [00:00&lt;00:00, 2364.35it/s]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Getting amino acid sequences
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.36it/s]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Getting protein domains
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:48&lt;00:00,  4.10it/s]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Getting conservation
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [05:01&lt;00:00,  1.51s/it]
-/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
-  warnings.warn(
-/Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
-  warnings.warn(
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Input</th>
-      <th>Quota</th>
-      <th>Target Taxon</th>
-      <th>Target Gene ID</th>
-      <th>Target Gene Symbol</th>
-      <th>Target Transcript</th>
-      <th>Target Reference Coords</th>
-      <th>Target Alias</th>
-      <th>CRISPR Mechanism</th>
-      <th>Target Domain</th>
-      <th>...</th>
-      <th>Pick Order</th>
-      <th>Picking Round</th>
-      <th>Picking Notes</th>
-      <th>RS3 Sequence Score (Hsu2013 tracr)</th>
-      <th>RS3 Sequence Score (Chen2013 tracr)</th>
-      <th>Transcript Base</th>
-      <th>Missing conservation information</th>
-      <th>Target Score</th>
-      <th>RS3 Sequence (Hsu2013 tracr) + Target Score</th>
-      <th>RS3 Sequence (Chen2013 tracr) + Target Score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>PSMB7</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000136930</td>
-      <td>PSMB7</td>
-      <td>ENST00000259457.8</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.750904</td>
-      <td>0.512534</td>
-      <td>ENST00000259457</td>
-      <td>False</td>
-      <td>0.152037</td>
-      <td>0.902940</td>
-      <td>0.664571</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>PSMB7</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000136930</td>
-      <td>PSMB7</td>
-      <td>ENST00000259457.8</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>2</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>-0.218514</td>
-      <td>-0.095684</td>
-      <td>ENST00000259457</td>
-      <td>False</td>
-      <td>0.064880</td>
-      <td>-0.153634</td>
-      <td>-0.030804</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>PRC1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000198901</td>
-      <td>PRC1</td>
-      <td>ENST00000394249.8</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>-0.126708</td>
-      <td>-0.307830</td>
-      <td>ENST00000394249</td>
-      <td>False</td>
-      <td>-0.063012</td>
-      <td>-0.189720</td>
-      <td>-0.370842</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>PRC1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000198901</td>
-      <td>PRC1</td>
-      <td>ENST00000394249.8</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>2</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.690050</td>
-      <td>0.390095</td>
-      <td>ENST00000394249</td>
-      <td>False</td>
-      <td>-0.126357</td>
-      <td>0.563693</td>
-      <td>0.263738</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>TOP1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000198900</td>
-      <td>TOP1</td>
-      <td>ENST00000361337.3</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>2</td>
-      <td>1</td>
-      <td>NaN</td>
-      <td>0.451508</td>
-      <td>-0.169016</td>
-      <td>ENST00000361337</td>
-      <td>False</td>
-      <td>-0.234410</td>
-      <td>0.217098</td>
-      <td>-0.403426</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>395</th>
-      <td>RFC5</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000111445</td>
-      <td>RFC5</td>
-      <td>ENST00000454402.7</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>-0.220600</td>
-      <td>-0.022154</td>
-      <td>ENST00000454402</td>
-      <td>False</td>
-      <td>0.101662</td>
-      <td>-0.118938</td>
-      <td>0.079508</td>
-    </tr>
-    <tr>
-      <th>396</th>
-      <td>NXT1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000132661</td>
-      <td>NXT1</td>
-      <td>ENST00000254998.3</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>2</td>
-      <td>1</td>
-      <td>NaN</td>
-      <td>0.621609</td>
-      <td>0.539656</td>
-      <td>ENST00000254998</td>
-      <td>False</td>
-      <td>0.036224</td>
-      <td>0.657833</td>
-      <td>0.575881</td>
-    </tr>
-    <tr>
-      <th>397</th>
-      <td>NXT1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000132661</td>
-      <td>NXT1</td>
-      <td>ENST00000254998.3</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.119830</td>
-      <td>0.012744</td>
-      <td>ENST00000254998</td>
-      <td>False</td>
-      <td>0.089654</td>
-      <td>0.209484</td>
-      <td>0.102398</td>
-    </tr>
-    <tr>
-      <th>398</th>
-      <td>NOL10</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000115761</td>
-      <td>NOL10</td>
-      <td>ENST00000381685.10</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>2</td>
-      <td>1</td>
-      <td>NaN</td>
-      <td>0.798633</td>
-      <td>0.646323</td>
-      <td>ENST00000381685</td>
-      <td>False</td>
-      <td>0.056575</td>
-      <td>0.855208</td>
-      <td>0.702899</td>
-    </tr>
-    <tr>
-      <th>399</th>
-      <td>NOL10</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000115761</td>
-      <td>NOL10</td>
-      <td>ENST00000381685.10</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>CRISPRko</td>
-      <td>CDS</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.283254</td>
-      <td>0.264148</td>
-      <td>ENST00000381685</td>
-      <td>False</td>
-      <td>0.136640</td>
-      <td>0.419894</td>
-      <td>0.400789</td>
-    </tr>
-  </tbody>
-</table>
-<p>400 rows × 67 columns</p>
 </div>
 </div>
 
@@ -1136,7 +2588,7 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
                                               <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span>
                                               <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sgRNA Sequence&#39;</span><span class="p">,</span> <span class="s1">&#39;sgRNA Context Sequence&#39;</span><span class="p">,</span>
                                                   <span class="s1">&#39;Target Gene Symbol&#39;</span><span class="p">,</span> <span class="s1">&#39;Target Cut %&#39;</span><span class="p">]))</span>
-<span class="n">gecko_activity_scores</span>
+<span class="n">gecko_activity_scores</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -1179,11 +2631,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <th>Target Gene ID</th>
       <th>Target Transcript</th>
       <th>...</th>
-      <th>Pick Order</th>
       <th>Picking Round</th>
       <th>Picking Notes</th>
       <th>RS3 Sequence Score (Hsu2013 tracr)</th>
       <th>RS3 Sequence Score (Chen2013 tracr)</th>
+      <th>AA Index</th>
       <th>Transcript Base</th>
       <th>Missing conservation information</th>
       <th>Target Score</th>
@@ -1205,11 +2657,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>ENSG00000136930</td>
       <td>ENST00000259457.8</td>
       <td>...</td>
-      <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.218514</td>
       <td>-0.095684</td>
+      <td>46</td>
       <td>ENST00000259457</td>
       <td>False</td>
       <td>0.064880</td>
@@ -1229,11 +2681,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>ENSG00000198901</td>
       <td>ENST00000394249.8</td>
       <td>...</td>
-      <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.126708</td>
       <td>-0.307830</td>
+      <td>106</td>
       <td>ENST00000394249</td>
       <td>False</td>
       <td>-0.063012</td>
@@ -1253,11 +2705,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>ENSG00000198900</td>
       <td>ENST00000361337.3</td>
       <td>...</td>
-      <td>1</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.356580</td>
       <td>-0.082514</td>
+      <td>50</td>
       <td>ENST00000361337</td>
       <td>False</td>
       <td>-0.354708</td>
@@ -1277,11 +2729,11 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>ENSG00000203760</td>
       <td>ENST00000368328.5</td>
       <td>...</td>
-      <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.663540</td>
       <td>-0.303324</td>
+      <td>34</td>
       <td>ENST00000368328</td>
       <td>False</td>
       <td>0.129285</td>
@@ -1301,164 +2753,20 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
       <td>ENSG00000164346</td>
       <td>ENST00000610426.5</td>
       <td>...</td>
-      <td>2</td>
       <td>0</td>
       <td>Preselected</td>
       <td>-0.413636</td>
       <td>-0.585179</td>
+      <td>157</td>
       <td>ENST00000610426</td>
       <td>False</td>
       <td>-0.113577</td>
       <td>-0.527213</td>
       <td>-0.698756</td>
     </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>247</th>
-      <td>TTTAGCCGGATGCGCAGTGA</td>
-      <td>CTCTTTTAGCCGGATGCGCAGTGATGGTTT</td>
-      <td>NKAPD1</td>
-      <td>20.6</td>
-      <td>0.627322</td>
-      <td>NKAPD1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000150776</td>
-      <td>ENST00000393047.8</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.298329</td>
-      <td>0.274344</td>
-      <td>ENST00000393047</td>
-      <td>False</td>
-      <td>-0.082951</td>
-      <td>0.215378</td>
-      <td>0.191393</td>
-    </tr>
-    <tr>
-      <th>248</th>
-      <td>TTTATATAGCTGTTTCGCAC</td>
-      <td>TGTCTTTATATAGCTGTTTCGCACAGGCTA</td>
-      <td>RFC5</td>
-      <td>21.5</td>
-      <td>-0.957190</td>
-      <td>RFC5</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000111445</td>
-      <td>ENST00000454402.7</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>-0.220600</td>
-      <td>-0.022154</td>
-      <td>ENST00000454402</td>
-      <td>False</td>
-      <td>0.101662</td>
-      <td>-0.118938</td>
-      <td>0.079508</td>
-    </tr>
-    <tr>
-      <th>249</th>
-      <td>TTTGCTGTCCCGCCTGTACA</td>
-      <td>GGCGTTTGCTGTCCCGCCTGTACATGGGCA</td>
-      <td>NXT1</td>
-      <td>27.2</td>
-      <td>0.176827</td>
-      <td>NXT1</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000132661</td>
-      <td>ENST00000254998.3</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.119830</td>
-      <td>0.012744</td>
-      <td>ENST00000254998</td>
-      <td>False</td>
-      <td>0.089654</td>
-      <td>0.209484</td>
-      <td>0.102398</td>
-    </tr>
-    <tr>
-      <th>250</th>
-      <td>TTTGTCTGATGACTACTCAA</td>
-      <td>AAATTTTGTCTGATGACTACTCAAAGGTAT</td>
-      <td>NOL10</td>
-      <td>15.6</td>
-      <td>-0.043965</td>
-      <td>NOL10</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000115761</td>
-      <td>ENST00000381685.10</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>Preselected</td>
-      <td>0.283254</td>
-      <td>0.264148</td>
-      <td>ENST00000381685</td>
-      <td>False</td>
-      <td>0.136640</td>
-      <td>0.419894</td>
-      <td>0.400789</td>
-    </tr>
-    <tr>
-      <th>251</th>
-      <td>TTTGTTAGGTCATCGTATTG</td>
-      <td>GGTTTTTGTTAGGTCATCGTATTGAGGAAG</td>
-      <td>RPL4</td>
-      <td>33.5</td>
-      <td>-1.425502</td>
-      <td>RPL4</td>
-      <td>2</td>
-      <td>9606</td>
-      <td>ENSG00000174444</td>
-      <td>ENST00000307961.11</td>
-      <td>...</td>
-      <td>2</td>
-      <td>1</td>
-      <td>NaN</td>
-      <td>-0.636302</td>
-      <td>-0.575100</td>
-      <td>ENST00000307961</td>
-      <td>False</td>
-      <td>0.185059</td>
-      <td>-0.451243</td>
-      <td>-0.390041</td>
-    </tr>
   </tbody>
 </table>
-<p>252 rows × 68 columns</p>
+<p>5 rows × 69 columns</p>
 </div>
 </div>
 
@@ -1472,7 +2780,7 @@ information such as amino acid sequence and whether the sgRNA targets in a prote
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Since Gecko was screened with the tracrRNA from Hsu et al. 2013, we'll use this as our predictor</p>
+<p>Since GeckoV2 was screened with the tracrRNA from Hsu et al. 2013, we'll use these scores sequence scores a part of our final prediction.</p>
 
 </div>
 </div>
