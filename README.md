@@ -29,13 +29,13 @@ You can see the complete documentation for Rule Set 3 [here](https://gpp-rnd.git
 
 To calculate Rule Set 3 (sequence) scores, import the predict_seq function from the seq module.
 
-```
+```python
 from rs3.seq import predict_seq
 ```
 
 You can store the 30mer context sequences you want to predict as a list.
 
-```
+```python
 context_seqs = ['GACGAAAGCGACAACGCGTTCATCCGGGCA', 'AGAAAACACTAGCATCCCCACCCGCGGACT']
 ```
 
@@ -45,20 +45,20 @@ You can specify either the
 as the tracrRNA to score with.
 We generally find any tracrRNA that does not have a T in the fifth position is better predicted with the Chen2013 input.
 
-```
+```python
 predict_seq(context_seqs, sequence_tracr='Hsu2013')
 ```
 
     Calculating sequence-based features
 
 
-    100%|██████████| 2/2 [00:00<00:00, 221.06it/s]
+    100%|██████████| 2/2 [00:00<00:00, 15.04it/s]
 
 
 
 
 
-    array([-0.86673522,  1.09560723])
+    array([-0.90030944,  1.11451622])
 
 
 
@@ -69,7 +69,7 @@ you must build or load feature matrices for the amino acid sequences, conservati
 
 As an example, we'll calculate target scores for 250 sgRNAs in the GeckoV2 library.
 
-```
+```python
 import pandas as pd
 from rs3.predicttarg import predict_target
 from rs3.targetfeat import (add_target_columns,
@@ -78,7 +78,7 @@ from rs3.targetfeat import (add_target_columns,
                             get_conservation_features)
 ```
 
-```
+```python
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 design_df.head()
 ```
@@ -258,7 +258,7 @@ design_df.head()
 Throughout the analysis we will be using a core set of ID columns to merge the feature matrices. These ID columns
 should uniquely identify an sgRNA and its target site.
 
-```
+```python
 id_cols = ['sgRNA Context Sequence', 'Target Cut Length', 'Target Transcript', 'Orientation']
 ```
 
@@ -278,7 +278,7 @@ To get this shortened version of the Ensembl ID use the `add_target_columns` fun
 This function adds the 'Transcript Base' column as well as a column indicating the amino acid index ('AA Index')
 of the cut site. The 'AA Index' column will be used for merging with the amino acid translations.
 
-```
+```python
 design_targ_df = add_target_columns(design_df)
 design_targ_df.head()
 ```
@@ -455,7 +455,7 @@ design_targ_df.head()
 
 
 
-```
+```python
 transcript_bases = design_targ_df['Transcript Base'].unique()
 transcript_bases[0:5]
 ```
@@ -468,7 +468,7 @@ transcript_bases[0:5]
 
 
 
-```
+```python
 aa_seq_df = pd.read_parquet('test_data/target_data/aa_seqs.pq', engine='pyarrow',
                             filters=[[('Transcript Base', 'in', transcript_bases)]])
 aa_seq_df.head()
@@ -581,7 +581,7 @@ We take 16 amino acids on either side of the cut site for a total sequence lengt
 The `get_aa_subseq_df` from the `targetfeat` module will calculate these subsequences
 from the complete amino acid sequences.
 
-```
+```python
 
 aa_subseq_df = get_aa_subseq_df(sg_designs=design_targ_df, aa_seq_df=aa_seq_df, width=16,
                                 id_cols=id_cols)
@@ -619,8 +619,8 @@ aa_subseq_df.head()
       <th>id</th>
       <th>AA len</th>
       <th>Target Cut Length</th>
-      <th>sgRNA Context Sequence</th>
       <th>Orientation</th>
+      <th>sgRNA Context Sequence</th>
       <th>AA Index</th>
       <th>extended_seq</th>
       <th>AA 0-Indexed</th>
@@ -643,8 +643,8 @@ aa_subseq_df.head()
       <td>ENSP00000259457</td>
       <td>277</td>
       <td>191</td>
-      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
       <td>sense</td>
+      <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
       <td>64</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>63</td>
@@ -665,8 +665,8 @@ aa_subseq_df.head()
       <td>ENSP00000259457</td>
       <td>277</td>
       <td>137</td>
-      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
       <td>sense</td>
+      <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
       <td>46</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>45</td>
@@ -687,8 +687,8 @@ aa_subseq_df.head()
       <td>ENSP00000377793</td>
       <td>620</td>
       <td>316</td>
-      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
       <td>sense</td>
+      <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
       <td>106</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>105</td>
@@ -709,8 +709,8 @@ aa_subseq_df.head()
       <td>ENSP00000377793</td>
       <td>620</td>
       <td>787</td>
-      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
       <td>antisense</td>
+      <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
       <td>263</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>262</td>
@@ -731,8 +731,8 @@ aa_subseq_df.head()
       <td>ENSP00000354522</td>
       <td>765</td>
       <td>420</td>
-      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
       <td>antisense</td>
+      <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
       <td>140</td>
       <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
       <td>139</td>
@@ -752,16 +752,16 @@ aa_subseq_df.head()
 You now have all the information you need to calculate "lite" Target Scores, which are less data intensive than complete
 target scores, with the `predict_target` function from the `predicttarg` module.
 
-```
+```python
 lite_predictions = predict_target(design_df=design_df,
                                   aa_subseq_df=aa_subseq_df)
 design_df['Target Score Lite'] = lite_predictions
 design_df.head()
 ```
 
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
 
 
@@ -953,7 +953,7 @@ using `write_transcript_data` function in the `targetdata` module. You can also 
 by using the `build_translation_overlap_df` function. See the documentation for the `predicttarg` module for more
 information on how to do this.
 
-```
+```python
 domain_df = pd.read_parquet('test_data/target_data/protein_domains.pq', engine='pyarrow',
                             filters=[[('Transcript Base', 'in', transcript_bases)]])
 domain_df.head()
@@ -1097,7 +1097,7 @@ domain_df.head()
 Now to transform the `domain_df` into a wide form for model input, we use the `get_protein_domain_features` function
 from the `targetfeat` module.
 
-```
+```python
 domain_feature_df = get_protein_domain_features(design_targ_df, domain_df, id_cols=id_cols)
 domain_feature_df.head()
 ```
@@ -1284,7 +1284,7 @@ To get conservation scores, you can use the `build_conservation_df` function fro
 Here we load conservation scores, which were written to parquet using the `write_conservation_data` function from the
 `targetdata` module.
 
-```
+```python
 conservation_df = pd.read_parquet('test_data/target_data/conservation.pq', engine='pyarrow',
                                   filters=[[('Transcript Base', 'in', transcript_bases)]])
 conservation_df.head()
@@ -1421,7 +1421,7 @@ We use the `get_conservation_features` function from the `targetfeat` module to 
 For the `predict_targ` function, we need the `id_cols` and the columns 'cons_4' and 'cons_32' in the
 `conservation_feature_df`.
 
-```
+```python
 conservation_feature_df = get_conservation_features(design_targ_df, conservation_df,
                                                     small_width=2, large_width=16,
                                                     conservation_column='ranked_conservation',
@@ -1570,7 +1570,7 @@ conservation_feature_df
 In order to calculate Target Scores you must input the feature matrices and design_df to the `predict_target`
 function from the `predicttarg` module.
 
-```
+```python
 target_predictions = predict_target(design_df=design_df,
                                     aa_subseq_df=aa_subseq_df,
                                     domain_feature_df=domain_feature_df,
@@ -1580,9 +1580,9 @@ design_df['Target Score'] = target_predictions
 design_df.head()
 ```
 
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
 
 
@@ -1765,7 +1765,7 @@ Target Scores can be added directly to the sequence scores for your final Rule S
 If you don't want to generate the target matrices themselves, you can use the `predict` function from
 the `predict` module.
 
-```
+```python
 from rs3.predict import predict
 import matplotlib.pyplot as plt
 import gpplot
@@ -1787,13 +1787,13 @@ The `predict` function allows for parallel computation
 for querying databases (`n_jobs_min`) and featurizing sgRNAs (`n_jobs_max`).
 We recommend keeping `n_jobs_min` set to 1 or 2, as the APIs limit the amount of queries per hour.
 
-```
+```python
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 import multiprocessing
 max_n_jobs = multiprocessing.cpu_count()
 ```
 
-```
+```python
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=max_n_jobs,
                          aa_seq_file='./test_data/target_data/aa_seqs.pq',
@@ -1806,16 +1806,16 @@ scored_designs.head()
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:04<00:00, 83.95it/s] 
+    100%|██████████| 400/400 [00:05<00:00, 68.98it/s] 
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:00<00:00, 1205.43it/s]
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    100%|██████████| 400/400 [00:01<00:00, 229.85it/s]
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
 
 
@@ -1879,14 +1879,14 @@ scored_designs.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.750904</td>
-      <td>0.512534</td>
+      <td>0.787640</td>
+      <td>0.559345</td>
       <td>64</td>
       <td>ENST00000259457</td>
       <td>False</td>
       <td>0.152037</td>
-      <td>0.902940</td>
-      <td>0.664571</td>
+      <td>0.939676</td>
+      <td>0.711381</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1903,14 +1903,14 @@ scored_designs.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.218514</td>
-      <td>-0.095684</td>
+      <td>-0.294126</td>
+      <td>-0.181437</td>
       <td>46</td>
       <td>ENST00000259457</td>
       <td>False</td>
       <td>0.064880</td>
-      <td>-0.153634</td>
-      <td>-0.030804</td>
+      <td>-0.229246</td>
+      <td>-0.116557</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1927,14 +1927,14 @@ scored_designs.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.126708</td>
-      <td>-0.307830</td>
+      <td>-0.043418</td>
+      <td>-0.220434</td>
       <td>106</td>
       <td>ENST00000394249</td>
       <td>False</td>
       <td>-0.063012</td>
-      <td>-0.189720</td>
-      <td>-0.370842</td>
+      <td>-0.106429</td>
+      <td>-0.283446</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1951,14 +1951,14 @@ scored_designs.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.690050</td>
-      <td>0.390095</td>
+      <td>0.759256</td>
+      <td>0.453469</td>
       <td>263</td>
       <td>ENST00000394249</td>
       <td>False</td>
       <td>-0.126357</td>
-      <td>0.563693</td>
-      <td>0.263738</td>
+      <td>0.632899</td>
+      <td>0.327112</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1975,14 +1975,14 @@ scored_designs.head()
       <td>...</td>
       <td>1</td>
       <td>NaN</td>
-      <td>0.451508</td>
-      <td>-0.169016</td>
+      <td>0.424001</td>
+      <td>-0.197035</td>
       <td>140</td>
       <td>ENST00000361337</td>
       <td>False</td>
       <td>-0.234410</td>
-      <td>0.217098</td>
-      <td>-0.403426</td>
+      <td>0.189591</td>
+      <td>-0.431445</td>
     </tr>
   </tbody>
 </table>
@@ -2005,7 +2005,7 @@ and the sequence scores plus the target score.
 
 We can compare these predictions against the observed activity from GeckoV2
 
-```
+```python
 gecko_activity = pd.read_csv('test_data/Aguirre2016_activity.csv')
 gecko_activity.head()
 ```
@@ -2085,7 +2085,7 @@ gecko_activity.head()
 
 
 
-```
+```python
 gecko_activity_scores = (gecko_activity.merge(scored_designs,
                                               how='inner',
                                               on=['sgRNA Sequence', 'sgRNA Context Sequence',
@@ -2153,14 +2153,14 @@ gecko_activity_scores.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.218514</td>
-      <td>-0.095684</td>
+      <td>-0.294126</td>
+      <td>-0.181437</td>
       <td>46</td>
       <td>ENST00000259457</td>
       <td>False</td>
       <td>0.064880</td>
-      <td>-0.153634</td>
-      <td>-0.030804</td>
+      <td>-0.229246</td>
+      <td>-0.116557</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2177,14 +2177,14 @@ gecko_activity_scores.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.126708</td>
-      <td>-0.307830</td>
+      <td>-0.043418</td>
+      <td>-0.220434</td>
       <td>106</td>
       <td>ENST00000394249</td>
       <td>False</td>
       <td>-0.063012</td>
-      <td>-0.189720</td>
-      <td>-0.370842</td>
+      <td>-0.106429</td>
+      <td>-0.283446</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2201,14 +2201,14 @@ gecko_activity_scores.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.356580</td>
-      <td>-0.082514</td>
+      <td>-0.294127</td>
+      <td>-0.022951</td>
       <td>50</td>
       <td>ENST00000361337</td>
       <td>False</td>
       <td>-0.354708</td>
-      <td>-0.711288</td>
-      <td>-0.437222</td>
+      <td>-0.648835</td>
+      <td>-0.377659</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2225,14 +2225,14 @@ gecko_activity_scores.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.663540</td>
-      <td>-0.303324</td>
+      <td>-0.667399</td>
+      <td>-0.308794</td>
       <td>34</td>
       <td>ENST00000368328</td>
       <td>False</td>
       <td>0.129285</td>
-      <td>-0.534255</td>
-      <td>-0.174039</td>
+      <td>-0.538114</td>
+      <td>-0.179509</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2249,14 +2249,14 @@ gecko_activity_scores.head()
       <td>...</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.413636</td>
-      <td>-0.585179</td>
+      <td>-0.402220</td>
+      <td>-0.622492</td>
       <td>157</td>
       <td>ENST00000610426</td>
       <td>False</td>
       <td>-0.113577</td>
-      <td>-0.527213</td>
-      <td>-0.698756</td>
+      <td>-0.515797</td>
+      <td>-0.736069</td>
     </tr>
   </tbody>
 </table>
@@ -2267,7 +2267,7 @@ gecko_activity_scores.head()
 
 Since GeckoV2 was screened with the tracrRNA from Hsu et al. 2013, we'll use these scores sequence scores a part of our final prediction.
 
-```
+```python
 plt.subplots(figsize=(4,4))
 gpplot.point_densityplot(gecko_activity_scores, y='avg_mean_centered_neg_lfc',
                          x='RS3 Sequence (Hsu2013 tracr) + Target Score')
@@ -2285,11 +2285,11 @@ sns.despine()
 You can also make predictions without pre-querying the target data. Here
 we use example designs for BCL2L1, MCL1 and EEF2.
 
-```
+```python
 design_df = pd.read_table('test_data/sgrna-designs_BCL2L1_MCL1_EEF2.txt')
 ```
 
-```
+```python
 scored_designs = predict(design_df,
                          tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=8,
@@ -2300,34 +2300,34 @@ scored_designs
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:00<00:00, 1463.81it/s]
+    100%|██████████| 849/849 [00:06<00:00, 137.86it/s]
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:00<00:00, 2198.00it/s]
+    100%|██████████| 849/849 [00:02<00:00, 321.44it/s]
 
 
     Getting amino acid sequences
 
 
-    100%|██████████| 1/1 [00:00<00:00,  5.36it/s]
+    100%|██████████| 1/1 [00:00<00:00,  1.77it/s]
 
 
     Getting protein domains
 
 
-    100%|██████████| 3/3 [00:00<00:00, 2371.45it/s]
+    100%|██████████| 3/3 [00:00<00:00, 899.29it/s]
 
 
     Getting conservation
 
 
-    100%|██████████| 3/3 [00:00<00:00, 25.88it/s]
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    100%|██████████| 3/3 [00:00<00:00, 10.67it/s]
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
-    /Users/pdeweird/opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
       warnings.warn(
 
 
@@ -2391,14 +2391,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>Outside Target Window: 5-65%</td>
-      <td>0.935416</td>
-      <td>0.799237</td>
+      <td>0.907809</td>
+      <td>0.769956</td>
       <td>666</td>
       <td>ENST00000309311</td>
       <td>False</td>
       <td>-0.115549</td>
-      <td>0.819867</td>
-      <td>0.683689</td>
+      <td>0.792261</td>
+      <td>0.654408</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2415,14 +2415,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>BsmBI:CGTCTC; Outside Target Window: 5-65%</td>
-      <td>0.176762</td>
-      <td>0.064882</td>
+      <td>0.171870</td>
+      <td>0.040419</td>
       <td>581</td>
       <td>ENST00000309311</td>
       <td>False</td>
       <td>-0.017643</td>
-      <td>0.159119</td>
-      <td>0.047239</td>
+      <td>0.154226</td>
+      <td>0.022776</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2439,14 +2439,14 @@ scored_designs
       <td>...</td>
       <td>1.0</td>
       <td>NaN</td>
-      <td>1.349643</td>
-      <td>0.533079</td>
+      <td>1.393513</td>
+      <td>0.577732</td>
       <td>107</td>
       <td>ENST00000309311</td>
       <td>False</td>
       <td>0.172910</td>
-      <td>1.522552</td>
-      <td>0.705989</td>
+      <td>1.566422</td>
+      <td>0.750642</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2463,14 +2463,14 @@ scored_designs
       <td>...</td>
       <td>1.0</td>
       <td>NaN</td>
-      <td>0.879892</td>
-      <td>-0.029800</td>
+      <td>0.904446</td>
+      <td>0.008390</td>
       <td>406</td>
       <td>ENST00000309311</td>
       <td>False</td>
       <td>0.121034</td>
-      <td>1.000926</td>
-      <td>0.091234</td>
+      <td>1.025480</td>
+      <td>0.129424</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2487,14 +2487,14 @@ scored_designs
       <td>...</td>
       <td>1.0</td>
       <td>NaN</td>
-      <td>0.860174</td>
-      <td>0.386281</td>
+      <td>0.831087</td>
+      <td>0.361594</td>
       <td>546</td>
       <td>ENST00000309311</td>
       <td>False</td>
       <td>0.036041</td>
-      <td>0.896215</td>
-      <td>0.422322</td>
+      <td>0.867128</td>
+      <td>0.397635</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2535,14 +2535,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>Off-target Match Bin I matches &gt; 3; Spacing Vi...</td>
-      <td>-0.459566</td>
-      <td>-0.357175</td>
+      <td>-0.792918</td>
+      <td>-0.663881</td>
       <td>52</td>
       <td>ENST00000369026</td>
       <td>False</td>
       <td>-0.299583</td>
-      <td>-0.759149</td>
-      <td>-0.656758</td>
+      <td>-1.092501</td>
+      <td>-0.963464</td>
     </tr>
     <tr>
       <th>845</th>
@@ -2559,14 +2559,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>Outside Target Window: 5-65%; poly(T):TTTT</td>
-      <td>-1.818456</td>
-      <td>-1.718872</td>
+      <td>-1.920374</td>
+      <td>-1.819985</td>
       <td>5</td>
       <td>ENST00000369026</td>
       <td>False</td>
       <td>-0.003507</td>
-      <td>-1.821962</td>
-      <td>-1.722379</td>
+      <td>-1.923881</td>
+      <td>-1.823491</td>
     </tr>
     <tr>
       <th>846</th>
@@ -2583,14 +2583,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>Spacing Violation: Too close to earlier pick a...</td>
-      <td>-1.036048</td>
-      <td>-1.231021</td>
+      <td>-1.101303</td>
+      <td>-1.295640</td>
       <td>24</td>
       <td>ENST00000369026</td>
       <td>False</td>
       <td>-0.285485</td>
-      <td>-1.321533</td>
-      <td>-1.516506</td>
+      <td>-1.386788</td>
+      <td>-1.581125</td>
     </tr>
     <tr>
       <th>847</th>
@@ -2607,14 +2607,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>Spacing Violation: Too close to earlier pick a...</td>
-      <td>-0.862146</td>
-      <td>-0.851444</td>
+      <td>-0.617431</td>
+      <td>-0.621436</td>
       <td>30</td>
       <td>ENST00000369026</td>
       <td>False</td>
       <td>-0.312348</td>
-      <td>-1.174494</td>
-      <td>-1.163792</td>
+      <td>-0.929779</td>
+      <td>-0.933784</td>
     </tr>
     <tr>
       <th>848</th>
@@ -2631,14 +2631,14 @@ scored_designs
       <td>...</td>
       <td>NaN</td>
       <td>On-Target Efficacy Score &lt; 0.2; Spacing Violat...</td>
-      <td>-0.764290</td>
-      <td>-0.836055</td>
+      <td>-0.586811</td>
+      <td>-0.664130</td>
       <td>30</td>
       <td>ENST00000369026</td>
       <td>False</td>
       <td>-0.312348</td>
-      <td>-1.076638</td>
-      <td>-1.148403</td>
+      <td>-0.899159</td>
+      <td>-0.976478</td>
     </tr>
   </tbody>
 </table>
