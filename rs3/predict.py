@@ -41,7 +41,6 @@ def predict(design_df, tracr=None, target=False,
             transcript_id_col='Target Transcript',
             transcript_base_col='Transcript Base',
             transcript_len_col='Target Total Length',
-            cut_pos_col='Target Cut Length',
             n_jobs_min=1, n_jobs_max=1, lite=True):
     """Make predictions using RS3
 
@@ -55,7 +54,6 @@ def predict(design_df, tracr=None, target=False,
     :param transcript_id_col: str
     :param transcript_base_col: str
     :param transcript_len_col: str
-    :param cut_pos_col: str
     :param n_jobs_min: int
     :return: DataFram
     """
@@ -71,8 +69,6 @@ def predict(design_df, tracr=None, target=False,
     else:
         raise ValueError('Could not recognize tracr input: ' + str(tracr))
     if target:
-        out_df[transcript_len_col] = out_df[transcript_len_col].astype(int)
-        out_df[cut_pos_col] = out_df[cut_pos_col].astype(int)
         out_df = add_target_columns(out_df,
                                     transcript_base_col=transcript_base_col)
         transcript_bases = pd.Series(out_df[transcript_base_col].unique())
