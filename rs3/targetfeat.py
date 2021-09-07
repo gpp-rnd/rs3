@@ -144,8 +144,8 @@ def extract_amino_acid_subsequence(sg_aas, width):
     sg_aas_subseq['extended_seq'] = l_padding + sg_aas_subseq['seq'] + '*' + r_padding
     sg_aas_subseq['AA 0-Indexed'] = sg_aas_subseq['AA Index'] - 1
     sg_aas_subseq['AA 0-Indexed padded'] = sg_aas_subseq['AA 0-Indexed'] + len(l_padding)
-    sg_aas_subseq['seq_start'] = sg_aas_subseq['AA 0-Indexed padded'] - width
-    sg_aas_subseq['seq_end'] = sg_aas_subseq['AA 0-Indexed padded'] + width
+    sg_aas_subseq['seq_start'] = (sg_aas_subseq['AA 0-Indexed padded'] - width).astype(int)
+    sg_aas_subseq['seq_end'] = (sg_aas_subseq['AA 0-Indexed padded'] + width).astype(int)
     sg_aas_subseq['AA Subsequence'] = sg_aas_subseq.apply(lambda row: row['extended_seq'][row['seq_start']:(row['seq_end'] + 1)],
                                                     axis=1)
     return sg_aas_subseq
