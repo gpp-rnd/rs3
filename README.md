@@ -29,23 +29,23 @@ You can see the complete documentation for Rule Set 3 [here](https://gpp-rnd.git
 
 To calculate Rule Set 3 (sequence) scores, import the predict_seq function from the seq module.
 
-```python
+```
 from rs3.seq import predict_seq
 ```
 
 You can store the 30mer context sequences you want to predict as a list.
 
-```python
+```
 context_seqs = ['GACGAAAGCGACAACGCGTTCATCCGGGCA', 'AGAAAACACTAGCATCCCCACCCGCGGACT']
 ```
 
-You can specify either the
+You can specify the
 [Hsu2013](https://www.nature.com/articles/nbt.2647) or
 [Chen2013](https://www.sciencedirect.com/science/article/pii/S0092867413015316?via%3Dihub)
 as the tracrRNA to score with.
 We generally find any tracrRNA that does not have a T in the fifth position is better predicted with the Chen2013 input.
 
-```python
+```
 predict_seq(context_seqs, sequence_tracr='Hsu2013')
 ```
 
@@ -69,7 +69,7 @@ you must build or load feature matrices for the amino acid sequences, conservati
 
 As an example, we'll calculate target scores for 250 sgRNAs in the GeckoV2 library.
 
-```python
+```
 import pandas as pd
 from rs3.predicttarg import predict_target
 from rs3.targetfeat import (add_target_columns,
@@ -78,7 +78,7 @@ from rs3.targetfeat import (add_target_columns,
                             get_conservation_features)
 ```
 
-```python
+```
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 design_df.head()
 ```
@@ -258,7 +258,7 @@ design_df.head()
 Throughout the analysis we will be using a core set of ID columns to merge the feature matrices. These ID columns
 should uniquely identify an sgRNA and its target site.
 
-```python
+```
 id_cols = ['sgRNA Context Sequence', 'Target Cut Length', 'Target Transcript', 'Orientation']
 ```
 
@@ -278,7 +278,7 @@ To get this shortened version of the Ensembl ID use the `add_target_columns` fun
 This function adds the 'Transcript Base' column as well as a column indicating the amino acid index ('AA Index')
 of the cut site. The 'AA Index' column will be used for merging with the amino acid translations.
 
-```python
+```
 design_targ_df = add_target_columns(design_df)
 design_targ_df.head()
 ```
@@ -455,7 +455,7 @@ design_targ_df.head()
 
 
 
-```python
+```
 transcript_bases = design_targ_df['Transcript Base'].unique()
 transcript_bases[0:5]
 ```
@@ -468,7 +468,7 @@ transcript_bases[0:5]
 
 
 
-```python
+```
 aa_seq_df = pd.read_parquet('test_data/target_data/aa_seqs.pq', engine='pyarrow',
                             filters=[[('Transcript Base', 'in', transcript_bases)]])
 aa_seq_df.head()
@@ -581,7 +581,7 @@ We take 16 amino acids on either side of the cut site for a total sequence lengt
 The `get_aa_subseq_df` from the `targetfeat` module will calculate these subsequences
 from the complete amino acid sequences.
 
-```python
+```
 
 aa_subseq_df = get_aa_subseq_df(sg_designs=design_targ_df, aa_seq_df=aa_seq_df, width=16,
                                 id_cols=id_cols)
@@ -752,7 +752,7 @@ aa_subseq_df.head()
 You now have all the information you need to calculate "lite" Target Scores, which are less data intensive than complete
 target scores, with the `predict_target` function from the `predicttarg` module.
 
-```python
+```
 lite_predictions = predict_target(design_df=design_df,
                                   aa_subseq_df=aa_subseq_df)
 design_df['Target Score Lite'] = lite_predictions
@@ -953,7 +953,7 @@ using `write_transcript_data` function in the `targetdata` module. You can also 
 by using the `build_translation_overlap_df` function. See the documentation for the `predicttarg` module for more
 information on how to do this.
 
-```python
+```
 domain_df = pd.read_parquet('test_data/target_data/protein_domains.pq', engine='pyarrow',
                             filters=[[('Transcript Base', 'in', transcript_bases)]])
 domain_df.head()
@@ -1097,7 +1097,7 @@ domain_df.head()
 Now to transform the `domain_df` into a wide form for model input, we use the `get_protein_domain_features` function
 from the `targetfeat` module.
 
-```python
+```
 domain_feature_df = get_protein_domain_features(design_targ_df, domain_df, id_cols=id_cols)
 domain_feature_df.head()
 ```
@@ -1284,7 +1284,7 @@ To get conservation scores, you can use the `build_conservation_df` function fro
 Here we load conservation scores, which were written to parquet using the `write_conservation_data` function from the
 `targetdata` module.
 
-```python
+```
 conservation_df = pd.read_parquet('test_data/target_data/conservation.pq', engine='pyarrow',
                                   filters=[[('Transcript Base', 'in', transcript_bases)]])
 conservation_df.head()
@@ -1421,7 +1421,7 @@ We use the `get_conservation_features` function from the `targetfeat` module to 
 For the `predict_targ` function, we need the `id_cols` and the columns 'cons_4' and 'cons_32' in the
 `conservation_feature_df`.
 
-```python
+```
 conservation_feature_df = get_conservation_features(design_targ_df, conservation_df,
                                                     small_width=2, large_width=16,
                                                     conservation_column='ranked_conservation',
@@ -1570,7 +1570,7 @@ conservation_feature_df
 In order to calculate Target Scores you must input the feature matrices and design_df to the `predict_target`
 function from the `predicttarg` module.
 
-```python
+```
 target_predictions = predict_target(design_df=design_df,
                                     aa_subseq_df=aa_subseq_df,
                                     domain_feature_df=domain_feature_df,
@@ -1765,7 +1765,7 @@ Target Scores can be added directly to the sequence scores for your final Rule S
 If you don't want to generate the target matrices themselves, you can use the `predict` function from
 the `predict` module.
 
-```python
+```
 from rs3.predict import predict
 import matplotlib.pyplot as plt
 import gpplot
@@ -1787,13 +1787,13 @@ The `predict` function allows for parallel computation
 for querying databases (`n_jobs_min`) and featurizing sgRNAs (`n_jobs_max`).
 We recommend keeping `n_jobs_min` set to 1 or 2, as the APIs limit the amount of queries per hour.
 
-```python
+```
 design_df = pd.read_table('test_data/sgrna-designs.txt')
 import multiprocessing
 max_n_jobs = multiprocessing.cpu_count()
 ```
 
-```python
+```
 scored_designs = predict(design_df, tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=max_n_jobs,
                          aa_seq_file='./test_data/target_data/aa_seqs.pq',
@@ -2005,7 +2005,7 @@ and the sequence scores plus the target score.
 
 We can compare these predictions against the observed activity from GeckoV2
 
-```python
+```
 gecko_activity = pd.read_csv('test_data/Aguirre2016_activity.csv')
 gecko_activity.head()
 ```
@@ -2085,7 +2085,7 @@ gecko_activity.head()
 
 
 
-```python
+```
 gecko_activity_scores = (gecko_activity.merge(scored_designs,
                                               how='inner',
                                               on=['sgRNA Sequence', 'sgRNA Context Sequence',
@@ -2267,7 +2267,7 @@ gecko_activity_scores.head()
 
 Since GeckoV2 was screened with the tracrRNA from Hsu et al. 2013, we'll use these scores sequence scores a part of our final prediction.
 
-```python
+```
 plt.subplots(figsize=(4,4))
 gpplot.point_densityplot(gecko_activity_scores, y='avg_mean_centered_neg_lfc',
                          x='RS3 Sequence (Hsu2013 tracr) + Target Score')
@@ -2285,11 +2285,11 @@ sns.despine()
 You can also make predictions without pre-querying the target data. Here
 we use example designs for BCL2L1, MCL1 and EEF2.
 
-```python
+```
 design_df = pd.read_table('test_data/sgrna-designs_BCL2L1_MCL1_EEF2.txt')
 ```
 
-```python
+```
 scored_designs = predict(design_df,
                          tracr=['Hsu2013', 'Chen2013'], target=True,
                          n_jobs_min=2, n_jobs_max=8,
