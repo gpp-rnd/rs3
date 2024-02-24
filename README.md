@@ -2277,7 +2277,9 @@ sns.despine()
 ```
 
 
+    
 ![png](docs/images/output_42_0.png)
+    
 
 
 #### Predictions on the fly
