@@ -140,3 +140,7 @@ checklink/cookies.txt
 .gitconfig
 
 conda/
+
+_token
+
+data/
