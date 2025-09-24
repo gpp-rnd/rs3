@@ -52,7 +52,7 @@ predict_seq(context_seqs, sequence_tracr='Hsu2013')
     Calculating sequence-based features
 
 
-    100%|██████████| 2/2 [00:00<00:00, 261.07it/s]
+    100%|██████████| 2/2 [00:00<00:00, 352.28it/s]
 
 
 
@@ -617,8 +617,8 @@ aa_subseq_df.head()
       <th>desc</th>
       <th>id</th>
       <th>AA len</th>
-      <th>AA Index</th>
       <th>Target Cut Length</th>
+      <th>AA Index</th>
       <th>Orientation</th>
       <th>sgRNA Context Sequence</th>
       <th>extended_seq</th>
@@ -641,8 +641,8 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000259457</td>
       <td>277</td>
-      <td>64</td>
       <td>191</td>
+      <td>64</td>
       <td>sense</td>
       <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
@@ -663,8 +663,8 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000259457</td>
       <td>277</td>
-      <td>46</td>
       <td>137</td>
+      <td>46</td>
       <td>sense</td>
       <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
@@ -685,8 +685,8 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000377793</td>
       <td>620</td>
-      <td>106</td>
       <td>316</td>
+      <td>106</td>
       <td>sense</td>
       <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
@@ -707,8 +707,8 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000377793</td>
       <td>620</td>
-      <td>263</td>
       <td>787</td>
+      <td>263</td>
       <td>antisense</td>
       <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
@@ -729,8 +729,8 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000354522</td>
       <td>765</td>
-      <td>140</td>
       <td>420</td>
+      <td>140</td>
       <td>antisense</td>
       <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
       <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
@@ -758,13 +758,13 @@ design_df['Target Score Lite'] = lite_predictions
 design_df.head()
 ```
 
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -1583,13 +1583,13 @@ design_df['Target Score'] = target_predictions
 design_df.head()
 ```
 
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -1813,20 +1813,20 @@ scored_designs.head()
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:00<00:00, 460.27it/s]
+    100%|██████████| 400/400 [00:01<00:00, 226.77it/s]
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:00<00:00, 3798.10it/s]
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    100%|██████████| 400/400 [00:00<00:00, 2734.69it/s]
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -2313,78 +2313,38 @@ scored_designs
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:00<00:00, 3534.10it/s]
+    100%|██████████| 849/849 [00:00<00:00, 2397.41it/s]
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:00<00:00, 4149.77it/s]
+    100%|██████████| 849/849 [00:00<00:00, 3400.56it/s]
 
 
     Getting amino acid sequences
 
 
-    100%|██████████| 1/1 [00:00<00:00,  4.25it/s]
+    100%|██████████| 1/1 [00:00<00:00,  4.01it/s]
 
 
     Getting protein domains
 
 
-    100%|██████████| 3/3 [00:00<00:00, 3125.41it/s]
+    100%|██████████| 3/3 [00:00<00:00, 2714.76it/s]
 
 
     Getting conservation
 
 
-    100%|██████████| 3/3 [00:00<00:00, 23.44it/s]
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    100%|██████████| 3/3 [00:00<00:00, 29.72it/s]
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
     https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v7/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
