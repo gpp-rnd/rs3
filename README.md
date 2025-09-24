@@ -52,7 +52,7 @@ predict_seq(context_seqs, sequence_tracr='Hsu2013')
     Calculating sequence-based features
 
 
-    100%|██████████| 2/2 [00:00<00:00, 15.04it/s]
+    100%|██████████| 2/2 [00:00<00:00, 261.07it/s]
 
 
 
@@ -582,7 +582,6 @@ The `get_aa_subseq_df` from the `targetfeat` module will calculate these subsequ
 from the complete amino acid sequences.
 
 ```
-
 aa_subseq_df = get_aa_subseq_df(sg_designs=design_targ_df, aa_seq_df=aa_seq_df, width=16,
                                 id_cols=id_cols)
 aa_subseq_df.head()
@@ -618,10 +617,10 @@ aa_subseq_df.head()
       <th>desc</th>
       <th>id</th>
       <th>AA len</th>
+      <th>AA Index</th>
       <th>Target Cut Length</th>
       <th>Orientation</th>
       <th>sgRNA Context Sequence</th>
-      <th>AA Index</th>
       <th>extended_seq</th>
       <th>AA 0-Indexed</th>
       <th>AA 0-Indexed padded</th>
@@ -642,10 +641,10 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000259457</td>
       <td>277</td>
+      <td>64</td>
       <td>191</td>
       <td>sense</td>
       <td>TGGAGCAGATACAAGAGCAACTGAAGGGAT</td>
-      <td>64</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>63</td>
       <td>80</td>
@@ -664,10 +663,10 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000259457</td>
       <td>277</td>
+      <td>46</td>
       <td>137</td>
       <td>sense</td>
       <td>CCGGAAAACTGGCACGACCATCGCTGGGGT</td>
-      <td>46</td>
       <td>-----------------MAAVSVYAPPVGGFSFDNCRRNAVLEADF...</td>
       <td>45</td>
       <td>62</td>
@@ -686,10 +685,10 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000377793</td>
       <td>620</td>
+      <td>106</td>
       <td>316</td>
       <td>sense</td>
       <td>TAGAAAAAGATTTGCGCACCCAAGTGGAAT</td>
-      <td>106</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>105</td>
       <td>122</td>
@@ -708,10 +707,10 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000377793</td>
       <td>620</td>
+      <td>263</td>
       <td>787</td>
       <td>antisense</td>
       <td>TGGCCTTTGACCCAGACATAATGGTGGCCA</td>
-      <td>263</td>
       <td>-----------------MRRSEVLAEESIVCLQKALNHLREIWELI...</td>
       <td>262</td>
       <td>279</td>
@@ -730,10 +729,10 @@ aa_subseq_df.head()
       <td>None</td>
       <td>ENSP00000354522</td>
       <td>765</td>
+      <td>140</td>
       <td>420</td>
       <td>antisense</td>
       <td>AAATACTCACTCATCCTCATCTCGAGGTCT</td>
-      <td>140</td>
       <td>-----------------MSGDHLHNDSQIEADFRLNDSHKHKDKHK...</td>
       <td>139</td>
       <td>156</td>
@@ -759,9 +758,13 @@ design_df['Target Score Lite'] = lite_predictions
 design_df.head()
 ```
 
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
+      warnings.warn(
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -832,7 +835,7 @@ design_df.head()
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.012467</td>
+      <td>-0.088666</td>
     </tr>
     <tr>
       <th>1</th>
@@ -856,7 +859,7 @@ design_df.head()
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.048338</td>
+      <td>-0.013821</td>
     </tr>
     <tr>
       <th>2</th>
@@ -880,7 +883,7 @@ design_df.head()
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.129234</td>
+      <td>0.103036</td>
     </tr>
     <tr>
       <th>3</th>
@@ -904,7 +907,7 @@ design_df.head()
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.061647</td>
+      <td>0.160578</td>
     </tr>
     <tr>
       <th>4</th>
@@ -928,7 +931,7 @@ design_df.head()
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
-      <td>-0.009100</td>
+      <td>0.069597</td>
     </tr>
   </tbody>
 </table>
@@ -1580,9 +1583,13 @@ design_df['Target Score'] = target_predictions
 design_df.head()
 ```
 
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
+      warnings.warn(
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -1652,8 +1659,8 @@ design_df.head()
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.012467</td>
-      <td>0.152037</td>
+      <td>-0.088666</td>
+      <td>0.110229</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1676,8 +1683,8 @@ design_df.head()
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.048338</td>
-      <td>0.064880</td>
+      <td>-0.013821</td>
+      <td>0.018766</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1700,8 +1707,8 @@ design_df.head()
       <td>1</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>-0.129234</td>
-      <td>-0.063012</td>
+      <td>0.103036</td>
+      <td>0.127005</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1724,8 +1731,8 @@ design_df.head()
       <td>2</td>
       <td>0</td>
       <td>Preselected</td>
-      <td>0.061647</td>
-      <td>-0.126357</td>
+      <td>0.160578</td>
+      <td>-0.035591</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1748,8 +1755,8 @@ design_df.head()
       <td>2</td>
       <td>1</td>
       <td>NaN</td>
-      <td>-0.009100</td>
-      <td>-0.234410</td>
+      <td>0.069597</td>
+      <td>-0.154246</td>
     </tr>
   </tbody>
 </table>
@@ -1806,16 +1813,20 @@ scored_designs.head()
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:05<00:00, 68.98it/s] 
+    100%|██████████| 400/400 [00:00<00:00, 460.27it/s]
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 400/400 [00:01<00:00, 229.85it/s]
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    100%|██████████| 400/400 [00:00<00:00, 3798.10it/s]
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
+      warnings.warn(
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -1884,9 +1895,9 @@ scored_designs.head()
       <td>64</td>
       <td>ENST00000259457</td>
       <td>False</td>
-      <td>0.152037</td>
-      <td>0.939676</td>
-      <td>0.711381</td>
+      <td>0.110229</td>
+      <td>0.897869</td>
+      <td>0.669574</td>
     </tr>
     <tr>
       <th>1</th>
@@ -1908,9 +1919,9 @@ scored_designs.head()
       <td>46</td>
       <td>ENST00000259457</td>
       <td>False</td>
-      <td>0.064880</td>
-      <td>-0.229246</td>
-      <td>-0.116557</td>
+      <td>0.018766</td>
+      <td>-0.275359</td>
+      <td>-0.162671</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1932,9 +1943,9 @@ scored_designs.head()
       <td>106</td>
       <td>ENST00000394249</td>
       <td>False</td>
-      <td>-0.063012</td>
-      <td>-0.106429</td>
-      <td>-0.283446</td>
+      <td>0.127005</td>
+      <td>0.083588</td>
+      <td>-0.093429</td>
     </tr>
     <tr>
       <th>3</th>
@@ -1956,9 +1967,9 @@ scored_designs.head()
       <td>263</td>
       <td>ENST00000394249</td>
       <td>False</td>
-      <td>-0.126357</td>
-      <td>0.632899</td>
-      <td>0.327112</td>
+      <td>-0.035591</td>
+      <td>0.723665</td>
+      <td>0.417878</td>
     </tr>
     <tr>
       <th>4</th>
@@ -1980,9 +1991,9 @@ scored_designs.head()
       <td>140</td>
       <td>ENST00000361337</td>
       <td>False</td>
-      <td>-0.234410</td>
-      <td>0.189591</td>
-      <td>-0.431445</td>
+      <td>-0.154246</td>
+      <td>0.269755</td>
+      <td>-0.351282</td>
     </tr>
   </tbody>
 </table>
@@ -2158,9 +2169,9 @@ gecko_activity_scores.head()
       <td>46</td>
       <td>ENST00000259457</td>
       <td>False</td>
-      <td>0.064880</td>
-      <td>-0.229246</td>
-      <td>-0.116557</td>
+      <td>0.018766</td>
+      <td>-0.275359</td>
+      <td>-0.162671</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2182,9 +2193,9 @@ gecko_activity_scores.head()
       <td>106</td>
       <td>ENST00000394249</td>
       <td>False</td>
-      <td>-0.063012</td>
-      <td>-0.106429</td>
-      <td>-0.283446</td>
+      <td>0.127005</td>
+      <td>0.083588</td>
+      <td>-0.093429</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2206,9 +2217,9 @@ gecko_activity_scores.head()
       <td>50</td>
       <td>ENST00000361337</td>
       <td>False</td>
-      <td>-0.354708</td>
-      <td>-0.648835</td>
-      <td>-0.377659</td>
+      <td>-0.137369</td>
+      <td>-0.431496</td>
+      <td>-0.160320</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2230,9 +2241,9 @@ gecko_activity_scores.head()
       <td>34</td>
       <td>ENST00000368328</td>
       <td>False</td>
-      <td>0.129285</td>
-      <td>-0.538114</td>
-      <td>-0.179509</td>
+      <td>0.120044</td>
+      <td>-0.547355</td>
+      <td>-0.188750</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2254,9 +2265,9 @@ gecko_activity_scores.head()
       <td>157</td>
       <td>ENST00000610426</td>
       <td>False</td>
-      <td>-0.113577</td>
-      <td>-0.515797</td>
-      <td>-0.736069</td>
+      <td>0.047223</td>
+      <td>-0.354996</td>
+      <td>-0.575268</td>
     </tr>
   </tbody>
 </table>
@@ -2302,34 +2313,78 @@ scored_designs
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:06<00:00, 137.86it/s]
+    100%|██████████| 849/849 [00:00<00:00, 3534.10it/s]
 
 
     Calculating sequence-based features
 
 
-    100%|██████████| 849/849 [00:02<00:00, 321.44it/s]
+    100%|██████████| 849/849 [00:00<00:00, 4149.77it/s]
 
 
     Getting amino acid sequences
 
 
-    100%|██████████| 1/1 [00:00<00:00,  1.77it/s]
+    100%|██████████| 1/1 [00:00<00:00,  4.25it/s]
 
 
     Getting protein domains
 
 
-    100%|██████████| 3/3 [00:00<00:00, 899.29it/s]
+    100%|██████████| 3/3 [00:00<00:00, 3125.41it/s]
 
 
     Getting conservation
 
 
-    100%|██████████| 3/3 [00:00<00:00, 10.67it/s]
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    100%|██████████| 3/3 [00:00<00:00, 23.44it/s]
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/Documents/rs3/rs3/targetdata.py:254: FutureWarning: Passing literal json to 'read_json' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
+      value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator SimpleImputer from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
       warnings.warn(
-    /opt/anaconda3/envs/rs3/lib/python3.8/site-packages/sklearn/base.py:310: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 0.24.2. This might lead to breaking code or invalid results. Use at your own risk.
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:329: UserWarning: Trying to unpickle estimator Pipeline from version 1.0.dev0 when using version 1.0.2. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+    https://scikit-learn.org/stable/modules/model_persistence.html#security-maintainability-limitations
+      warnings.warn(
+    /Users/peterdeweirdt/miniforge3/envs/test_rs3_v6/lib/python3.9/site-packages/sklearn/base.py:443: UserWarning: X has feature names, but SimpleImputer was fitted without feature names
       warnings.warn(
 
 
@@ -2398,9 +2453,9 @@ scored_designs
       <td>666</td>
       <td>ENST00000309311</td>
       <td>False</td>
-      <td>-0.115549</td>
-      <td>0.792261</td>
-      <td>0.654408</td>
+      <td>-0.143972</td>
+      <td>0.763837</td>
+      <td>0.625984</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2422,9 +2477,9 @@ scored_designs
       <td>581</td>
       <td>ENST00000309311</td>
       <td>False</td>
-      <td>-0.017643</td>
-      <td>0.154226</td>
-      <td>0.022776</td>
+      <td>-0.027326</td>
+      <td>0.144543</td>
+      <td>0.013093</td>
     </tr>
     <tr>
       <th>2</th>
@@ -2446,9 +2501,9 @@ scored_designs
       <td>107</td>
       <td>ENST00000309311</td>
       <td>False</td>
-      <td>0.172910</td>
-      <td>1.566422</td>
-      <td>0.750642</td>
+      <td>-0.002082</td>
+      <td>1.391430</td>
+      <td>0.575650</td>
     </tr>
     <tr>
       <th>3</th>
@@ -2470,9 +2525,9 @@ scored_designs
       <td>406</td>
       <td>ENST00000309311</td>
       <td>False</td>
-      <td>0.121034</td>
-      <td>1.025480</td>
-      <td>0.129424</td>
+      <td>0.080430</td>
+      <td>0.984876</td>
+      <td>0.088820</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2494,9 +2549,9 @@ scored_designs
       <td>546</td>
       <td>ENST00000309311</td>
       <td>False</td>
-      <td>0.036041</td>
-      <td>0.867128</td>
-      <td>0.397635</td>
+      <td>0.025749</td>
+      <td>0.856836</td>
+      <td>0.387343</td>
     </tr>
     <tr>
       <th>...</th>
@@ -2542,9 +2597,9 @@ scored_designs
       <td>52</td>
       <td>ENST00000369026</td>
       <td>False</td>
-      <td>-0.299583</td>
-      <td>-1.092501</td>
-      <td>-0.963464</td>
+      <td>-0.136403</td>
+      <td>-0.929321</td>
+      <td>-0.800284</td>
     </tr>
     <tr>
       <th>845</th>
@@ -2590,9 +2645,9 @@ scored_designs
       <td>24</td>
       <td>ENST00000369026</td>
       <td>False</td>
-      <td>-0.285485</td>
-      <td>-1.386788</td>
-      <td>-1.581125</td>
+      <td>-0.148665</td>
+      <td>-1.249969</td>
+      <td>-1.444305</td>
     </tr>
     <tr>
       <th>847</th>
@@ -2614,9 +2669,9 @@ scored_designs
       <td>30</td>
       <td>ENST00000369026</td>
       <td>False</td>
-      <td>-0.312348</td>
-      <td>-0.929779</td>
-      <td>-0.933784</td>
+      <td>-0.145388</td>
+      <td>-0.762819</td>
+      <td>-0.766825</td>
     </tr>
     <tr>
       <th>848</th>
@@ -2638,15 +2693,39 @@ scored_designs
       <td>30</td>
       <td>ENST00000369026</td>
       <td>False</td>
-      <td>-0.312348</td>
-      <td>-0.899159</td>
-      <td>-0.976478</td>
+      <td>-0.145388</td>
+      <td>-0.732200</td>
+      <td>-0.809518</td>
     </tr>
   </tbody>
 </table>
 <p>849 rows × 61 columns</p>
 </div>
 
+
+
+```
+crispick_designs = pd.read_table('test_data/CRISPick_reference_designs.txt')
+```
+
+```
+merged_designs = (scored_designs
+                  .merge(crispick_designs[['sgRNA Cut Position (1-based)',	'sgRNA Sequence', 'On-Target Efficacy Score']]
+                         .rename(columns={'On-Target Efficacy Score': 'CRISPick_score'}), how='inner', 
+                         on=['sgRNA Cut Position (1-based)',	'sgRNA Sequence']))
+```
+
+```
+plt.subplots(figsize=(4,4))
+gpplot.add_correlation(data=merged_designs, x='CRISPick_score', y='RS3 Sequence (Chen2013 tracr) + Target Score')
+sns.scatterplot(data=merged_designs, x='CRISPick_score', y='RS3 Sequence (Chen2013 tracr) + Target Score')
+sns.despine()
+```
+
+
+    
+![png](docs/images/output_48_0.png)
+    
 
 
 We see that the predict function is querying the target data in addition

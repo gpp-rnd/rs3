@@ -16,6 +16,7 @@ import warnings
 import os
 from scipy import stats
 import multiprocessing
+import io
 
 # Cell
 def ensembl_post(ext, data, headers=None, params=None):
@@ -251,7 +252,7 @@ def get_conservation(chr, start, end, genome):
     }
     results = requests.get(api_url, data=params)
     if results.ok:
-        value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(results.content.decode('utf8'))[chrom].values])
+        value_df = (pd.DataFrame([pd.Series(x) for x in pd.read_json(io.StringIO(results.content.decode('utf8')))[chrom].values])
                     .rename(columns={'value': 'conservation'}))
     else:
         raise ValueError(results.reason)

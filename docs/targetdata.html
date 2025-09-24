@@ -19,20 +19,17 @@ nb_path: "01_targetdata.ipynb"
 # command to build the docs after a change: nbdev_build_docs
 
 -->
-
 <div class="container" id="notebook-container">
         
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -40,17 +37,14 @@ nb_path: "01_targetdata.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;test_data/sgrna-designs.txt&#39;</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">design_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">'test_data/sgrna-designs.txt'</span><span class="p">)</span>
 <span class="n">max_n_jobs</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
     {% endraw %}
 
@@ -63,15 +57,13 @@ nb_path: "01_targetdata.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ensembl_post" class="doc_header"><code>ensembl_post</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ensembl_post</code>(<strong><code>ext</code></strong>, <strong><code>data</code></strong>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong><code>params</code></strong>=<em><code>None</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="ensembl_post"><code>ensembl_post</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L22" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>ensembl_post</code>(<strong><code>ext</code></strong>, <strong><code>data</code></strong>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong><code>params</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Generic wrapper for using POST requests to the ensembl rest API</p>
 <p>:param ext: str, url extension
@@ -79,93 +71,74 @@ nb_path: "01_targetdata.ipynb"
 :param headers: dict or None,  meta-information for query
 :param params: dict or None, parameters for query
 :return: Response object</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="chunks" class="doc_header"><code>chunks</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>chunks</code>(<strong><code>lst</code></strong>, <strong><code>n</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="chunks"><code>chunks</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L43" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>chunks</code>(<strong><code>lst</code></strong>, <strong><code>n</code></strong>)</p>
 </blockquote>
 <p>Yield successive n-sized chunks from lst.</p>
 <p>lst: list
 n: int</p>
 <p>returns: generator of list chunks</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="post_transcript_sequence_chunk" class="doc_header"><code>post_transcript_sequence_chunk</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>post_transcript_sequence_chunk</code>(<strong><code>ids</code></strong>, <strong><code>params</code></strong>, <strong><code>headers</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="post_transcript_sequence_chunk"><code>post_transcript_sequence_chunk</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L54" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>post_transcript_sequence_chunk</code>(<strong><code>ids</code></strong>, <strong><code>params</code></strong>, <strong><code>headers</code></strong>)</p>
 </blockquote>
 <p>Helper function for post_transcript_sequence</p>
 <p>:param ids: list
 :param params: dict
 :param headers: dict
 :return: dict</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="post_transcript_sequence" class="doc_header"><code>post_transcript_sequence</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>post_transcript_sequence</code>(<strong><code>ensembl_ids</code></strong>, <strong><code>seq_type</code></strong>=<em><code>'protein'</code></em>, <strong><code>max_queries</code></strong>=<em><code>50</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="post_transcript_sequence"><code>post_transcript_sequence</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L68" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>post_transcript_sequence</code>(<strong><code>ensembl_ids</code></strong>, <strong><code>seq_type</code></strong>=<em><code>'protein'</code></em>, <strong><code>max_queries</code></strong>=<em><code>50</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Request multiple types of sequence by stable identifier. Supports feature masking and expand options.
 Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">https://rest.ensembl.org/documentation/info/sequence_id_post</a></p>
@@ -175,21 +148,16 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
 :param n_jobs: int, number of jobs to run in parallel
 :param kwargs: additional parameter arguments
 :return: list, dict of sequences 5' to 3' in the same orientation as the input transcript</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -197,46 +165,37 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span><span class="p">(</span><span class="n">post_transcript_sequence</span><span class="p">([</span><span class="s2">&quot;ENSG00000157764&quot;</span><span class="p">,</span> <span class="s2">&quot;ENSG00000248378&quot;</span><span class="p">],</span>
-                                <span class="n">seq_type</span><span class="o">=</span><span class="s1">&#39;genomic&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;seq&#39;</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CTTC&#39;</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">assert</span><span class="p">(</span><span class="n">post_transcript_sequence</span><span class="p">([</span><span class="s2">"ENSG00000157764"</span><span class="p">,</span> <span class="s2">"ENSG00000248378"</span><span class="p">],</span>
+                                <span class="n">seq_type</span><span class="o">=</span><span class="s1">'genomic'</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'seq'</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'GTCT'</span><span class="p">)</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 1/1 [00:01&lt;00:00,  1.72s/it]
+<pre>100%|██████████| 1/1 [00:01&lt;00:00,  1.69s/it]
 </pre>
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_transcript_aa_seq_df" class="doc_header"><code>build_transcript_aa_seq_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_transcript_aa_seq_df</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="build_transcript_aa_seq_df"><code>build_transcript_aa_seq_df</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L90" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>build_transcript_aa_seq_df</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 <p>Get amino acid sequence for transcripts of interest</p>
 <p>:param design_df: DataFrame
@@ -244,21 +203,16 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
 :param transcript_len_col: str, column with length of transcript
 :param n_jobs: int, number of jobs to use to query transcripts
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -266,42 +220,33 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">transcript_aa_seq_df</span> <span class="o">=</span> <span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">transcript_aa_seq_df</span> <span class="o">=</span> <span class="n">build_transcript_aa_seq_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">transcript_aa_seq_df</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting amino acid sequences
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.47it/s]
+<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.54it/s]
+/var/folders/n9/c397fj3n5f16khr7tp76tbpc0000gn/T/ipykernel_37465/1237391668.py:23: UserWarning: Unable to find translations for the following transcripts: ENST00000629399, ENST00000284049
+  warnings.warn('Unable to find translations for the following transcripts: ' + ', '.join(missing_seqs))
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -315,164 +260,160 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Target Transcript</th>
-      <th>Target Total Length</th>
-      <th>Transcript Base</th>
-      <th>version</th>
-      <th>desc</th>
-      <th>molecule</th>
-      <th>seq</th>
-      <th>id</th>
-      <th>AA len</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>ENST00000259457.8</td>
-      <td>834</td>
-      <td>ENST00000259457</td>
-      <td>3</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
-      <td>ENSP00000259457</td>
-      <td>277</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>ENST00000394249.8</td>
-      <td>1863</td>
-      <td>ENST00000394249</td>
-      <td>3</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
-      <td>ENSP00000377793</td>
-      <td>620</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ENST00000361337.3</td>
-      <td>2298</td>
-      <td>ENST00000361337</td>
-      <td>2</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MSGDHLHNDSQIEADFRLNDSHKHKDKHKDREHRHKEHKKEKDREK...</td>
-      <td>ENSP00000354522</td>
-      <td>765</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>ENST00000368328.5</td>
-      <td>267</td>
-      <td>ENST00000368328</td>
-      <td>4</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MALSTIVSQRKQIKRKAPRGFLKRVFKRKKPQLRLEKSGDLLVHLN...</td>
-      <td>ENSP00000357311</td>
-      <td>88</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>ENST00000610426.5</td>
-      <td>783</td>
-      <td>ENST00000610426</td>
-      <td>1</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MPQNEYIELHRKRYGYRLDYHEKKRKKESREAHERSKKAKKMIGLK...</td>
-      <td>ENSP00000483484</td>
-      <td>260</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>195</th>
-      <td>ENST00000339374.11</td>
-      <td>1371</td>
-      <td>ENST00000339374</td>
-      <td>6</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MAAALKCLLTLGRWCPGLGVAPQARALAALVPGVTQVDNKSGFLQK...</td>
-      <td>ENSP00000343041</td>
-      <td>456</td>
-    </tr>
-    <tr>
-      <th>196</th>
-      <td>ENST00000393047.8</td>
-      <td>882</td>
-      <td>ENST00000393047</td>
-      <td>3</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MSRIPLGKVLLRNVIRHTDAHNKIQEESDMWKIRELEKQMEDAYRG...</td>
-      <td>ENSP00000376767</td>
-      <td>293</td>
-    </tr>
-    <tr>
-      <th>197</th>
-      <td>ENST00000454402.7</td>
-      <td>1023</td>
-      <td>ENST00000454402</td>
-      <td>2</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>METSALKQQEQPAATKIRNLPWVEKYRPQTLNDLISHQDILSTIQK...</td>
-      <td>ENSP00000408295</td>
-      <td>340</td>
-    </tr>
-    <tr>
-      <th>198</th>
-      <td>ENST00000254998.3</td>
-      <td>423</td>
-      <td>ENST00000254998</td>
-      <td>2</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MASVDFKTYVDQACRAAEEFVNVYYTTMDKRRRLLSRLYMGTATLV...</td>
-      <td>ENSP00000254998</td>
-      <td>140</td>
-    </tr>
-    <tr>
-      <th>199</th>
-      <td>ENST00000381685.10</td>
-      <td>2067</td>
-      <td>ENST00000381685</td>
-      <td>5</td>
-      <td>None</td>
-      <td>protein</td>
-      <td>MQVSSLNEVKIYSLSCGKSLPEWLSDRKKRALQKKDVDVRRRIELI...</td>
-      <td>ENSP00000371101</td>
-      <td>688</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Target Transcript</th>
+<th>Target Total Length</th>
+<th>Transcript Base</th>
+<th>version</th>
+<th>desc</th>
+<th>molecule</th>
+<th>id</th>
+<th>seq</th>
+<th>AA len</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>ENST00000259457.8</td>
+<td>834</td>
+<td>ENST00000259457</td>
+<td>3</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000259457</td>
+<td>MAAVSVYAPPVGGFSFDNCRRNAVLEADFAKRGYKLPKVRKTGTTI...</td>
+<td>277</td>
+</tr>
+<tr>
+<th>1</th>
+<td>ENST00000394249.8</td>
+<td>1863</td>
+<td>ENST00000394249</td>
+<td>3</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000377793</td>
+<td>MRRSEVLAEESIVCLQKALNHLREIWELIGIPEDQRLQRTEVVKKH...</td>
+<td>620</td>
+</tr>
+<tr>
+<th>2</th>
+<td>ENST00000361337.3</td>
+<td>2298</td>
+<td>ENST00000361337</td>
+<td>2</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000354522</td>
+<td>MSGDHLHNDSQIEADFRLNDSHKHKDKHKDREHRHKEHKKEKDREK...</td>
+<td>765</td>
+</tr>
+<tr>
+<th>3</th>
+<td>ENST00000368328.5</td>
+<td>267</td>
+<td>ENST00000368328</td>
+<td>4</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000357311</td>
+<td>MALSTIVSQRKQIKRKAPRGFLKRVFKRKKPQLRLEKSGDLLVHLN...</td>
+<td>88</td>
+</tr>
+<tr>
+<th>4</th>
+<td>ENST00000610426.5</td>
+<td>783</td>
+<td>ENST00000610426</td>
+<td>1</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000483484</td>
+<td>MPQNEYIELHRKRYGYRLDYHEKKRKKESREAHERSKKAKKMIGLK...</td>
+<td>260</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>193</th>
+<td>ENST00000339374.11</td>
+<td>1371</td>
+<td>ENST00000339374</td>
+<td>6</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000343041</td>
+<td>MAAALKCLLTLGRWCPGLGVAPQARALAALVPGVTQVDNKSGFLQK...</td>
+<td>456</td>
+</tr>
+<tr>
+<th>194</th>
+<td>ENST00000393047.8</td>
+<td>882</td>
+<td>ENST00000393047</td>
+<td>3</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000376767</td>
+<td>MSRIPLGKVLLRNVIRHTDAHNKIQEESDMWKIRELEKQMEDAYRG...</td>
+<td>293</td>
+</tr>
+<tr>
+<th>195</th>
+<td>ENST00000454402.7</td>
+<td>1023</td>
+<td>ENST00000454402</td>
+<td>2</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000408295</td>
+<td>METSALKQQEQPAATKIRNLPWVEKYRPQTLNDLISHQDILSTIQK...</td>
+<td>340</td>
+</tr>
+<tr>
+<th>196</th>
+<td>ENST00000254998.3</td>
+<td>423</td>
+<td>ENST00000254998</td>
+<td>2</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000254998</td>
+<td>MASVDFKTYVDQACRAAEEFVNVYYTTMDKRRRLLSRLYMGTATLV...</td>
+<td>140</td>
+</tr>
+<tr>
+<th>197</th>
+<td>ENST00000381685.10</td>
+<td>2067</td>
+<td>ENST00000381685</td>
+<td>5</td>
+<td>None</td>
+<td>protein</td>
+<td>ENSP00000371101</td>
+<td>MQVSSLNEVKIYSLSCGKSLPEWLSDRKKRALQKKDVDVRRRIELI...</td>
+<td>688</td>
+</tr>
+</tbody>
 </table>
-<p>200 rows × 9 columns</p>
+<p>198 rows × 9 columns</p>
+</div></div>
 </div>
 </div>
-
 </div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -485,15 +426,13 @@ Uses <a href="https://rest.ensembl.org/documentation/info/sequence_id_post">http
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="ensembl_get" class="doc_header"><code>ensembl_get</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L125" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ensembl_get</code>(<strong><code>ext</code></strong>, <strong><code>query</code></strong>=<em><code>None</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong><code>params</code></strong>=<em><code>None</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="ensembl_get"><code>ensembl_get</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L126" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>ensembl_get</code>(<strong><code>ext</code></strong>, <strong><code>query</code></strong>=<em><code>None</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong><code>params</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Generic wrapper for using GET requests to the ensembl rest API</p>
 <p>ext: str, url extension |
@@ -501,48 +440,37 @@ query: str or None, end of url extension specifying species, taxon, esnembl_id e
 headers: dict or None,  meta-information for query |
 params: dict or None, parameters for query |</p>
 <p>returns: Response object</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_translation_overlap" class="doc_header"><code>get_translation_overlap</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L147" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_translation_overlap</code>(<strong><code>ensembl_id</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_translation_overlap"><code>get_translation_overlap</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L148" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_translation_overlap</code>(<strong><code>ensembl_id</code></strong>)</p>
 </blockquote>
 <p>Get features that overlap with translation, such as protein domains</p>
 <p>:param ensembl_id: str
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -550,52 +478,42 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">brca1_overlap</span> <span class="o">=</span> <span class="n">get_translation_overlap</span><span class="p">(</span><span class="s1">&#39;ENSP00000350283&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="s1">&#39;BRCT domain&#39;</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">brca1_overlap</span><span class="p">)[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">brca1_overlap</span> <span class="o">=</span> <span class="n">get_translation_overlap</span><span class="p">(</span><span class="s1">'ENSP00000350283'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s1">'BRCT domain'</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">brca1_overlap</span><span class="p">)[</span><span class="s1">'description'</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_translation_overlap_df" class="doc_header"><code>build_translation_overlap_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_translation_overlap_df</code>(<strong><code>protein_ids</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="build_translation_overlap_df"><code>build_translation_overlap_df</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L161" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>build_translation_overlap_df</code>(<strong><code>protein_ids</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
 <p>Get protein domain information</p>
 <p>:param protein_ids: list of str, ensemble protein IDs
 :param n_jobs: int
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -603,43 +521,32 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">translation_overlap_df</span> <span class="o">=</span> <span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">transcript_aa_seq_df</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">translation_overlap_df</span> <span class="o">=</span> <span class="n">build_translation_overlap_df</span><span class="p">(</span><span class="n">transcript_aa_seq_df</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span>
                                                       <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">translation_overlap_df</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting protein domains
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:48&lt;00:00,  4.09it/s]
+<pre>100%|██████████| 198/198 [00:49&lt;00:00,  4.00it/s]
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -653,236 +560,232 @@ params: dict or None, parameters for query |</p>
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>hseqname</th>
-      <th>translation_id</th>
-      <th>interpro</th>
-      <th>start</th>
-      <th>Transcript Base</th>
-      <th>align_type</th>
-      <th>feature_type</th>
-      <th>cigar_string</th>
-      <th>id</th>
-      <th>type</th>
-      <th>hit_end</th>
-      <th>end</th>
-      <th>hit_start</th>
-      <th>seq_region_name</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>3.60.20.10</td>
-      <td>976188</td>
-      <td>IPR029055</td>
-      <td>44</td>
-      <td>ENST00000259457</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>3.60.20.10</td>
-      <td>Gene3D</td>
-      <td>233</td>
-      <td>277</td>
-      <td>1</td>
-      <td>ENSP00000259457</td>
-      <td>Nucleophile aminohydrolases, N-terminal</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>PF12465</td>
-      <td>976188</td>
-      <td>IPR024689</td>
-      <td>235</td>
-      <td>ENST00000259457</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>PF12465</td>
-      <td>Pfam</td>
-      <td>36</td>
-      <td>271</td>
-      <td>1</td>
-      <td>ENSP00000259457</td>
-      <td>Proteasome beta subunit, C-terminal</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>PF00227</td>
-      <td>976188</td>
-      <td>IPR001353</td>
-      <td>41</td>
-      <td>ENST00000259457</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>PF00227</td>
-      <td>Pfam</td>
-      <td>190</td>
-      <td>221</td>
-      <td>2</td>
-      <td>ENSP00000259457</td>
-      <td>Proteasome, subunit alpha/beta</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>PR00141</td>
-      <td>976188</td>
-      <td>IPR000243</td>
-      <td>51</td>
-      <td>ENST00000259457</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>PR00141</td>
-      <td>PRINTS</td>
-      <td>0</td>
-      <td>66</td>
-      <td>0</td>
-      <td>ENSP00000259457</td>
-      <td>Peptidase T1A, proteasome beta-subunit</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>PR00141</td>
-      <td>976188</td>
-      <td>IPR000243</td>
-      <td>171</td>
-      <td>ENST00000259457</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>PR00141</td>
-      <td>PRINTS</td>
-      <td>0</td>
-      <td>182</td>
-      <td>0</td>
-      <td>ENSP00000259457</td>
-      <td>Peptidase T1A, proteasome beta-subunit</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>5275</th>
-      <td>Coil</td>
-      <td>975385</td>
-      <td></td>
-      <td>516</td>
-      <td>ENST00000381685</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>Coil</td>
-      <td>ncoils</td>
-      <td>0</td>
-      <td>537</td>
-      <td>0</td>
-      <td>ENSP00000371101</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>5276</th>
-      <td>Coil</td>
-      <td>975385</td>
-      <td></td>
-      <td>558</td>
-      <td>ENST00000381685</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>Coil</td>
-      <td>ncoils</td>
-      <td>0</td>
-      <td>587</td>
-      <td>0</td>
-      <td>ENSP00000371101</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>5277</th>
-      <td>Coil</td>
-      <td>975385</td>
-      <td></td>
-      <td>640</td>
-      <td>ENST00000381685</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>Coil</td>
-      <td>ncoils</td>
-      <td>0</td>
-      <td>669</td>
-      <td>0</td>
-      <td>ENSP00000371101</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>5278</th>
-      <td>PTHR14927</td>
-      <td>975385</td>
-      <td>IPR040382</td>
-      <td>1</td>
-      <td>ENST00000381685</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>PTHR14927</td>
-      <td>PANTHER</td>
-      <td>676</td>
-      <td>682</td>
-      <td>5</td>
-      <td>ENSP00000371101</td>
-      <td>Nucleolar protein 10/Enp2</td>
-    </tr>
-    <tr>
-      <th>5279</th>
-      <td>SSF50978</td>
-      <td>975385</td>
-      <td>IPR036322</td>
-      <td>42</td>
-      <td>ENST00000381685</td>
-      <td>None</td>
-      <td>protein_feature</td>
-      <td></td>
-      <td>SSF50978</td>
-      <td>SuperFamily</td>
-      <td>0</td>
-      <td>339</td>
-      <td>0</td>
-      <td>ENSP00000371101</td>
-      <td>WD40-repeat-containing domain superfamily</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>cigar_string</th>
+<th>align_type</th>
+<th>hit_start</th>
+<th>start</th>
+<th>description</th>
+<th>hit_end</th>
+<th>hseqname</th>
+<th>seq_region_name</th>
+<th>interpro</th>
+<th>type</th>
+<th>feature_type</th>
+<th>Transcript Base</th>
+<th>translation_id</th>
+<th>end</th>
+<th>id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td></td>
+<td>None</td>
+<td>3</td>
+<td>3</td>
+<td>Proteasome B-type subunit</td>
+<td>234</td>
+<td>PTHR32194</td>
+<td>ENSP00000259457</td>
+<td>IPR023333</td>
+<td>PANTHER</td>
+<td>protein_feature</td>
+<td>ENST00000259457</td>
+<td>1109135</td>
+<td>237</td>
+<td>PTHR32194</td>
+</tr>
+<tr>
+<th>1</th>
+<td></td>
+<td>None</td>
+<td>1</td>
+<td>44</td>
+<td>Via SIFTS (2025/02/17) UniProt protein Q99436 ...</td>
+<td>220</td>
+<td>4r3o.I</td>
+<td>ENSP00000259457</td>
+<td></td>
+<td>sifts</td>
+<td>protein_feature</td>
+<td>ENST00000259457</td>
+<td>1109135</td>
+<td>263</td>
+<td>4r3o.I</td>
+</tr>
+<tr>
+<th>2</th>
+<td></td>
+<td>None</td>
+<td>1</td>
+<td>44</td>
+<td>Via SIFTS (2025/02/17) UniProt protein Q99436 ...</td>
+<td>220</td>
+<td>4r3o.W</td>
+<td>ENSP00000259457</td>
+<td></td>
+<td>sifts</td>
+<td>protein_feature</td>
+<td>ENST00000259457</td>
+<td>1109135</td>
+<td>263</td>
+<td>4r3o.W</td>
+</tr>
+<tr>
+<th>3</th>
+<td></td>
+<td>None</td>
+<td>1</td>
+<td>44</td>
+<td>Via SIFTS (2025/02/17) UniProt protein Q99436 ...</td>
+<td>220</td>
+<td>4r67.I</td>
+<td>ENSP00000259457</td>
+<td></td>
+<td>sifts</td>
+<td>protein_feature</td>
+<td>ENST00000259457</td>
+<td>1109135</td>
+<td>263</td>
+<td>4r67.I</td>
+</tr>
+<tr>
+<th>4</th>
+<td></td>
+<td>None</td>
+<td>1</td>
+<td>44</td>
+<td>Via SIFTS (2025/02/17) UniProt protein Q99436 ...</td>
+<td>220</td>
+<td>4r67.W</td>
+<td>ENSP00000259457</td>
+<td></td>
+<td>sifts</td>
+<td>protein_feature</td>
+<td>ENST00000259457</td>
+<td>1109135</td>
+<td>263</td>
+<td>4r67.W</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>7675</th>
+<td></td>
+<td>None</td>
+<td>0</td>
+<td>558</td>
+<td>Coil</td>
+<td>0</td>
+<td>Coil</td>
+<td>ENSP00000371101</td>
+<td></td>
+<td>ncoils</td>
+<td>protein_feature</td>
+<td>ENST00000381685</td>
+<td>1303115</td>
+<td>587</td>
+<td>Coil</td>
+</tr>
+<tr>
+<th>7676</th>
+<td></td>
+<td>None</td>
+<td>0</td>
+<td>516</td>
+<td>Coil</td>
+<td>0</td>
+<td>Coil</td>
+<td>ENSP00000371101</td>
+<td></td>
+<td>ncoils</td>
+<td>protein_feature</td>
+<td>ENST00000381685</td>
+<td>1303115</td>
+<td>537</td>
+<td>Coil</td>
+</tr>
+<tr>
+<th>7677</th>
+<td></td>
+<td>None</td>
+<td>0</td>
+<td>426</td>
+<td>Coil</td>
+<td>0</td>
+<td>Coil</td>
+<td>ENSP00000371101</td>
+<td></td>
+<td>ncoils</td>
+<td>protein_feature</td>
+<td>ENST00000381685</td>
+<td>1303115</td>
+<td>446</td>
+<td>Coil</td>
+</tr>
+<tr>
+<th>7678</th>
+<td></td>
+<td>None</td>
+<td>1</td>
+<td>1</td>
+<td>Nucleolar protein 10/Enp2</td>
+<td>655</td>
+<td>PTHR14927</td>
+<td>ENSP00000371101</td>
+<td>IPR040382</td>
+<td>PANTHER</td>
+<td>protein_feature</td>
+<td>ENST00000381685</td>
+<td>1303115</td>
+<td>684</td>
+<td>PTHR14927</td>
+</tr>
+<tr>
+<th>7679</th>
+<td></td>
+<td>None</td>
+<td>0</td>
+<td>42</td>
+<td>WD40-repeat-containing domain superfamily</td>
+<td>0</td>
+<td>SSF50978</td>
+<td>ENSP00000371101</td>
+<td>IPR036322</td>
+<td>SuperFamily</td>
+<td>protein_feature</td>
+<td>ENST00000381685</td>
+<td>1303115</td>
+<td>339</td>
+<td>SSF50978</td>
+</tr>
+</tbody>
 </table>
-<p>5280 rows × 15 columns</p>
+<p>7680 rows × 15 columns</p>
+</div></div>
 </div>
 </div>
-
 </div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -895,15 +798,13 @@ params: dict or None, parameters for query |</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_transcript_data" class="doc_header"><code>write_transcript_data</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L176" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_transcript_data</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>overwrite</code></strong>=<em><code>True</code></em>, <strong><code>filepath</code></strong>=<em><code>'./data/target_data/'</code></em>, <strong><code>aa_seq_name</code></strong>=<em><code>'aa_seqs.pq'</code></em>, <strong><code>protein_domain_name</code></strong>=<em><code>'protein_domains.pq'</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="write_transcript_data"><code>write_transcript_data</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L177" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>write_transcript_data</code>(<strong><code>design_df</code></strong>, <strong><code>transcript_id_col</code></strong>=<em><code>'Target Transcript'</code></em>, <strong><code>transcript_len_col</code></strong>=<em><code>'Target Total Length'</code></em>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>overwrite</code></strong>=<em><code>True</code></em>, <strong><code>filepath</code></strong>=<em><code>'./data/target_data/'</code></em>, <strong><code>aa_seq_name</code></strong>=<em><code>'aa_seqs.pq'</code></em>, <strong><code>protein_domain_name</code></strong>=<em><code>'protein_domains.pq'</code></em>)</p>
 </blockquote>
 <p>Write amino acid sequences and protein domain information to parquet files</p>
 <p>:param design_df: DataFrame
@@ -914,21 +815,16 @@ params: dict or None, parameters for query |</p>
 :param filepath: str, directory for output sequences
 :param aa_seq_name: str, name of amino acid sequence file
 :param protein_domain_name: str, name of protein domain file</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -936,99 +832,80 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;./data/target_data/&#39;</span> <span class="o">+</span> <span class="s1">&#39;aa_seqs.pq&#39;</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">write_transcript_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">'./data/target_data/'</span> <span class="o">+</span> <span class="s1">'aa_seqs.pq'</span><span class="p">)</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting amino acid sequences
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 4/4 [00:02&lt;00:00,  1.42it/s]
+<pre>100%|██████████| 4/4 [00:01&lt;00:00,  2.11it/s]
+/var/folders/n9/c397fj3n5f16khr7tp76tbpc0000gn/T/ipykernel_37465/1237391668.py:23: UserWarning: Unable to find translations for the following transcripts: ENST00000629399, ENST00000284049
+  warnings.warn('Unable to find translations for the following transcripts: ' + ', '.join(missing_seqs))
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting protein domains
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [00:48&lt;00:00,  4.13it/s]
+<pre>100%|██████████| 198/198 [00:50&lt;00:00,  3.95it/s]
 </pre>
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
     {% endraw %}
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Get-Conservation-Scores">Get Conservation Scores<a class="anchor-link" href="#Get-Conservation-Scores"> </a></h1><p>Get PhyloP conservation scores</p>
-
 </div>
 </div>
 </div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_transcript_info" class="doc_header"><code>get_transcript_info</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L209" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_transcript_info</code>(<strong><code>base_transcript</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_transcript_info"><code>get_transcript_info</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L210" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_transcript_info</code>(<strong><code>base_transcript</code></strong>)</p>
 </blockquote>
 <p>Using an ensembl transcript ID, get</p>
 <p>:param base_transcript: str
 :return: (exon_df, trans_sr, chr)
-    exon_df: DataFrame, with global exon start and end position
-    trans_sr: Series, with global translation start and stop positions for CDS and translation length
-    chr: str</p>
-
-</div>
-
-</div>
-
+exon_df: DataFrame, with global exon start and end position
+trans_sr: Series, with global translation start and stop positions for CDS and translation length
+chr: str</p>
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -1036,34 +913,29 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exon_df</span><span class="p">,</span> <span class="n">trans_sr</span><span class="p">,</span> <span class="nb">chr</span> <span class="o">=</span> <span class="n">get_transcript_info</span><span class="p">(</span><span class="s1">&#39;ENST00000259457&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">chr</span> <span class="o">==</span> <span class="s1">&#39;9&#39;</span>
-<span class="k">assert</span> <span class="n">trans_sr</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">277</span> <span class="c1"># number of aas</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">exon_df</span><span class="p">,</span> <span class="n">trans_sr</span><span class="p">,</span> <span class="nb">chr</span> <span class="o">=</span> <span class="n">get_transcript_info</span><span class="p">(</span><span class="s1">'ENST00000259457'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">chr</span> <span class="o">==</span> <span class="s1">'9'</span>
+<span class="k">assert</span> <span class="n">trans_sr</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">277</span> <span class="c1"># number of aas</span>
 <span class="k">assert</span> <span class="n">exon_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">8</span> <span class="c1"># eight exons</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_conservation" class="doc_header"><code>get_conservation</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L228" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_conservation</code>(<strong><code>chr</code></strong>, <strong><code>start</code></strong>, <strong><code>end</code></strong>, <strong><code>genome</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_conservation"><code>get_conservation</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L229" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_conservation</code>(<strong><code>chr</code></strong>, <strong><code>start</code></strong>, <strong><code>end</code></strong>, <strong><code>genome</code></strong>)</p>
 </blockquote>
 <p>Get conservation scores for a given region of a genome</p>
 <p>:param chr: str, chromosome number
@@ -1071,21 +943,16 @@ params: dict or None, parameters for query |</p>
 :param end: int
 :param genome: str
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -1093,83 +960,67 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rps20_exon_conservation</span> <span class="o">=</span> <span class="n">get_conservation</span><span class="p">(</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="mi">56074060</span><span class="p">,</span> <span class="mi">56074159</span><span class="p">,</span> <span class="s1">&#39;hg38&#39;</span><span class="p">)</span>
-<span class="n">cd274_exon_conservation</span> <span class="o">=</span> <span class="n">get_conservation</span><span class="p">(</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="mi">5457079</span><span class="p">,</span> <span class="mi">5457420</span><span class="p">,</span> <span class="s1">&#39;hg38&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">rps20_exon_conservation</span><span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">cd274_exon_conservation</span><span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">rps20_exon_conservation</span> <span class="o">=</span> <span class="n">get_conservation</span><span class="p">(</span><span class="s1">'8'</span><span class="p">,</span> <span class="mi">56074060</span><span class="p">,</span> <span class="mi">56074159</span><span class="p">,</span> <span class="s1">'hg38'</span><span class="p">)</span>
+<span class="n">cd274_exon_conservation</span> <span class="o">=</span> <span class="n">get_conservation</span><span class="p">(</span><span class="s1">'9'</span><span class="p">,</span> <span class="mi">5457079</span><span class="p">,</span> <span class="mi">5457420</span><span class="p">,</span> <span class="s1">'hg38'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">rps20_exon_conservation</span><span class="p">[</span><span class="s1">'conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">cd274_exon_conservation</span><span class="p">[</span><span class="s1">'conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_exon_conservation" class="doc_header"><code>get_exon_conservation</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L261" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_exon_conservation</code>(<strong><code>exon_df</code></strong>, <strong><code>chr</code></strong>, <strong><code>genome</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_exon_conservation"><code>get_exon_conservation</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L262" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_exon_conservation</code>(<strong><code>exon_df</code></strong>, <strong><code>chr</code></strong>, <strong><code>genome</code></strong>)</p>
 </blockquote>
 <p>Get conservation scores for each exon</p>
 <p>:param exon_df: DataFrame
 :param chr: str
 :param genome: str
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_transcript_conservation" class="doc_header"><code>get_transcript_conservation</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L283" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_transcript_conservation</code>(<strong><code>transcript_id</code></strong>, <strong><code>target_strand</code></strong>, <strong><code>genome</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_transcript_conservation"><code>get_transcript_conservation</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L284" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_transcript_conservation</code>(<strong><code>transcript_id</code></strong>, <strong><code>target_strand</code></strong>, <strong><code>genome</code></strong>)</p>
 </blockquote>
 <p>Get conservation scores for a transcript</p>
 <p>:param transcript_id: str
 :param target_strand: str, '+' or '-'
 :param genome: str
 :return: DataFrame</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -1177,74 +1028,58 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rps20_conservation_df</span> <span class="o">=</span> <span class="n">get_transcript_conservation</span><span class="p">(</span><span class="s1">&#39;ENST00000009589&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;hg38&#39;</span><span class="p">)</span>
-<span class="n">cd274_conservation_df</span> <span class="o">=</span> <span class="n">get_transcript_conservation</span><span class="p">(</span><span class="s1">&#39;ENST00000381577&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;hg38&#39;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">rps20_conservation_df</span><span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">cd274_conservation_df</span><span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">rps20_conservation_df</span> <span class="o">=</span> <span class="n">get_transcript_conservation</span><span class="p">(</span><span class="s1">'ENST00000009589'</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">,</span> <span class="s1">'hg38'</span><span class="p">)</span>
+<span class="n">cd274_conservation_df</span> <span class="o">=</span> <span class="n">get_transcript_conservation</span><span class="p">(</span><span class="s1">'ENST00000381577'</span><span class="p">,</span> <span class="s1">'+'</span><span class="p">,</span> <span class="s1">'hg38'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">rps20_conservation_df</span><span class="p">[</span><span class="s1">'conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">cd274_conservation_df</span><span class="p">[</span><span class="s1">'conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_transcript_conservation_safe" class="doc_header"><code>get_transcript_conservation_safe</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L312" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_transcript_conservation_safe</code>(<strong><code>transcript_id</code></strong>, <strong><code>target_strand</code></strong>, <strong><code>genome</code></strong>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="get_transcript_conservation_safe"><code>get_transcript_conservation_safe</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L313" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>get_transcript_conservation_safe</code>(<strong><code>transcript_id</code></strong>, <strong><code>target_strand</code></strong>, <strong><code>genome</code></strong>)</p>
 </blockquote>
 <p>Helper function for parrallel query. Return None when conservation dataframe cannot be assembled</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="build_conservation_df" class="doc_header"><code>build_conservation_df</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L320" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>build_conservation_df</code>(<strong><code>design_df</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="build_conservation_df"><code>build_conservation_df</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L321" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>build_conservation_df</code>(<strong><code>design_df</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>)</p>
 </blockquote>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -1252,62 +1087,61 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conservation_df</span> <span class="o">=</span> <span class="n">build_conservation_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">conservation_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Target Transcript&#39;</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;conservation&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ranked_conservation&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">conservation_df</span> <span class="o">=</span> <span class="n">build_conservation_df</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">conservation_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Target Transcript'</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'conservation'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">'ranked_conservation'</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
         <span class="o">&gt;</span> <span class="mf">0.99</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-<span class="k">assert</span> <span class="p">(</span><span class="n">conservation_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ENST00000361337&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
-                            <span class="p">(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">&#39;target position&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">432</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">663</span><span class="o">*</span><span class="mi">3</span><span class="p">)),</span>
-                            <span class="s1">&#39;ranked_conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span>  <span class="c1"># pfam</span>
-        <span class="n">conservation_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">&#39;Transcript Base&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ENST00000361337&#39;</span><span class="p">)</span> <span class="o">&amp;</span>
-                            <span class="p">(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">&#39;target position&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">36</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">199</span><span class="o">*</span><span class="mi">3</span><span class="p">)),</span>  <span class="c1"># mobidblit</span>
-                            <span class="s1">&#39;ranked_conservation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">conservation_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">'Transcript Base'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'ENST00000361337'</span><span class="p">)</span> <span class="o">&amp;</span>
+                            <span class="p">(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">'target position'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">432</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">663</span><span class="o">*</span><span class="mi">3</span><span class="p">)),</span>
+                            <span class="s1">'ranked_conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span>  <span class="c1"># pfam</span>
+        <span class="n">conservation_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">'Transcript Base'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'ENST00000361337'</span><span class="p">)</span> <span class="o">&amp;</span>
+                            <span class="p">(</span><span class="n">conservation_df</span><span class="p">[</span><span class="s1">'target position'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">36</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">199</span><span class="o">*</span><span class="mi">3</span><span class="p">)),</span>  <span class="c1"># mobidblit</span>
+                            <span class="s1">'ranked_conservation'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting conservation
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [03:33&lt;00:00,  1.07s/it]
+<pre></pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 84%|████████▎ | 167/200 [05:05&lt;01:00,  1.83s/it]
+100%|██████████| 200/200 [05:20&lt;00:00,  1.60s/it]
+/var/folders/n9/c397fj3n5f16khr7tp76tbpc0000gn/T/ipykernel_37465/986071231.py:35: UserWarning: Failed to get conservation scores for 2 transcriptsENST00000629399, ENST00000284049
+  warnings.warn('Failed to get conservation scores for ' + str(len(failed_list)) +
+/var/folders/n9/c397fj3n5f16khr7tp76tbpc0000gn/T/ipykernel_37465/3931529888.py:2: FutureWarning: DataFrameGroupBy.apply operated on the grouping columns. This behavior is deprecated, and in a future version of pandas the grouping columns will be excluded from the operation. Either pass `include_groups=False` to exclude the groupings or explicitly select the grouping columns after groupby to silence this warning.
+  assert (conservation_df.groupby('Target Transcript')
 </pre>
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_conservation_data" class="doc_header"><code>write_conservation_data</code><a href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L364" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_conservation_data</code>(<strong><code>design_df</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>overwrite</code></strong>=<em><code>True</code></em>, <strong><code>filepath</code></strong>=<em><code>'./data/target_data/'</code></em>, <strong><code>cons_file_name</code></strong>=<em><code>'conservation.pq'</code></em>)</p>
+<div class="output_markdown rendered_html output_subarea">
+<h4 class="doc_header" id="write_conservation_data"><code>write_conservation_data</code><a class="source_link" href="https://github.com/gpp-rnd/rs3/tree/master/rs3/targetdata.py#L365" style="float:right">[source]</a></h4>
+<blockquote>
+<p><code>write_conservation_data</code>(<strong><code>design_df</code></strong>, <strong><code>n_jobs</code></strong>=<em><code>1</code></em>, <strong><code>overwrite</code></strong>=<em><code>True</code></em>, <strong><code>filepath</code></strong>=<em><code>'./data/target_data/'</code></em>, <strong><code>cons_file_name</code></strong>=<em><code>'conservation.pq'</code></em>)</p>
 </blockquote>
 <p>Write conservation scores to parquet files</p>
 <p>:param design_df: DataFrame
@@ -1315,21 +1149,16 @@ params: dict or None, parameters for query |</p>
 :param overwrite: bool, whether to overwrite existing file
 :param filepath: str, directory for output sequences
 :param cons_file_name: str, name of conservation file</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
-
+</div>
+</div>
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -1337,42 +1166,33 @@ params: dict or None, parameters for query |</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">write_conservation_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;./data/target_data/&#39;</span> <span class="o">+</span> <span class="s1">&#39;conservation.pq&#39;</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">write_conservation_data</span><span class="p">(</span><span class="n">design_df</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">max_n_jobs</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">'./data/target_data/'</span> <span class="o">+</span> <span class="s1">'conservation.pq'</span><span class="p">)</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Getting conservation
 </pre>
 </div>
 </div>
-
 <div class="output_area">
-
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 200/200 [05:16&lt;00:00,  1.58s/it]
+<pre>100%|██████████| 200/200 [06:05&lt;00:00,  1.83s/it]
+/var/folders/n9/c397fj3n5f16khr7tp76tbpc0000gn/T/ipykernel_37465/986071231.py:35: UserWarning: Failed to get conservation scores for 2 transcriptsENST00000629399, ENST00000284049
+  warnings.warn('Failed to get conservation scores for ' + str(len(failed_list)) +
 </pre>
 </div>
 </div>
-
 </div>
 </div>
-
 </div>
     {% endraw %}
 
 </div>
- 
-
